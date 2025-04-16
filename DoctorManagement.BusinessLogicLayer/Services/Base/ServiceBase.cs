@@ -1,0 +1,108 @@
+﻿using AutoMapper;
+using DoctorManagement.BusinessLogicLayer.Interfaces.Base;
+using DoctorManagement.DataAccessLayer;
+using DoctorManagement.DataAccessLayer.Entities.Base;
+using DoctorManagement.Presentation.Models.DataTransferObjects;
+using DoctorManagement.Presentation.Models.DataTransferObjects.Base;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DoctorManagement.BusinessLogicLayer.Services.Base
+{
+    public class ServiceBase<TDto, TEntity> : IServiceBase<TDto, TEntity> where TDto : DtoBase, new() where TEntity : EntityBase
+    {
+        protected readonly WebDbContext dbContext;
+        private readonly DbSet<TEntity> _entitySet;
+        protected readonly IMapper mapper;
+        public ServiceBase(WebDbContext dbContext, IMapper mapper)
+        {
+            this.dbContext = dbContext;
+            this._entitySet = this.dbContext.Set<TEntity>();
+            this.mapper = mapper;
+        }
+
+        public virtual bool AddOrUpdate(List<TDto> records, IdentityUser? currentUser)
+        {
+           var newRecords = records.Where(x => x.Id == Guid.Empty).ToList();
+           var updatedRecords = records.Where(x => x.Id != Guid.Empty).ToList();
+           var updated = updatedRecords.Any() ? this.Update(newRecords, currentUser) : true;
+           var inserted = newRecords.Any() ? this.Add(newRecords, currentUser) : true;
+           return inserted && updated;
+        }
+
+        private bool Add(List<TDto> inserted, IdentityUser? currentUser)
+        {
+            var insertedEntities = this.mapper.Map<List<TEntity>>(inserted);
+            var currentDateTime = DateTime.Now;
+            inserted.ForEach(x =>
+            {
+                x.CreatedBy = currentUser;
+                x.CreatedOn = currentDateTime;
+            });
+            _entitySet.UpdateRange(insertedEntities);
+            return dbContext.SaveChanges() > 0;
+        }
+
+        private bool Update(List<TDto> updated, IdentityUser? currentUser)
+        {
+            var updates = this.mapper.Map<List<TEntity>> (updated);
+            var currentDateTime = DateTime.Now;
+            updates.ForEach(x =>
+            {
+                x.LastModifiedOn = currentDateTime;
+                x.LastModifiedBy = currentUser;
+            });
+            _entitySet.UpdateRange(updates);
+            return dbContext.SaveChanges() > 0;
+        }
+        public virtual bool Delete(IEnumerable<Guid> identifiers, IdentityUser? currentUser)
+        {
+            
+            var removed = this._entitySet.Where(x => identifiers.Contains(x.Id)).ToList();
+            _entitySet.RemoveRange(removed);
+            return removed.Any() ? dbContext.SaveChanges() > 0 : false;
+        }
+
+        public PageResponse<TDto> Get(PageRequestDto<TDto> pageRequest)
+        {
+            var query = this.GetQueryable(pageRequest.Filter);
+            var totalRecordCount = query.Count();
+            if (!pageRequest.GetAllPages)
+            {
+                query =  query
+                    .Skip((pageRequest.PageIndex - 1)*pageRequest.PageSize)
+                    .Take(pageRequest.PageSize);
+            }
+            else
+            {
+
+            }
+            var results = query.ToList();
+
+            return new()
+            {
+                PageIndex = pageRequest.PageIndex,
+                PageSize = pageRequest.PageSize,
+                Data = this.mapper.Map<List<TDto>>(results),
+                TotalRecordCount = totalRecordCount,
+            };
+        }
+      
+        protected virtual  IQueryable<TEntity> GetQueryable(TDto filters)
+        {
+            var query = this._entitySet.AsNoTracking();
+            if(filters.Id != Guid.Empty)
+            {
+                query = query.Where(x => x.Id == filters.Id);
+            }
+            return query;
+        }
+    }
+}

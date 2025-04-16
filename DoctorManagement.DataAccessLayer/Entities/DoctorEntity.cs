@@ -1,0 +1,15 @@
+﻿using DoctorManagement.DataAccessLayer.Entities.Base;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DoctorManagement.DataAccessLayer.Entities
+{
+    public class DoctorEntity : EntityBase
+    {
+        public string PracticeNumber { get; set; } = string.Empty;
+        public ContactEntity? Contact { get; set; }
+    }
+}
