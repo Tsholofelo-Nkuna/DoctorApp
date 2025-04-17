@@ -1,4 +1,5 @@
-﻿using DoctorManagement.BusinessLogicLayer.Interfaces;
+﻿using DoctorManagement.API.Controllers.Base;
+using DoctorManagement.BusinessLogicLayer.Interfaces;
 using DoctorManagement.Presentation.Models.DataTransferObjects;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,31 +9,37 @@ namespace DoctorManagement.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PatientsController : ControllerBase
+    public class PatientsController : ApiBaseController
     {
         private readonly IPatientService _patientService;
-        private readonly IUserContextService _userContextService;
-        public PatientsController(IPatientService patientService, IUserContextService userContextService) { 
+      
+        public PatientsController(IPatientService patientService, IUserContextService userContextService) : base(userContextService) { 
             _patientService = patientService;
-            _userContextService = userContextService;
         }
         // POST api/<PatientsController>
         [HttpPost]
-        public void Post([FromBody] PatientDto patient)
+        public async Task<ResponseDto<bool>> Post([FromBody] PatientDto patient)
         {
+          var added =  this._patientService.AddOrUpdate([patient], await this.userContextService.GetCurrentUserAsync());
+            return new()
+            {
+                Data = added,
+                Message = added ? "New patient created" : "Failed to create new patient"
+            };
         }
 
         // PUT api/<PatientsController>/5
         [HttpPost("Get")]
-        public void Put([FromBody] PageRequestDto<PatientDto> pageRequest)
+        public PageResponse<PatientDto> GetPatients([FromBody] PageRequestDto<PatientDto> pageRequest)
         {
+            return this._patientService.Get(pageRequest);
         }
 
         // DELETE api/<PatientsController>/5
         [HttpDelete("{id}")]
         public async void Delete(Guid patientId)
         {
-           var currentUser =  await _userContextService.GetCurrentUserAsync();
+           var currentUser =  await this.userContextService.GetCurrentUserAsync();
             _patientService.Delete([patientId], currentUser);
         }
     }

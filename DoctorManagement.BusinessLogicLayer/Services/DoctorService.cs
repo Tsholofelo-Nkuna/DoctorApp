@@ -5,7 +5,6 @@ using DoctorManagement.DataAccessLayer;
 using DoctorManagement.DataAccessLayer.Entities;
 using DoctorManagement.Presentation.Models.DataTransferObjects;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,16 +13,15 @@ using System.Threading.Tasks;
 
 namespace DoctorManagement.BusinessLogicLayer.Services
 {
-    public class PatientService : ServiceBase<PatientDto, PatientEntity>, IPatientService
+    public class DoctorService : ServiceBase<DoctorDto, DoctorEntity>, IDocterService
     {
-        public PatientService(WebDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
+        public DoctorService(WebDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
-          
         }
 
-        protected override IQueryable<PatientEntity> GetQueryable(PatientDto filters)
+        protected override IQueryable<DoctorEntity> GetQueryable(DoctorDto filters)
         {
-            return base.GetQueryable(filters).Include(x => x.Contact).Include(x => x.Address);
+            return base.GetQueryable(filters).Include(x => x.Contact);
         }
     }
 }

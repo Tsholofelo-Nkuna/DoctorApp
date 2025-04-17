@@ -10,6 +10,8 @@ namespace DoctorManagement.BusinessLogicLayer
         {
             services.AddAutoMapper(typeof(MapperConfig));
             services.AddScoped<IPatientService, PatientService>();
+            services.AddScoped<IUserContextService, UserContextService>();
+            services.AddScoped<IDocterService, DoctorService>();
             return services;
         }
     }

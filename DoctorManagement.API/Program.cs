@@ -1,4 +1,5 @@
 
+using DoctorManagement.BusinessLogicLayer;
 using DoctorManagement.DataAccessLayer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,8 +20,8 @@ namespace DoctorManagement.API
             .AddEntityFrameworkStores<WebDbContext>()
             .AddDefaultTokenProviders()
             .AddApiEndpoints();
-            
-            
+
+            builder.Services.AddBusinessLogicServices();
             builder.Services.AddControllers(options =>
             {
                 //options.
