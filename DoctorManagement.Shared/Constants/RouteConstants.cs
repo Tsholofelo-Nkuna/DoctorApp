@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DoctorManagement.Shared.Constants
+{
+    public class RouteConstants
+    {
+        public const string Login = "/";
+        public const string Signup = "/Signup";
+        public const string DoctorSignup = "/Signup/Doctor";
+    }
+}

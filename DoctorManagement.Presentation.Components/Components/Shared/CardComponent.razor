@@ -1,0 +1,30 @@
+﻿@using DoctorManagement.Presentation.Components.Base
+@using DoctorManagement.Shared.DataTransferObjects.Base
+@using DoctorManagement.Presentation.ViewModels
+@using DoctorManagement.Presentation.ViewModels.Base
+@typeparam TDto where TDto : new()
+
+@inherits BaseComponent<CardComponentViewModel<TDto>, TDto>
+
+<div class="card">
+    @if (Header is not null)
+    {
+        <div class="card-header">
+            @Header(ViewModel)
+        </div>
+    }
+
+    @if (Body is not null)
+    {
+        <div class="card-body">
+            @Body(ViewModel)
+        </div>
+    }
+
+    @if (Footer is not null)
+    {
+        <div class="card-footer">
+            @Footer(ViewModel)
+        </div>
+    }
+</div>

@@ -1,0 +1,76 @@
+﻿@using DoctorManagement.Shared.DataTransferObjects
+@using DoctorManagement.Presentation.ViewModels
+@inherits CardComponent<SignupDoctorDto>
+<div class="container py-2">
+  
+    <CardComponent ViewModel="this.ViewModel" Context="cardContext">
+        <Header>
+           <div class="container">
+                <h4 class="text-primary">
+                    @cardContext.Title
+                </h4>
+           </div>
+        </Header>
+        <Body>
+            <div class="container">
+                <h5 class="text-primary">Login Details</h5>
+                <EditForm Model="cardContext.Data.Credentials">
+                    <DataAnnotationsValidator></DataAnnotationsValidator>
+                    <ValidationSummary></ValidationSummary>
+                    <label for="@nameof(cardContext.Data.Credentials.Username)" >Username</label>
+                    <InputText id="@nameof(cardContext.Data.Credentials.Username)" @bind-Value="cardContext.Data.Credentials.Username" class="form-control"placeholder="Email"></InputText>
+                    <label for="@nameof(cardContext.Data.Credentials.Password)">Password</label>
+                    <InputText id = "@nameof(cardContext.Data.Credentials.Password)"@bind-Value="cardContext.Data.Credentials.Password" class="form-control"></InputText>
+                </EditForm>
+            </div>
+            <hr />
+            <div class="container">
+                <h5 class="text-primary">Practice Details</h5>
+                <EditForm Model="cardContext.Data.DoctorDetails">
+                    <DataAnnotationsValidator></DataAnnotationsValidator>
+                    <ValidationSummary></ValidationSummary>
+                    <label for="@nameof(cardContext.Data.DoctorDetails.PracticeNumber)">Practice Number</label>
+                    <InputText id="@nameof(cardContext.Data.DoctorDetails.PracticeNumber)" @bind-Value="cardContext.Data.DoctorDetails.PracticeNumber" class="form-control"></InputText>
+                    <label for="@nameof(cardContext.Data.DoctorDetails.Specialty)">Specialty</label>
+                    <InputText id="@nameof(cardContext.Data.DoctorDetails.Specialty)" @bind-Value="cardContext.Data.DoctorDetails.Specialty" class="form-control"></InputText>
+                </EditForm>
+                <h6 class="text-primary pt-1">
+                    Practice site
+                </h6>
+                <EditForm Model="cardContext.Data.DoctorDetails.PracticeSite">
+                    <DataAnnotationsValidator></DataAnnotationsValidator>
+                    <ValidationSummary></ValidationSummary>
+                    <label for="@nameof(cardContext.Data.DoctorDetails.PracticeSite.HouseNumber)">House/Building No.</label>
+                    <InputText id="@nameof(cardContext.Data.DoctorDetails.PracticeSite.HouseNumber)" @bind-Value="cardContext.Data.DoctorDetails.PracticeSite!.HouseNumber" class="form-control"></InputText>
+                    <label for="@nameof(cardContext.Data.DoctorDetails.PracticeSite.StreetName)">Street Name</label>
+                    <InputText id="@nameof(cardContext.Data.DoctorDetails.PracticeSite.StreetName)" @bind-Value="cardContext.Data.DoctorDetails.PracticeSite.StreetName" class="form-control"></InputText>
+                    <label for="@nameof(cardContext.Data.DoctorDetails.PracticeSite.City)"></label>
+                    <InputText id="@nameof(cardContext.Data.DoctorDetails.PracticeSite.City)" @bind-Value="cardContext.Data.DoctorDetails.PracticeSite.City" class="form-control"></InputText>
+                    <label for="@nameof(cardContext.Data.DoctorDetails.PracticeSite.State)">State/Province</label>
+                    <InputText id="@nameof(cardContext.Data.DoctorDetails.PracticeSite.State)" @bind-Value="cardContext.Data.DoctorDetails.PracticeSite.State" class="form-control"></InputText>
+                    <label for="@nameof(cardContext.Data.DoctorDetails.PracticeSite.Zip)">Zip/Postal Code</label>
+                    <InputText id="@nameof(cardContext.Data.DoctorDetails.PracticeSite.Zip)" @bind-Value="cardContext.Data.DoctorDetails.PracticeSite.Zip" class="form-control"></InputText>
+                </EditForm>
+            </div>
+            <hr />
+            <div class="container">
+                <h5 class="text-primary">Contact Details</h5>
+                <EditForm Model="cardContext.Data.DoctorDetails.Contact">
+                    <DataAnnotationsValidator></DataAnnotationsValidator>
+                    <ValidationSummary></ValidationSummary>
+                    <label for="@nameof(cardContext.Data.DoctorDetails.Contact.Phone)">Phone</label>
+                    <InputText id="@nameof(cardContext.Data.DoctorDetails.Contact.Phone)" @bind-Value="cardContext.Data.DoctorDetails.Contact.Phone" class="form-control"></InputText>
+                    
+                </EditForm>
+            </div>
+            
+        </Body>
+
+        <Footer>
+            <div class="d-flex justify-content-evenly">
+                <button class="btn btn-primary">Submit</button>
+                <a href="/" class="btn btn-link">Go to login</a>
+            </div>
+        </Footer>
+    </CardComponent>
+</div>

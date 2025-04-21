@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DoctorManagement.DataAccessLayer\DoctorManagement.DataAccessLayer.csproj" />
-    <ProjectReference Include="..\DoctorManagement.Presentation.Models\DoctorManagement.Presentation.Models.csproj" />
+    <ProjectReference Include="..\DoctorManagement.Shared\DoctorManagement.Shared.csproj" />
   </ItemGroup>
 
 </Project>

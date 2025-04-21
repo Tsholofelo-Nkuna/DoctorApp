@@ -1,7 +1,7 @@
 ﻿using DoctorManagement.API.Controllers.Base;
 using DoctorManagement.BusinessLogicLayer.Interfaces;
-using DoctorManagement.Presentation.Models.DataTransferObjects;
-using Microsoft.AspNetCore.Http;
+using DoctorManagement.Shared.DataTransferObjects;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorManagement.API.Controllers
@@ -11,7 +11,7 @@ namespace DoctorManagement.API.Controllers
     public class DoctorsController : ApiBaseController
     {
         private readonly IDocterService _docterService;
-        public DoctorsController(IUserContextService userContextService, IDocterService docterService) : base(userContextService)
+        public DoctorsController(IUserContextService userContextService,IHttpClientFactory httpClient, IDocterService docterService) : base(userContextService, httpClient)
         {
             this._docterService = docterService;
         }
@@ -25,7 +25,7 @@ namespace DoctorManagement.API.Controllers
         [HttpPost]
         public async Task<ResponseDto<bool>> Post(DoctorDto doctor)
         {
-            var result = this._docterService.AddOrUpdate([doctor], await this.userContextService.GetCurrentUserAsync());
+            var result = this._docterService.AddOrUpdate([doctor], (await this.userContextService.GetCurrentUserAsync()).Id);
             return new()
             {
                 Data = result,
@@ -35,7 +35,7 @@ namespace DoctorManagement.API.Controllers
         [HttpDelete("{id}")]
         public async Task<ResponseDto<bool>> Delete(Guid id)
         {
-            var result =  this._docterService.Delete([id], await this.userContextService.GetCurrentUserAsync());
+            var result =  this._docterService.Delete([id], (await this.userContextService.GetCurrentUserAsync()).Id);
             return new()
             {
                 Data = result,

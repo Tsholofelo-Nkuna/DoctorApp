@@ -3,7 +3,7 @@ using DoctorManagement.BusinessLogicLayer.Interfaces;
 using DoctorManagement.BusinessLogicLayer.Services.Base;
 using DoctorManagement.DataAccessLayer;
 using DoctorManagement.DataAccessLayer.Entities;
-using DoctorManagement.Presentation.Models.DataTransferObjects;
+using DoctorManagement.Shared.DataTransferObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using System;

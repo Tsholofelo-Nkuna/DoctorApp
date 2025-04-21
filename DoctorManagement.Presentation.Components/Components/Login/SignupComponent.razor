@@ -1,0 +1,65 @@
+﻿@using DoctorManagement.Presentation.Components.Base
+@using DoctorManagement.Shared.DataTransferObjects
+@using DoctorManagement.Presentation.ViewModels
+@inherits CardComponent<SignupDto>
+<div class="container">
+    <CardComponent ViewModel="ViewModel" Context="cardContext">
+        <Header>
+            <div class="container text-secondary">
+                <div class="d-flex justify-content-end py-1">
+                   
+                    <a href="/signup/doctor" class="btn btn-primary">Register as a doctor</a>
+                </div>
+            </div>
+        </Header>
+        <Body>
+            <EditForm Model="ViewModel.Data.Credentials">
+                <h4 class="text-primary">Login Details</h4>
+                <DataAnnotationsValidator></DataAnnotationsValidator>
+                <ValidationSummary></ValidationSummary>
+                <label>Username</label>
+                <InputText @bind-Value="ViewModel.Data.Credentials.Username" class="form-control" placeholder="Email"></InputText>
+                <label>Password</label>
+                <InputText @bind-Value="ViewModel.Data.Credentials.Password" class="form-control"></InputText>
+            </EditForm>
+            <hr />
+            <EditForm Model="ViewModel.Data.Contact">
+                <h4 class="text-primary">Contact Details</h4>
+                <DataAnnotationsValidator></DataAnnotationsValidator>
+                <ValidationSummary></ValidationSummary>
+               
+                <label>Phone</label>
+                <InputText @bind-Value="ViewModel.Data.Contact.Phone" class="form-control"></InputText>
+                
+            </EditForm>
+            <hr />
+            <EditForm Model="ViewModel.Data.Address">
+                @ViewModel.Data.Address.City
+                <h4 class="text-primary">Address</h4>
+                <DataAnnotationsValidator></DataAnnotationsValidator>
+                <ValidationSummary></ValidationSummary>
+                <label>House/Building No.</label>
+                <InputText @bind-Value="ViewModel.Data.Address.HouseNumber" class="form-control" />
+              
+                <label>Street Name</label>
+                <InputText @bind-Value="ViewModel.Data.Address.StreetName" class="form-control" />
+              
+                <label>City</label>
+                <InputText @bind-Value="ViewModel.Data.Address.City" class="form-control"></InputText>
+              
+                <label>State/Province</label>
+                <InputText @bind-Value="ViewModel.Data.Address.State" class="form-control"></InputText>
+              
+                <label>Zip/Postal Code</label>
+                <InputText @bind-Value="ViewModel.Data.Address.Zip" class="form-control" />
+               
+            </EditForm>
+        </Body>
+        <Footer>
+            <div class="d-flex justify-content-evenly">
+                <a @onclick="OnSubmitClick"  class="btn btn-primary">Submit</a>
+                <a href="/" class="btn btn-link">Go to login</a>
+            </div>
+        </Footer>
+    </CardComponent>
+</div>

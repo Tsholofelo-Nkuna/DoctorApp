@@ -1,0 +1,32 @@
+﻿@using DoctorManagement.Presentation.Components.Base
+@using DoctorManagement.Shared.DataTransferObjects
+@using DoctorManagement.Presentation.Interface.Base
+@using DoctorManagement.Presentation.ViewModels
+@inherits BaseComponent<LoginViewModel, LoginCredentialsDto>
+
+<div class="vh-100" style="display:grid; grid-template-columns:1fr; grid-template-rows: 1fr; align-items:center">
+    <CardComponent Context="cardContext"
+        ViewModel="@(new CardComponentViewModel<LoginCredentialsDto>{ Title = " Sign in to see a doctor", Data = this.ViewModel.Data})">
+        <Header>
+            <h3 class="text-primary px-1">
+                @cardContext.Title
+            </h3>
+        </Header>
+        <Body>
+            <EditForm Model="ViewModel.Data">
+                <DataAnnotationsValidator></DataAnnotationsValidator>
+                 <label>@nameof(ViewModel.Data.Username)</label>
+                <InputText  class="form-control" @bind-value="ViewModel.Data.Username" />
+                <label>@nameof(ViewModel.Data.Password)</label>
+                <InputText class="form-control" @bind-value="ViewModel.Data.Password" />
+            </EditForm>
+        </Body>
+        <Footer>
+            <div class="d-flex justify-content-evenly">
+                <button class="btn btn-primary me-1">Submit</button>
+                <span style="font-size:0.77rem;" class="d-none d-md-inline-flex">Don't have an account?</span>
+                <a href="/signup" class="btn btn-link">Sign up</a>
+            </div>
+        </Footer>
+    </CardComponent>
+</div>

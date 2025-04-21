@@ -1,6 +1,6 @@
 ﻿using DoctorManagement.API.Controllers.Base;
 using DoctorManagement.BusinessLogicLayer.Interfaces;
-using DoctorManagement.Presentation.Models.DataTransferObjects;
+using DoctorManagement.Shared.DataTransferObjects;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,14 +13,14 @@ namespace DoctorManagement.API.Controllers
     {
         private readonly IPatientService _patientService;
       
-        public PatientsController(IPatientService patientService, IUserContextService userContextService) : base(userContextService) { 
+        public PatientsController(IPatientService patientService, IUserContextService userContextService, IHttpClientFactory httpClientFactory) : base(userContextService, httpClientFactory) { 
             _patientService = patientService;
         }
         // POST api/<PatientsController>
         [HttpPost]
         public async Task<ResponseDto<bool>> Post([FromBody] PatientDto patient)
         {
-          var added =  this._patientService.AddOrUpdate([patient], await this.userContextService.GetCurrentUserAsync());
+          var added =  this._patientService.AddOrUpdate([patient], (await this.userContextService.GetCurrentUserAsync())?.Id);
             return new()
             {
                 Data = added,
@@ -39,7 +39,7 @@ namespace DoctorManagement.API.Controllers
         [HttpDelete("{id}")]
         public async void Delete(Guid patientId)
         {
-           var currentUser =  await this.userContextService.GetCurrentUserAsync();
+           var currentUser = (await this.userContextService.GetCurrentUserAsync())?.Id;
             _patientService.Delete([patientId], currentUser);
         }
     }

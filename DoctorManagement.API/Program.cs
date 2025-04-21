@@ -1,6 +1,7 @@
 
 using DoctorManagement.BusinessLogicLayer;
 using DoctorManagement.DataAccessLayer;
+using DoctorManagement.Shared.Constants;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,10 +14,32 @@ namespace DoctorManagement.API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddCors(config =>
+            {
+                config.AddDefaultPolicy(p =>
+                {
+                    p.AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin();
+                    
+                });
+            });
+            builder.Services.AddHttpClient(WebApiNameConstants.AppApi, config =>
+            {
+                config.BaseAddress = new Uri(builder.Configuration["WebApiUrls:Default"] ?? string.Empty);
+                
+            });
             builder.Services.AddDbContext<WebDbContext>(config =>
             {
                 config.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
-            }).AddIdentity<IdentityUser, IdentityRole>()
+            }).AddIdentity<IdentityUser, IdentityRole>(config =>
+            {
+                config.Password.RequireLowercase = false;
+                config.Password.RequiredLength = 4;
+                config.Password.RequireNonAlphanumeric = false;
+                config.Password.RequireUppercase = false;
+                config.Password.RequireDigit = false;
+            })
             .AddEntityFrameworkStores<WebDbContext>()
             .AddDefaultTokenProviders()
             .AddApiEndpoints();
@@ -40,7 +63,7 @@ namespace DoctorManagement.API
             }
 
             app.UseHttpsRedirection();
-
+            app.UseCors();
             app.UseAuthorization();
 
 

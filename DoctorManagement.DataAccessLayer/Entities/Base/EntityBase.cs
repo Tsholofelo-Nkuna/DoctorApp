@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace DoctorManagement.DataAccessLayer.Entities.Base
         public Guid Id { get; set; } = Guid.NewGuid();
         public DateTime? LastModifiedOn { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.Now;
-        public IdentityUser? CreatedBy { get; set; }
-        public IdentityUser? LastModifiedBy { get; set; }
+        public string? CreatedByUserId { get; set; }
+        public string? LastModifiedByUserId { get; set; }
     }
 }
