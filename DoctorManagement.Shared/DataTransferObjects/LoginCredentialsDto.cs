@@ -12,10 +12,11 @@ namespace DoctorManagement.Shared.DataTransferObjects
 {
     public class LoginCredentialsDto
     {
-        public LoginCredentialsDto() { }
-        [DisplayName("Password")]
-        public string Password { get; set; } = string.Empty;
-        [EmailAddress, DataType(DataType.EmailAddress), DisplayName("Email")]
+       
+        [EmailAddress, DataType(DataType.EmailAddress), Required]
         public string Username { get; set; } = string.Empty;
+       
+        [Required]
+        public string Password { get; set; } = string.Empty;    
     }
 }

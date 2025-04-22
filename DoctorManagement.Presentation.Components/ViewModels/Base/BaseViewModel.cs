@@ -11,8 +11,13 @@ namespace DoctorManagement.Presentation.ViewModels.Base
 {
     public class BaseViewModel<TDto> : IBaseViewModel<TDto> where TDto: new()
     {
-        private EditContext? _editContext;
+        private EditContext _editContext;
         private TDto _dto  = new();
+
+        public BaseViewModel()
+        {
+            _editContext = new EditContext(_dto);
+        }
         public TDto Data
         {
             get { return _dto; }
@@ -26,6 +31,6 @@ namespace DoctorManagement.Presentation.ViewModels.Base
                
             }
         }
-        public EditContext? EditContext { get => _editContext;}
+        public EditContext EditContext { get => _editContext;}
     }
 }

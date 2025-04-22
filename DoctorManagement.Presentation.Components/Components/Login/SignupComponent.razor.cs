@@ -6,14 +6,46 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using System.Diagnostics;
 
 namespace DoctorManagement.Presentation.Components.Login
 {
     public partial class SignupComponent
     {
         [Inject]
-        private IIdentityApiConsumer _identityApiConsumer { get; set; }
+        private IIdentityApiConsumer? _identityApiConsumer { get; set; }
+        public EditContext ContactEditContext { get; set; }
+        public EditContext CredentialsEditContext { get; set; }
+        public EditContext AddressEditContext { get; set; }
 
+        public SignupComponent(): base(){
+            this.ContactEditContext = new(ViewModel.Data.Contact);
+            this.AddressEditContext = new(ViewModel.Data.Address);
+            this.CredentialsEditContext = new(ViewModel.Data.Credentials);
+        }
+
+        public bool EditContextIsValid 
+        {
+            get
+            {
+                return  this.CredentialsEditContext.Validate()
+                && this.AddressEditContext.Validate()
+                && this.ContactEditContext.Validate();
+            }
+        }
+
+        public IEnumerable<string> ValidationErrors
+        {
+            get
+            {
+                return this.CredentialsEditContext.GetValidationMessages().Concat(this.AddressEditContext.GetValidationMessages())
+                    .Concat(this.ContactEditContext.GetValidationMessages());
+              
+             
+            }
+        }
+       
         protected override void OnInitialized()
         {
             base.OnInitialized();
@@ -21,26 +53,20 @@ namespace DoctorManagement.Presentation.Components.Login
         }
         public async Task OnSubmitClick()
         {
-            try {
-               
-                if (this.ViewModel.EditContext?.Validate() ?? false)
+
+            if (this.EditContextIsValid && this._identityApiConsumer is not null) {
+
+                var result = await this._identityApiConsumer.PatientSignup(new()
                 {
-                    var result = await this._identityApiConsumer.PatientSignup(this.ViewModel.Data);
-                    if (result is not null)
-                    {
-
-                    }
-                    else
-                    {
-
-                    }
-                }
+                    Address = ViewModel.Data.Address,
+                    Contact = ViewModel.Data.Contact,
+                    Credentials = ViewModel.Data.Credentials,
+                });
             }
-            catch(Exception ex)
+            else
             {
 
             }
-
         }
     }
 }
