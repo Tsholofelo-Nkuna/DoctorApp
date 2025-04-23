@@ -39,7 +39,11 @@ namespace DoctorManagement.API.Controllers
                 var userRoleCreated = await _userManager.AddToRoleAsync(newlyCreatedUser, RoleConstants.Patient);
                 if(userRoleCreated is { Succeeded : true })
                 {
-                   var apiResponse = await this.AppApi.PostAsJsonAsync("Patients", new PatientDto { Address = patientSignUp.Address, Contact = patientSignUp.Contact });
+                   var apiResponse = await this.AppApi.PostAsJsonAsync("api/Patients", new PatientDto { 
+                       Address = patientSignUp.Address, 
+                       Contact = patientSignUp.Contact,
+                       UserId = newlyCreatedUser.Id,
+                   });
                    if(apiResponse is { IsSuccessStatusCode : true } 
                    &&  (await apiResponse.Content.ReadFromJsonAsync<ResponseDto<bool>>()) is ResponseDto<bool> validResponseContent)
                     {

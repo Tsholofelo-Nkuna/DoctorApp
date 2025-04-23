@@ -1,0 +1,28 @@
+﻿@using DoctorManagement.Presentation.Components.Base
+@using DoctorManagement.Presentation.ViewModels
+
+
+@typeparam TDto where TDto: new()
+@inherits BaseComponent<ModalViewModel<TDto>, TDto>
+
+<div class="modal @(ViewModel.Show ? "d-inline-block":"d-none")">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                @if(Header is not null){
+                    @Header(ViewModel)
+                }
+                <button  class="btn-close" @onclick="() => {ViewModel.Show = false;}"></button>
+            </div>
+            <div class="modal-body">
+               @if(Body is not null){
+                    @Body(ViewModel)
+                }
+            </div>
+            @if(Footer is not null){
+                <div class="modal-footer"> @Footer(ViewModel)</div>
+
+            }
+        </div>
+    </div>
+</div>

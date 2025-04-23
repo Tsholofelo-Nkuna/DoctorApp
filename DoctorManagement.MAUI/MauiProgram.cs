@@ -16,7 +16,7 @@ namespace DoctorManagement.MAUI
                 });
 
             builder.Services.AddMauiBlazorWebView();
-            builder.Services.AddApiConsumers("https://127.0.0.1:7178");
+            builder.Services.AddApiConsumers("https://localhost:7178");
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
     		builder.Logging.AddDebug();

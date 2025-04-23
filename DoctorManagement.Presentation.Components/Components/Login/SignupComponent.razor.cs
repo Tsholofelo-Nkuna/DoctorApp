@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Diagnostics;
+using DoctorManagement.Presentation.Components.Shared;
+using DoctorManagement.Presentation.ViewModels;
+using DoctorManagement.Shared.DataTransferObjects;
 
 namespace DoctorManagement.Presentation.Components.Login
 {
@@ -18,11 +21,13 @@ namespace DoctorManagement.Presentation.Components.Login
         public EditContext ContactEditContext { get; set; }
         public EditContext CredentialsEditContext { get; set; }
         public EditContext AddressEditContext { get; set; }
-
+        public ModalViewModel<SignupDto> ModalViewModel { get; set; } = new();
+        public ResponseDto<bool> ServerMessage { get; set; } = new();
         public SignupComponent(): base(){
             this.ContactEditContext = new(ViewModel.Data.Contact);
             this.AddressEditContext = new(ViewModel.Data.Address);
             this.CredentialsEditContext = new(ViewModel.Data.Credentials);
+            this.ModalViewModel.Data = ViewModel.Data;
         }
 
         public bool EditContextIsValid 
@@ -49,9 +54,8 @@ namespace DoctorManagement.Presentation.Components.Login
         protected override void OnInitialized()
         {
             base.OnInitialized();
-
         }
-        public async Task OnSubmitClick()
+        public async Task OnSubmitClick(ButtonComponent sender)
         {
 
             if (this.EditContextIsValid && this._identityApiConsumer is not null) {
@@ -62,11 +66,25 @@ namespace DoctorManagement.Presentation.Components.Login
                     Contact = ViewModel.Data.Contact,
                     Credentials = ViewModel.Data.Credentials,
                 });
-            }
-            else
-            {
+                if(result is not null)
+                {
+                    this.ServerMessage = result;
+                }
+                else
+                {
+                    this.ServerMessage.Message = "Unkown error occured!";
+                    this.ServerMessage.Data = false;
+                }
 
+                ModalViewModel.Show = true;
             }
+            
+        }
+
+        public Task OnCloseModal()
+        {
+            ModalViewModel.Show = false;
+            return Task.CompletedTask;
         }
     }
 }

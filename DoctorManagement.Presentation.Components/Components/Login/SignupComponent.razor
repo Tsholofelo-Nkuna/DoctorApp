@@ -61,7 +61,34 @@
          </ul>
      }
     <div class="d-flex justify-content-center py-1">
-        <button @onclick="OnSubmitClick" class="btn btn-primary me-1">Submit</button>
-        <a class="btn btn-link" onclick="history.back();">Back</a>
+        <ButtonComponent Type="primary" OnButtonClick="OnSubmitClick">
+            <Content>
+                Submit
+            </Content>
+        </ButtonComponent>
+        <ButtonComponent Type="link" onclick="history.back()">
+            <Content>
+                Back
+            </Content>
+        </ButtonComponent>
     </div>
 </div>
+<ModalComponent ViewModel="ModalViewModel" Context="ModalContext">
+    <Body>
+        <div class="text-@(ServerMessage.Data ? "success":"danger")">
+            @ServerMessage.Message
+        </div>
+    </Body>
+    <Footer>
+        <ButtonComponent Type="link" href="/">
+            <Content>
+                Go to login
+            </Content>
+        </ButtonComponent>
+        <ButtonComponent Type="outline-secondary" OnButtonClick="OnCloseModal">
+            <Content>
+               Cancel
+            </Content>
+        </ButtonComponent>
+    </Footer>
+</ModalComponent>

@@ -11,5 +11,6 @@ namespace DoctorManagement.Shared.DataTransferObjects
     {
         public ContactDto? Contact { get; set; }
         public AddressDto? Address { get; set; }
+        public string UserId { get; set; }
     }
 }

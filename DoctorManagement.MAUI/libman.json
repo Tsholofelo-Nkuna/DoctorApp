@@ -1,0 +1,19 @@
+{
+  "version": "3.0",
+  "libraries": [
+    {
+      "library": "bootstrap@5.3.3",
+      "destination": "wwwroot/",
+      "provider": "cdnjs",
+      "files": ["css/bootstrap.min.css","scss/*"]
+    }
+  ],
+  "exclude": [
+    "**/bin",
+    "**/bower_components",
+    "**/jspm_packages",
+    "**/node_modules",
+    "**/obj",
+    "**/platforms"
+  ]
+}
