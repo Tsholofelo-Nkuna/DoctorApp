@@ -12,6 +12,7 @@ namespace DoctorManagement.DataAccessLayer.Entities
     {
         public string PracticeNumber { get; set; } = string.Empty;
         public ContactEntity? Contact { get; set; }
+        public AddressEntity? PracticeSite { get; set; }
         public string UserId { get; set; }
     }
 }

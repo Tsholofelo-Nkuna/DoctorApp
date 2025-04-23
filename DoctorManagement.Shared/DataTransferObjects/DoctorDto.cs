@@ -11,12 +11,11 @@ namespace DoctorManagement.Shared.DataTransferObjects
     public class DoctorDto: DtoBase
     {
         [Required]
-        public string? PracticeNumber { get; set; }
-        [Required]
-        public string? Specialty { get; set; }
+        public string PracticeNumber { get; set; } = string.Empty;
+        public string Specialty { get; set; } = string.Empty ;
         public AddressDto? PracticeSite { get; set; } 
         public ContactDto? Contact { get; set; }
-        public string UserId { get; set; }
+        public string UserId { get; set; } = string.Empty;
        
     }
 }

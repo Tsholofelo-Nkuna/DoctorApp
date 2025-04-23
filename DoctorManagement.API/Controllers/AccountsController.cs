@@ -47,13 +47,17 @@ namespace DoctorManagement.API.Controllers
                    if(apiResponse is { IsSuccessStatusCode : true } 
                    &&  (await apiResponse.Content.ReadFromJsonAsync<ResponseDto<bool>>()) is ResponseDto<bool> validResponseContent)
                     {
-                        var patientRecordCreated = validResponseContent.Data;
+                        return validResponseContent;
                     }
-                    return new()
+                    else
                     {
-                        Data = true,
-                        Message = "Account created successfully!"
-                    };
+                        return new()
+                        {
+                            Data = false,
+                            Message = "Failed to create patient record!"
+                        };
+                    }
+                    
                 }
                 else
                 {
@@ -75,10 +79,70 @@ namespace DoctorManagement.API.Controllers
             }
         }
 
-        //[HttpPost("Signup/Doctor")]
-        //public async Task<ResponseDto<bool>> DoctorSignup(SignupDoctorDto patientSignUp)
-        //{
-        //   await Task.CompletedTask;
-        //}
+        [HttpPost("Signup/Doctor")]
+        public async Task<ResponseDto<bool>> DoctorSignup(SignupDoctorDto doctorSignup)
+        {
+            var userCreationResult = await _userManager.CreateAsync(new()
+            {
+                UserName = doctorSignup.Credentials.Username,
+                Email = doctorSignup.Credentials.Username,
+                PhoneNumber = doctorSignup.Contact?.Phone
+            },
+               doctorSignup.Credentials.Password
+               );
+            if (userCreationResult is { Succeeded: true }
+            && (_userManager.Users.FirstOrDefault(x => x.UserName == doctorSignup.Credentials.Username)) is IdentityUser newlyCreatedUser)
+            {
+                //ToDo: Verify email
+                if (!_roleManager.Roles.Any(x => x.Name == RoleConstants.Doctor))
+                {
+                    await _roleManager.CreateAsync(new() { Name = RoleConstants.Doctor });
+                }
+                var userRoleCreated = await _userManager.AddToRoleAsync(newlyCreatedUser, RoleConstants.Doctor);
+                if (userRoleCreated is { Succeeded: true })
+                {
+                    var apiResponse = await this.AppApi.PostAsJsonAsync<DoctorDto>("api/Doctors", new()
+                    {
+                        Contact = doctorSignup.Contact,
+                        PracticeNumber = doctorSignup.PracticeNumber,
+                        PracticeSite = doctorSignup.PracticeSite,
+                        Specialty = doctorSignup.Specialty,
+                        
+                    });
+                  
+                    if (apiResponse is { IsSuccessStatusCode: true }
+                    && (await apiResponse.Content.ReadFromJsonAsync<ResponseDto<bool>>()) is ResponseDto<bool> validResponseContent)
+                    {
+                        return validResponseContent;
+                    }
+                    else
+                    {
+                        return new()
+                        {
+                            Data = false,
+                            Message = "Failed to create doctor record"
+                        };
+                    }
+                   
+                }
+                else
+                {
+                    return new()
+                    {
+                        Data = false,
+                        Message = userRoleCreated?.Errors?.FirstOrDefault()?.Description ?? string.Empty,
+                    };
+                }
+            }
+            else
+            {
+                return new()
+                {
+                    Data = false,
+                    Message = userCreationResult?.Errors?.FirstOrDefault()?.Description ?? string.Empty,
+
+                };
+            }
+        }
     }
 }

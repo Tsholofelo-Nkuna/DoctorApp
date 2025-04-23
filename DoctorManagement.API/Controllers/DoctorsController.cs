@@ -25,11 +25,22 @@ namespace DoctorManagement.API.Controllers
         [HttpPost]
         public async Task<ResponseDto<bool>> Post(DoctorDto doctor)
         {
-            var result = this._docterService.AddOrUpdate([doctor], (await this.userContextService.GetCurrentUserAsync()).Id);
-            return new()
+            try
             {
-                Data = result,
-            };
+                var result = this._docterService.AddOrUpdate([doctor], (await this.userContextService.GetCurrentUserAsync())?.Id);
+                return new()
+                {
+                    Data = result,
+                    Message = result ? "Doctor record created successfully" : "Failed to create doctor record"
+                };
+            }
+            catch (Exception ex) {
+                return new()
+                {
+                    Data = false,
+                    Message = "Failed to create doctor record",
+                };
+            }
         }
 
         [HttpDelete("{id}")]

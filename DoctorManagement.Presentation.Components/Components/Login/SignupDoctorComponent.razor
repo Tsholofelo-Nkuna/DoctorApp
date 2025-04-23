@@ -7,7 +7,7 @@
         <DataAnnotationsValidator></DataAnnotationsValidator>
       
         <label for="@nameof(ViewModel.Data.Credentials.Username)">Username</label>
-        <InputText @oninput="(val) => { ViewModel.Data.DoctorDetails.Contact.Email = (val.Value is not null ? val.Value.ToString() : string.Empty); }" id="@nameof(ViewModel.Data.Credentials.Username)" @bind-Value="ViewModel.Data.Credentials.Username" class="form-control" placeholder="Email"></InputText>
+        <InputText @oninput="(val) => { ViewModel.Data.Contact.Email = (val.Value is not null ? val.Value.ToString() : string.Empty); }" id="@nameof(ViewModel.Data.Credentials.Username)" @bind-Value="ViewModel.Data.Credentials.Username" class="form-control" placeholder="Email"></InputText>
         <ValidationMessage For ="() => ViewModel.Data.Credentials.Username"></ValidationMessage>
        
         <label for="@nameof(ViewModel.Data.Credentials.Password)">Password</label>
@@ -15,52 +15,80 @@
         <ValidationMessage For ="() => ViewModel.Data.Credentials.Password"></ValidationMessage>
     </EditForm>
     <hr />
-    <EditForm EditContext="AddressEditContext">
+    <EditForm EditContext ="DoctorEditContext">
         <DataAnnotationsValidator></DataAnnotationsValidator>
         <h5 class="text-primary">Practice Details</h5>
-        <label for="@nameof(ViewModel.Data.DoctorDetails.PracticeNumber)">Practice Number</label>
-        <InputText id="@nameof(ViewModel.Data.DoctorDetails.PracticeNumber)" @bind-Value="ViewModel.Data.DoctorDetails.PracticeNumber" class="form-control"></InputText>
-        <ValidationMessage For="() => ViewModel.Data.DoctorDetails.PracticeNumber"></ValidationMessage>
-        
-        <label for="@nameof(ViewModel.Data.DoctorDetails.Specialty)">Specialty</label>
-        <InputText id="@nameof(ViewModel.Data.DoctorDetails.Specialty)" @bind-Value="ViewModel.Data.DoctorDetails.Specialty" class="form-control"></InputText>
-        <ValidationMessage For="() => ViewModel.Data.DoctorDetails.Specialty"></ValidationMessage>
+        <label for="@nameof(ViewModel.Data.PracticeNumber)">Practice Number</label>
+        <InputText id="@nameof(ViewModel.Data.PracticeNumber)" @bind-Value="ViewModel.Data.PracticeNumber" class="form-control"></InputText>
+        <ValidationMessage For="() => ViewModel.Data.PracticeNumber"></ValidationMessage>
+        <label for="@nameof(ViewModel.Data.Specialty)">Specialty</label>
+        <InputText id="@nameof(ViewModel.Data.Specialty)" @bind-Value="ViewModel.Data.Specialty" class="form-control"></InputText>
+        <ValidationMessage For="() => ViewModel.Data.Specialty"></ValidationMessage>
+    </EditForm>
+    <EditForm EditContext="AddressEditContext">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
        
         <h6 class="text-primary pt-1">
             Practice site
         </h6>
-        <label for="@nameof(ViewModel.Data.DoctorDetails.PracticeSite.HouseNumber)">House/Building No.</label>
-        <InputText id="@nameof(ViewModel.Data.DoctorDetails.PracticeSite.HouseNumber)" @bind-Value="ViewModel.Data.DoctorDetails.PracticeSite!.HouseNumber" class="form-control"></InputText>
-        <ValidationMessage For="() => ViewModel.Data.DoctorDetails.PracticeSite.HouseNumber"></ValidationMessage>
+        <label for="@nameof(ViewModel.Data.PracticeSite.HouseNumber)">House/Building No.</label>
+        <InputText id="@nameof(ViewModel.Data.PracticeSite.HouseNumber)" @bind-Value="ViewModel.Data.PracticeSite!.HouseNumber" class="form-control"></InputText>
+        <ValidationMessage For="() => ViewModel.Data.PracticeSite.HouseNumber"></ValidationMessage>
         
-        <label for="@nameof(ViewModel.Data.DoctorDetails.PracticeSite.StreetName)">Street Name</label>
-        <InputText id="@nameof(ViewModel.Data.DoctorDetails.PracticeSite.StreetName)" @bind-Value="ViewModel.Data.DoctorDetails.PracticeSite.StreetName" class="form-control"></InputText>
-        <ValidationMessage For="() => ViewModel.Data.DoctorDetails.PracticeSite.StreetName"></ValidationMessage>
+        <label for="@nameof(ViewModel.Data.PracticeSite.StreetName)">Street Name</label>
+        <InputText id="@nameof(ViewModel.Data.PracticeSite.StreetName)" @bind-Value="ViewModel.Data.PracticeSite.StreetName" class="form-control"></InputText>
+        <ValidationMessage For="() => ViewModel.Data.PracticeSite.StreetName"></ValidationMessage>
 
-        <label for="@nameof(ViewModel.Data.DoctorDetails.PracticeSite.City)">City</label>
-        <InputText id="@nameof(ViewModel.Data.DoctorDetails.PracticeSite.City)" @bind-Value="ViewModel.Data.DoctorDetails.PracticeSite.City" class="form-control"></InputText>
-        <ValidationMessage For="() => ViewModel.Data.DoctorDetails.PracticeSite.City"></ValidationMessage>
+        <label for="@nameof(ViewModel.Data.PracticeSite.City)">City</label>
+        <InputText id="@nameof(ViewModel.Data.PracticeSite.City)" @bind-Value="ViewModel.Data.PracticeSite.City" class="form-control"></InputText>
+        <ValidationMessage For="() => ViewModel.Data.PracticeSite.City"></ValidationMessage>
 
-        <label for="@nameof(ViewModel.Data.DoctorDetails.PracticeSite.State)">State/Province</label>
-        <InputText id="@nameof(ViewModel.Data.DoctorDetails.PracticeSite.State)" @bind-Value="ViewModel.Data.DoctorDetails.PracticeSite.State" class="form-control"></InputText>
-        <ValidationMessage For="() => ViewModel.Data.DoctorDetails.PracticeSite.State"></ValidationMessage>
+        <label for="@nameof(ViewModel.Data.PracticeSite.State)">State/Province</label>
+        <InputText id="@nameof(ViewModel.Data.PracticeSite.State)" @bind-Value="ViewModel.Data.PracticeSite.State" class="form-control"></InputText>
+        <ValidationMessage For="() => ViewModel.Data.PracticeSite.State"></ValidationMessage>
 
-        <label for="@nameof(ViewModel.Data.DoctorDetails.PracticeSite.Zip)">Zip/Postal Code</label>
-        <InputText id="@nameof(ViewModel.Data.DoctorDetails.PracticeSite.Zip)" @bind-Value="ViewModel.Data.DoctorDetails.PracticeSite.Zip" class="form-control"></InputText>
-        <ValidationMessage For="() => ViewModel.Data.DoctorDetails.PracticeSite.Zip"></ValidationMessage>
+        <label for="@nameof(ViewModel.Data.PracticeSite.Zip)">Zip/Postal Code</label>
+        <InputText id="@nameof(ViewModel.Data.PracticeSite.Zip)" @bind-Value="ViewModel.Data.PracticeSite.Zip" class="form-control"></InputText>
+        <ValidationMessage For="() => ViewModel.Data.PracticeSite.Zip"></ValidationMessage>
 
     </EditForm>
     <hr />
      <EditForm EditContext="ContactEditContext">
         <DataAnnotationsValidator></DataAnnotationsValidator>
         <h5 class="text-primary">Contact Details</h5>
-        <label for="@nameof(ViewModel.Data.DoctorDetails.Contact.Phone)">Phone</label>
-        <InputText id="@nameof(ViewModel.Data.DoctorDetails.Contact.Phone)" @bind-Value="ViewModel.Data.DoctorDetails.Contact.Phone" class="form-control"></InputText>
-        <ValidationMessage For="() => ViewModel.Data.DoctorDetails.Contact.Phone"></ValidationMessage>
+        <label for="@nameof(ViewModel.Data.Contact.Phone)">Phone</label>
+        <InputText id="@nameof(ViewModel.Data.Contact.Phone)" @bind-Value="ViewModel.Data.Contact.Phone" class="form-control"></InputText>
+        <ValidationMessage For="() => ViewModel.Data.Contact.Phone"></ValidationMessage>
 
     </EditForm>
+    @if(ValidationMessages.Any()){
+        <ul class="text-danger py-1">
+            @foreach(var err in ValidationMessages){
+                <li>@err</li>
+            }
+        </ul>
+    }
     <div class="d-flex justify-content-center py-1">
         <button @onclick="OnSubmitCliked" class="btn btn-primary">Submit</button>
         <button onclick="history.back();" class="btn btn-link">Back</button>
     </div>
 </div>
+<ModalComponent ViewModel="ModalViewModel">
+    <Body>
+        <div class="text-@(ServiceResponse.Data ? "success":"danger")">
+            @ServiceResponse.Message
+        </div>
+    </Body>
+    <Footer>
+        <ButtonComponent Type="link" href="/">
+            <Content>
+                go to login
+            </Content>
+        </ButtonComponent>
+        <ButtonComponent Type="outline-secondary" OnButtonClick="OnCloseModal">
+            <Content>
+                Cancel
+            </Content>
+        </ButtonComponent>
+    </Footer>
+</ModalComponent>

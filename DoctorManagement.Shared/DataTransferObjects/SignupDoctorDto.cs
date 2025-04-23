@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace DoctorManagement.Shared.DataTransferObjects
 {
-    public class SignupDoctorDto
+    public class SignupDoctorDto : DoctorDto
     {
         public LoginCredentialsDto Credentials { get; set; } = new();
-        public DoctorDto DoctorDetails { get; set; } = new();
+       
     }
 }

@@ -19,9 +19,9 @@ namespace DoctorManagement.Api.Consumer
 
         }
 
-        public async Task<ResponseDto<bool>?> DoctorSignup(SignupDoctorDto patientSignUp)
+        public async Task<ResponseDto<bool>?> DoctorSignup(SignupDoctorDto doctorSignUp)
         {
-            var apiResponse = await this.HttpClient.PostAsJsonAsync($"api/Identity/Signup/Doctor", patientSignUp);
+            var apiResponse = await this.HttpClient.PostAsJsonAsync<SignupDoctorDto>($"api/Accounts/Signup/Doctor", doctorSignUp);
             if (apiResponse is { IsSuccessStatusCode: true } && await (apiResponse.Content.ReadFromJsonAsync<ResponseDto<bool>>()) is ResponseDto<bool> responseContent)
             {
                 return responseContent;
