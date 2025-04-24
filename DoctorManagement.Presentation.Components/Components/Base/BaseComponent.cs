@@ -12,5 +12,7 @@ namespace DoctorManagement.Presentation.Components.Base
 
         [Parameter]
         public TViewModel ViewModel { get; set; } = new();
+        [Inject]
+        public NavigationManager NavManager { get; set; }
     }
 }

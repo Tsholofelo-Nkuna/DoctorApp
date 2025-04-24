@@ -4,6 +4,7 @@ using DoctorManagement.DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DoctorManagement.DataAccessLayer.Migrations
 {
     [DbContext(typeof(WebDbContext))]
-    partial class WebDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250424195605_AddDataSourceTable")]
+    partial class AddDataSourceTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,10 +109,6 @@ namespace DoctorManagement.DataAccessLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Abbr")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CreatedByUserId")
                         .HasColumnType("nvarchar(max)");
 
@@ -141,7 +140,7 @@ namespace DoctorManagement.DataAccessLayer.Migrations
 
                     b.HasIndex("TypeCode");
 
-                    b.ToTable("DataSource");
+                    b.ToTable("DataSourceEntity");
                 });
 
             modelBuilder.Entity("DoctorManagement.DataAccessLayer.Entities.DoctorEntity", b =>

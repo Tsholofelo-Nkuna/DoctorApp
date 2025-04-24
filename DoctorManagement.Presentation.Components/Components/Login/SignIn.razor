@@ -13,17 +13,20 @@
             </h3>
         </Header>
         <Body>
-            <EditForm Model="ViewModel.Data">
+            <EditForm EditContext="ViewModel.EditContext">
                 <DataAnnotationsValidator></DataAnnotationsValidator>
                  <label>@nameof(ViewModel.Data.Username)</label>
                 <InputText  class="form-control" @bind-value="ViewModel.Data.Username" />
+                <ValidationMessage For="()=>ViewModel.Data.Username"></ValidationMessage>
+
                 <label>@nameof(ViewModel.Data.Password)</label>
-                <InputText class="form-control" @bind-value="ViewModel.Data.Password" />
+                <InputText class="form-control" @bind-value="ViewModel.Data.Password" type="password" />
+                <ValidationMessage For="() => ViewModel.Data.Password"></ValidationMessage>
             </EditForm>
         </Body>
         <Footer>
             <div class="d-flex flex-column">
-                <button class="btn btn-primary me-1 d-block">Login</button>
+                <button class="btn btn-primary me-1 d-block" @onclick="Login">Login</button>
                 <div class="d-flex align-items-baseline justify-content-center">
                     <span style="font-size:0.77rem;">Don't have an account?</span>
                     <a href="/signup" class="btn btn-link">Sign up</a>

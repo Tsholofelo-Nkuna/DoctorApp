@@ -9,8 +9,7 @@ using System.Threading.Tasks;
 
 namespace DoctorManagement.Api.Consumer.Interfaces
 {
-    public interface IPatientApiConsumer : IApiConsumerBase<PatientDto, BaseFilter>
+    public interface IDoctorApiConsumer : IApiConsumerBase<DoctorDto, BaseFilter>
     {
-
     }
 }

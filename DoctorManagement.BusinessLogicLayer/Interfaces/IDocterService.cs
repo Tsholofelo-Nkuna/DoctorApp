@@ -1,6 +1,7 @@
 ﻿using DoctorManagement.BusinessLogicLayer.Interfaces.Base;
 using DoctorManagement.DataAccessLayer.Entities;
 using DoctorManagement.Shared.DataTransferObjects;
+using DoctorManagement.Shared.Models.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DoctorManagement.BusinessLogicLayer.Interfaces
 {
-    public interface IDocterService : IServiceBase<DoctorDto, DoctorEntity>
+    public interface IDocterService : IServiceBase<DoctorDto, DoctorEntity,BaseFilter>
     {
     }
 }

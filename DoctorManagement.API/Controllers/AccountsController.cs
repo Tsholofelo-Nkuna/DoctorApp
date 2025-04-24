@@ -9,14 +9,16 @@ namespace DoctorManagement.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountsController : ApiBaseController
+    public class AccountsController 
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        public AccountsController(IUserContextService userContextService, IHttpClientFactory httpClientFactory, RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager) : base(userContextService, httpClientFactory)
+        private readonly HttpClient AppApi;
+        public AccountsController(IUserContextService userContextService, IHttpClientFactory httpClientFactory, RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;
+            this.AppApi = httpClientFactory.CreateClient(WebApiNameConstants.AppApi);
         }
 
         [HttpPost("Signup/Patient")]

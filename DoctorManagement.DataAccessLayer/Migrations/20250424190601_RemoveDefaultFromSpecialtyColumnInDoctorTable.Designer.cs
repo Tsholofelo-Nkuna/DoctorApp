@@ -4,6 +4,7 @@ using DoctorManagement.DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DoctorManagement.DataAccessLayer.Migrations
 {
     [DbContext(typeof(WebDbContext))]
-    partial class WebDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250424190601_RemoveDefaultFromSpecialtyColumnInDoctorTable")]
+    partial class RemoveDefaultFromSpecialtyColumnInDoctorTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,50 +103,6 @@ namespace DoctorManagement.DataAccessLayer.Migrations
                     b.ToTable("Contacts");
                 });
 
-            modelBuilder.Entity("DoctorManagement.DataAccessLayer.Entities.DataSourceEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Abbr")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CreatedByUserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastModifiedByUserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("LastModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TypeCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Value")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TypeCode");
-
-                    b.ToTable("DataSource");
-                });
-
             modelBuilder.Entity("DoctorManagement.DataAccessLayer.Entities.DoctorEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -176,9 +135,6 @@ namespace DoctorManagement.DataAccessLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("TitleId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -188,8 +144,6 @@ namespace DoctorManagement.DataAccessLayer.Migrations
                     b.HasIndex("ContactId");
 
                     b.HasIndex("PracticeSiteId");
-
-                    b.HasIndex("TitleId");
 
                     b.ToTable("Doctors");
                 });
@@ -439,15 +393,9 @@ namespace DoctorManagement.DataAccessLayer.Migrations
                         .WithMany()
                         .HasForeignKey("PracticeSiteId");
 
-                    b.HasOne("DoctorManagement.DataAccessLayer.Entities.DataSourceEntity", "Title")
-                        .WithMany()
-                        .HasForeignKey("TitleId");
-
                     b.Navigation("Contact");
 
                     b.Navigation("PracticeSite");
-
-                    b.Navigation("Title");
                 });
 
             modelBuilder.Entity("DoctorManagement.DataAccessLayer.Entities.PatientEntity", b =>

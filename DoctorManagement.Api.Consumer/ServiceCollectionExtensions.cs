@@ -22,8 +22,9 @@ namespace DoctorManagement.Api.Consumer
                      c.BaseAddress = apiBaseAddress;
                  })
                 .AddScoped<IPatientApiConsumer, PatientApiConsumer>()
-                .AddScoped<IIdentityApiConsumer, IdentityApiConsumer>();
-
+                .AddScoped<IIdentityApiConsumer, IdentityApiConsumer>()
+                .AddScoped<IDoctorApiConsumer, DoctorApiConsumer>();
+               
 
             return services;
         }

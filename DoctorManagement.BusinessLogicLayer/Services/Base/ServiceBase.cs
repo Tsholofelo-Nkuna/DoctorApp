@@ -4,6 +4,7 @@ using DoctorManagement.DataAccessLayer;
 using DoctorManagement.DataAccessLayer.Entities.Base;
 using DoctorManagement.Shared.DataTransferObjects;
 using DoctorManagement.Shared.DataTransferObjects.Base;
+using DoctorManagement.Shared.Models.Base;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
@@ -16,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace DoctorManagement.BusinessLogicLayer.Services.Base
 {
-    public class ServiceBase<TDto, TEntity> : IServiceBase<TDto, TEntity> where TDto : DtoBase, new() where TEntity : EntityBase
+    public class ServiceBase<TDto, TEntity, TFilter> : IServiceBase<TDto, TEntity, TFilter> where TDto : DtoBase, new() where TEntity : EntityBase where TFilter : BaseFilter, new()
     {
         protected readonly WebDbContext dbContext;
         private readonly DbSet<TEntity> _entitySet;
@@ -70,7 +71,7 @@ namespace DoctorManagement.BusinessLogicLayer.Services.Base
             return removed.Any() ? dbContext.SaveChanges() > 0 : false;
         }
 
-        public PageResponse<TDto> Get(PageRequestDto<TDto> pageRequest)
+        public PageResponse<TDto> Get(PageRequestDto<TFilter> pageRequest)
         {
             var query = this.GetQueryable(pageRequest.Filter);
             var totalRecordCount = query.Count();
@@ -95,7 +96,7 @@ namespace DoctorManagement.BusinessLogicLayer.Services.Base
             };
         }
       
-        protected virtual  IQueryable<TEntity> GetQueryable(TDto filters)
+        protected virtual  IQueryable<TEntity> GetQueryable(TFilter filters)
         {
             var query = this._entitySet.AsNoTracking();
             if(filters.Id != Guid.Empty)

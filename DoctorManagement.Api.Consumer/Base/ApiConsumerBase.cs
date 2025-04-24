@@ -1,5 +1,6 @@
 ﻿using DoctorManagement.Api.Consumer.Interfaces.Base;
 using DoctorManagement.Shared.DataTransferObjects;
+using DoctorManagement.Shared.Models.Base;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DoctorManagement.Api.Consumer.Base
 {
-    public class ApiConsumerBase<TDto> : IApiConsumerBase<TDto> where TDto : new()
+    public class ApiConsumerBase<TDto, TFilter> : IApiConsumerBase<TDto, TFilter> where TDto : new() where TFilter: BaseFilter, new()
     {
        
         public string AccessToken { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -53,7 +54,7 @@ namespace DoctorManagement.Api.Consumer.Base
 
         public virtual async Task<ResponseDto<bool>?> Delete(Guid guid, string controller)
         {
-            var apiResponse = await this.HttpClient.DeleteAsync($"{controller}/{guid}");
+            var apiResponse = await this.HttpClient.DeleteAsync($"api/{controller}/{guid}");
             if(apiResponse is { IsSuccessStatusCode :true } && await (apiResponse.Content.ReadFromJsonAsync<ResponseDto<bool>>()) is ResponseDto<bool> responseContent)
             {
                 return responseContent;
@@ -64,9 +65,9 @@ namespace DoctorManagement.Api.Consumer.Base
             }
         }
 
-        public virtual async Task<PageResponse<TDto>?> Get(PageRequestDto<TDto> pageRequest, string controller)
+        public virtual async Task<PageResponse<TDto>?> Get(PageRequestDto<TFilter> pageRequest, string controller)
         {
-            var apiResponse = await this.HttpClient.PostAsJsonAsync($"{controller}/Get", pageRequest);
+            var apiResponse = await this.HttpClient.PostAsJsonAsync($"api/{controller}/Get", pageRequest);
             if(apiResponse is { IsSuccessStatusCode :true } && (await apiResponse.Content.ReadFromJsonAsync<PageResponse<TDto>>()) is PageResponse<TDto> response)
             {
                 return response;

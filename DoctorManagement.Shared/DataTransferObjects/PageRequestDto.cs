@@ -10,7 +10,7 @@ namespace DoctorManagement.Shared.DataTransferObjects
     public class PageRequestDto<TFilter> where TFilter: new()
     {
         public TFilter Filter { get; set; } = new();
-        public int PageSize { get; set; }
+        public int PageSize { get; set; } = 30;
         public int PageIndex { get; set; } = 1;
         public bool GetAllPages { get; set; } = false;
 

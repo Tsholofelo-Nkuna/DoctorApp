@@ -2,6 +2,7 @@
 using DoctorManagement.BusinessLogicLayer;
 using DoctorManagement.DataAccessLayer;
 using DoctorManagement.Shared.Constants;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,11 +25,18 @@ namespace DoctorManagement.API
                     
                 });
             });
+            builder.Services
+                .AddAuthentication()
+                .AddCookie(config=>
+                {
+                    config.LoginPath = "/";
+                });
             builder.Services.AddHttpClient(WebApiNameConstants.AppApi, config =>
             {
                 config.BaseAddress = new Uri(builder.Configuration["WebApiUrls:Default"] ?? string.Empty);
                 
             });
+           
             builder.Services.AddDbContext<WebDbContext>(config =>
             {
                 config.UseSqlServer(builder.Configuration.GetConnectionString("Default"));

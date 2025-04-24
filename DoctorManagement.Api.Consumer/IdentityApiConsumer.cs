@@ -2,6 +2,7 @@
 using DoctorManagement.Api.Consumer.Interfaces;
 using DoctorManagement.Shared.DataTransferObjects;
 using DoctorManagement.Shared.DataTransferObjects.Base;
+using DoctorManagement.Shared.Models.Base;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace DoctorManagement.Api.Consumer
 {
-    public class IdentityApiConsumer : ApiConsumerBase<SignupDto>, IIdentityApiConsumer
+    public class IdentityApiConsumer : ApiConsumerBase<SignupDto, BaseFilter>, IIdentityApiConsumer
     {
         public IdentityApiConsumer(IOptions<ApiOptions> options, IHttpClientFactory httpClientFactory) : base(options, httpClientFactory)
         {
@@ -29,6 +30,29 @@ namespace DoctorManagement.Api.Consumer
             else
             {
                 return null;
+            }
+        }
+
+        public async Task<ResponseDto<bool>?> Login(string userName, string password)
+        {
+            var response = await this.HttpClient.PostAsJsonAsync<Dictionary<string, string>>(
+                "/login?useCookies=true",
+                  new()
+                  {
+                      { "email", userName },
+                      { "password", password }
+                  });
+            if (response is { IsSuccessStatusCode: true})
+            {
+                return new()
+                {
+                    Data = true,
+                    Message = "Login successful"
+                };
+            }
+            else
+            {
+                return null ;
             }
         }
 
