@@ -15,5 +15,8 @@ namespace DoctorManagement.DataAccessLayer.Entities
         public string Zip { get; set; } = string.Empty;
         public string StreetName {  get; set; } = string.Empty;
         public string HouseNumber {  get; set; } = string.Empty;    
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+
     }
 }

@@ -24,6 +24,9 @@ namespace DoctorManagement.MAUI.Components.Pages
                 DocSignupComponent.ViewModel.Data.PracticeSite.State = marker.AdminArea;
                 DocSignupComponent.ViewModel.Data.PracticeSite.Zip = marker.PostalCode;
                 DocSignupComponent.ViewModel.Data.PracticeSite.HouseNumber = marker.SubLocality;
+                DocSignupComponent.ViewModel.Data.PracticeSite.StreetName = marker.Thoroughfare;
+                DocSignupComponent.ViewModel.Data.PracticeSite.Latitude = currentLocation?.Latitude ?? 0;
+                DocSignupComponent.ViewModel.Data.PracticeSite.Longitude = currentLocation?.Longitude ?? 0;
             }
         }
     }

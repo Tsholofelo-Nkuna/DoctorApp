@@ -20,5 +20,7 @@ namespace DoctorManagement.Shared.DataTransferObjects
         public string StreetName { get; set; } = string.Empty;
         [Display(Name = "Building/House No."), Required]
         public string HouseNumber { get; set; } = string.Empty;
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 }
