@@ -2,7 +2,6 @@
 using DoctorManagement.Api.Consumer.Interfaces;
 using DoctorManagement.Shared.DataTransferObjects;
 using DoctorManagement.Shared.Models;
-using DoctorManagement.Shared.Models.Base;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -12,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace DoctorManagement.Api.Consumer
 {
-    public class DoctorApiConsumer : ApiConsumerBase<DoctorDto, DoctorFilter>, IDoctorApiConsumer
+    public class DataSourceApiConsumer : ApiConsumerBase<DataSourceDto, DataSourceFilter>, IDataSourceApiConsumer
     {
-        public DoctorApiConsumer(IOptions<ApiOptions> options, IHttpClientFactory httpClientFactory) : base(options, httpClientFactory)
+        public DataSourceApiConsumer(IOptions<ApiOptions> options, IHttpClientFactory httpClientFactory) : base(options, httpClientFactory)
         {
         }
     }

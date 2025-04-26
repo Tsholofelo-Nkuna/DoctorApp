@@ -32,7 +32,7 @@ namespace DoctorManagement.API.Controllers.Base
         }
 
         [HttpPost]
-        public async Task<ResponseDto<bool>> Post([FromBody] TDto rec)
+         public virtual async Task<ResponseDto<bool>> Post([FromBody] TDto rec)
         {
             var added = this._principalService.AddOrUpdate([rec], (await this.userContextService.GetCurrentUserAsync())?.Id);
             return new()
@@ -44,14 +44,14 @@ namespace DoctorManagement.API.Controllers.Base
 
         // PUT api/<PatientsController>/5
         [HttpPost("Get")]
-        public PageResponse<TDto> Get([FromBody] PageRequestDto<TFilter> pageRequest)
+        public virtual PageResponse<TDto> Get([FromBody] PageRequestDto<TFilter> pageRequest)
         {
             return this._principalService.Get(pageRequest);
         }
 
         // DELETE api/<PatientsController>/5
         [HttpDelete("{id}")]
-        public async Task<ResponseDto<bool>> Delete(Guid patientId)
+        public virtual async Task<ResponseDto<bool>> Delete(Guid patientId)
         {
             var currentUser = (await this.userContextService.GetCurrentUserAsync())?.Id;
             var result =  _principalService.Delete([patientId], currentUser);

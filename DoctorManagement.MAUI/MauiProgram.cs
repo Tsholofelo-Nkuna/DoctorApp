@@ -1,4 +1,6 @@
 ﻿using DoctorManagement.Api.Consumer;
+using DoctorManagement.MAUI.Services;
+using DoctorManagement.MAUI.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace DoctorManagement.MAUI
@@ -16,7 +18,13 @@ namespace DoctorManagement.MAUI
                 });
 
             builder.Services.AddMauiBlazorWebView();
-            builder.Services.AddApiConsumers("https://localhost:7178");
+            builder.Services.Configure<GeolocationRequest>(config =>
+            {
+                config.Timeout = TimeSpan.FromSeconds(10);
+                config.DesiredAccuracy = GeolocationAccuracy.Medium;
+            });
+           // builder.Services.AddSingleton<IAppLocationService, AppLocationService>();
+            builder.Services.AddApiConsumers("https://10.0.0.2:7178");
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
     		builder.Logging.AddDebug();

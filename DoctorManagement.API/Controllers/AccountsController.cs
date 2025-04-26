@@ -109,6 +109,10 @@ namespace DoctorManagement.API.Controllers
                         PracticeNumber = doctorSignup.PracticeNumber,
                         PracticeSite = doctorSignup.PracticeSite,
                         Specialty = doctorSignup.Specialty,
+                        FirstName = doctorSignup.FirstName,
+                        LastName = doctorSignup.LastName,
+                        TitleDatasourceId = doctorSignup.TitleDatasourceId,
+                        TitleDescription = doctorSignup.TitleDescription,
                         
                     });
                   

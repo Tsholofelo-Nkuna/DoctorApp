@@ -3,6 +3,7 @@ using DoctorManagement.Presentation.Components.Base;
 using DoctorManagement.Presentation.ViewModels;
 using DoctorManagement.Presentation.ViewModels.Base;
 using DoctorManagement.Shared.DataTransferObjects;
+using DoctorManagement.Shared.Models;
 using DoctorManagement.Shared.Models.Base;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -31,6 +32,7 @@ namespace DoctorManagement.Presentation.Components.Doctors
                 
             }
         }
+        public ModalViewModel<DoctorFilter> DocSearchModalViewModel { get; set; } = new();
         public PageRequestDto<DoctorDto> PageRequestDto { get; set; } = new();
         private string _doctorsController = "Doctors";
         protected override async Task OnInitializedAsync()
@@ -40,7 +42,26 @@ namespace DoctorManagement.Presentation.Components.Doctors
     
         }
 
-        public async Task<PageResponse<DoctorDto>> GetNextPageData(PageRequestDto<BaseFilter> pageRequest)
+        public Task OnFindDoctorClicked()
+        {
+            DocSearchModalViewModel.Show = true;
+            return Task.CompletedTask;
+        }
+
+        public async Task OnFindDoctorSecondButtonClicked()
+        {
+            var results = await this.DoctorApiConsumer.Get(new()
+            {
+                PageIndex = 1,
+                Filter = DocSearchModalViewModel.Data
+            }, "Doctors");
+            if(results is not null)
+            {
+                PageResponse = results;
+            }
+            DocSearchModalViewModel.Show = false;
+        }
+        public async Task<PageResponse<DoctorDto>> GetNextPageData(PageRequestDto<DoctorFilter> pageRequest)
         {
             var results = await this.DoctorApiConsumer.Get(new()
             {

@@ -3,24 +3,71 @@
 @using DoctorManagement.Shared.DataTransferObjects
 @inherits BaseComponent<DoctorListViewModel, List<DoctorDto>>
 
- <div class="row justify-content-center my-1">
-    <div class="col-xs-12 col-sm-12 col-md-6">
-        <input placeholder="City" class="form-control"/>
-    </div>
-   
+ <div class="d-flex justify-content-center my-1">
+    <ButtonComponent Type="primary" OnButtonClick="(bComp) => { DocSearchModalViewModel.Show = true; }">
+        <Content>
+            Find a doctor <i class="bi bi-search"></i>
+        </Content>
+    </ButtonComponent>
 </div>
-@if(this.ViewModel.Data.Any()){
-
-   @foreach(var item in ViewModel.Data){
-         <div class="row justify-content-center">
-            <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6">
-                <ProfileItemComponent ViewModel="@(new(){Title = item.PracticeNumber, Description = item.Specialty})"></ProfileItemComponent>
-            </div>
-        </div>
-   }
-}
-else
+@foreach (var item in (PageResponse.Data ?? []))
 {
-   <div class="text-center fs-5">No Data</div>    
+    <div class="row justify-content-center">
+        <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6">
+            <ProfileItemComponent Context="profileContext"
+                                  ViewModel="@(new(){
+                            Title = $"{item.Title?.Description} {item.Initials} {item.LastName}({item.PracticeNumber})",
+                            Description = item.Specialty,
+                            EnableContextMenu = true})">
+                <ContextMenu>
+                    <div class="container">
+                        <div class="d-flex justify-content-center py-2">
+                            <div class="bg-secondary-subtle rounded-circle" style="width:4.5rem;height:4.5rem"></div>
+                        </div>
+                        <div class="d-flex justify-content-center py-2">
+                            <div class="fw-bold">
+                                @($"{item.Title?.Description} {item.Initials} {item.LastName}({item.PracticeNumber})")
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <ButtonComponent Type="primary">
+                                <Content>
+                                    Schedule appointment <i class="bi bi-calendar"></i>
+                                </Content>
+                            </ButtonComponent>
+                        </div>
+                    </div>
+                </ContextMenu>
+            </ProfileItemComponent>
+        </div>
+    </div>
 }
+@if(!(this.PageResponse.Data?.Any() ?? false)){
+
+   <div class="text-center fs-5">No doctors found</div>
+
+}
+
+
+<ModalComponent ViewModel="DocSearchModalViewModel" Context="docSearchModalContext">
+   <Header>
+       <p class="fw-bold text-primary">Find a doctor <i class="bi bi-search"></i></p>
+   </Header>
+   <Body>
+       <EditForm Model ="docSearchModalContext.Data" Context="editFormContext">
+            <InputText @bind-Value="docSearchModalContext.Data.State" class="form-control my-1" placeholder="State/Province"/>
+            <InputText @bind-Value ="docSearchModalContext.Data.City" class="form-control my-1" placeholder="City/Suburb" />
+            <InputText @bind-Value="docSearchModalContext.Data.Specialty" class="form-control my-1" placeholder="Specialty" />
+       </EditForm>
+   </Body>
+   <Footer>
+      <div class="d-flex">
+            <ButtonComponent OnButtonClick="OnFindDoctorSecondButtonClicked">
+                <Content>
+                    Find <i class="bi bi-search"></i>
+                </Content>
+            </ButtonComponent>
+      </div>
+   </Footer>
+</ModalComponent>
  

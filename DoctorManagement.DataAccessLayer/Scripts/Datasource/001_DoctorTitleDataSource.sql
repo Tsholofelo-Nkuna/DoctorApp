@@ -1,5 +1,5 @@
 ﻿declare @ds nvarchar(max) = 'ProfessionalTitle';
-insert DataSource([Name],[Value],[Description], TypeCode, Abbr,Id, CreatedOn)
+insert into DataSource([Name],[Value],[Description], TypeCode, Abbr,Id, CreatedOn)
 Values 
 ('Doctor',1,'Dr.',@ds,'Dr', newid(), CURRENT_TIMESTAMP),
 ('Honorable',2,'Hon.',@ds,'Hon', newid(), CURRENT_TIMESTAMP),

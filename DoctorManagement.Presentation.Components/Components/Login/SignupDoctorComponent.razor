@@ -11,8 +11,30 @@
         <ValidationMessage For ="() => ViewModel.Data.Credentials.Username"></ValidationMessage>
        
         <label for="@nameof(ViewModel.Data.Credentials.Password)">Password</label>
-        <InputText typeof="password" id="@nameof(ViewModel.Data.Credentials.Password)" @bind-Value="ViewModel.Data.Credentials.Password" class="form-control"></InputText>
+        <InputText type="password" id="@nameof(ViewModel.Data.Credentials.Password)" @bind-Value="ViewModel.Data.Credentials.Password" class="form-control"></InputText>
         <ValidationMessage For ="() => ViewModel.Data.Credentials.Password"></ValidationMessage>
+    </EditForm>
+    <hr />
+    <EditForm EditContext="DoctorEditContext">
+        <h5 class="text-primary">Personal Details</h5>
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <label for="@nameof(ViewModel.Data.TitleDescription)">Title</label>
+         <InputSelect @bind-Value ="ViewModel.Data.TitleDatasourceId" class="form-select" @oninput="OnTitleFieldChange">
+            <option>Please select</option>
+            @foreach(var item in TitleOptions)
+            {
+                <option value="@item.Value">@item.Description</option>
+            }
+         </InputSelect>
+        <ValidationMessage For="() => ViewModel.Data.TitleDescription"></ValidationMessage>
+
+        <label for="@nameof(ViewModel.Data.Credentials.Username)">First name</label>
+        <InputText id="@nameof(ViewModel.Data.FirstName)" @bind-Value="ViewModel.Data.FirstName" class="form-control"></InputText>
+        <ValidationMessage For="() => ViewModel.Data.FirstName"></ValidationMessage>
+
+        <label for="@nameof(ViewModel.Data.LastName)">Last name</label>
+        <InputText typeof="password" id="@nameof(ViewModel.Data.LastName)" @bind-Value="ViewModel.Data.LastName" class="form-control"></InputText>
+        <ValidationMessage For="() => ViewModel.Data.LastName"></ValidationMessage>
     </EditForm>
     <hr />
     <EditForm EditContext ="DoctorEditContext">

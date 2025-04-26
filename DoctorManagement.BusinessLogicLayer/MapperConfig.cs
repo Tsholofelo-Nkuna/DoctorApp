@@ -20,6 +20,8 @@ namespace DoctorManagement.BusinessLogicLayer
                 .ReverseMap();
             this.CreateMap<AddressDto, AddressEntity>()
                 .ReverseMap();
+            this.CreateMap<DataSourceDto, DataSourceEntity>()
+                .ReverseMap();
         }
     }
 }

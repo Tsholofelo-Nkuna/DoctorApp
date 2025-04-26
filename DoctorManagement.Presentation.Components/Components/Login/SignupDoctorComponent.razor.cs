@@ -19,7 +19,10 @@ namespace DoctorManagement.Presentation.Components.Login
         public EditContext DoctorEditContext { get; set; }
         [Inject]
         public IIdentityApiConsumer IdentityApiConsumer { get; set; }
+        [Inject]
+        public IDataSourceApiConsumer DataSourceApiConsumer { get; set; }
         public ResponseDto<bool> ServiceResponse { get; set; } = new();
+        public IEnumerable<DataSourceDto> TitleOptions { get; set; } = [];
         public ModalViewModel<SignupDoctorDto> ModalViewModel { get; set; } = new();
         public bool FormEditContextIsValid
         {
@@ -42,7 +45,7 @@ namespace DoctorManagement.Presentation.Components.Login
                     .Concat(this.AddressEditContext.GetValidationMessages());
             }
         }
-        protected override Task OnInitializedAsync()
+        protected override async Task OnInitializedAsync()
         {
             var returned =  base.OnInitializedAsync();
             this.ViewModel.Data.PracticeSite = new();
@@ -53,9 +56,22 @@ namespace DoctorManagement.Presentation.Components.Login
             this.CredentialsEditContext = new(ViewModel.Data.Credentials);
             this.DoctorEditContext = new(ViewModel.Data);
             this.ModalViewModel.Data = ViewModel.Data;
-            return returned;
+          
+            await this.GetData();
+         
         }
 
+        public async Task GetData()
+        {
+            var response = await this.DataSourceApiConsumer.Get(new() { GetAllPages = true }, "DataSource");
+            if (response is {Data: IEnumerable<DataSourceDto> } responseContent)
+            {
+                this.TitleOptions = responseContent.Data;
+                //StateHasChanged();
+            }
+        }
+
+        
         public async Task OnSubmitCliked()
         {
             if (this.FormEditContextIsValid)
@@ -74,6 +90,14 @@ namespace DoctorManagement.Presentation.Components.Login
 
                 ModalViewModel.Show = true;
             }
+        }
+        public Task OnTitleFieldChange(ChangeEventArgs args)
+        {  
+           var value = args.Value?.ToString();
+           _ = int.TryParse(value, out var val);
+           this.ViewModel.Data.TitleDescription = this.TitleOptions.FirstOrDefault(x => x.Value == val)?.Description ?? string.Empty;
+            
+            return Task.CompletedTask;
         }
         public Task OnCloseModal()
         {

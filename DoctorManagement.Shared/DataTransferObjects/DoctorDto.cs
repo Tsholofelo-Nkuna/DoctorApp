@@ -11,11 +11,30 @@ namespace DoctorManagement.Shared.DataTransferObjects
     public class DoctorDto: DtoBase
     {
         [Required]
+        public string FirstName { get; set; } = string.Empty;
+        [Required]
+        public string LastName { get; set; } = string.Empty;
+
+        [Required]
         public string PracticeNumber { get; set; } = string.Empty;
+        [Required]
         public string Specialty { get; set; } = string.Empty ;
         public AddressDto? PracticeSite { get; set; } 
         public ContactDto? Contact { get; set; }
         public string UserId { get; set; } = string.Empty;
-       
+        [Required]
+        public string TitleDescription { get; set; } = string.Empty;
+        [Range(1, int.MaxValue)]
+        public int TitleDatasourceId { get; set; }
+        public DataSourceDto? Title { get; set; }
+
+        public string Initials
+        {
+            get
+            {
+                return (this.FirstName?.Any() ?? false) ? $"{this.FirstName?[0]}" : string.Empty;
+            }
+        }
+
     }
 }

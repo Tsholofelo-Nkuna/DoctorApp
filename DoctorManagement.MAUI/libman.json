@@ -5,7 +5,13 @@
       "library": "bootstrap@5.3.3",
       "destination": "wwwroot/",
       "provider": "cdnjs",
-      "files": ["css/bootstrap.min.css","scss/*"]
+      "files": [ "css/bootstrap.min.css", "scss/*" ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "bootstrap-icons@1.11.3",
+      "files": ["font/*", "icons/*", "font/fonts/*"],
+      "destination": "wwwroot/"
     }
   ],
   "exclude": [

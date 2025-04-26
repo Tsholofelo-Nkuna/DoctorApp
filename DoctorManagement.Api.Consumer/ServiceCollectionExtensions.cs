@@ -23,8 +23,9 @@ namespace DoctorManagement.Api.Consumer
                  })
                 .AddScoped<IPatientApiConsumer, PatientApiConsumer>()
                 .AddScoped<IIdentityApiConsumer, IdentityApiConsumer>()
-                .AddScoped<IDoctorApiConsumer, DoctorApiConsumer>();
-               
+                .AddScoped<IDoctorApiConsumer, DoctorApiConsumer>()
+                .AddScoped<IDataSourceApiConsumer, DataSourceApiConsumer>();
+                
 
             return services;
         }

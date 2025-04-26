@@ -4,6 +4,7 @@ using DoctorManagement.DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DoctorManagement.DataAccessLayer.Migrations
 {
     [DbContext(typeof(WebDbContext))]
-    partial class WebDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250425082436_UpdateDoctorTable")]
+    partial class UpdateDoctorTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -159,6 +162,9 @@ namespace DoctorManagement.DataAccessLayer.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("DataSourceTitleId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -168,10 +174,6 @@ namespace DoctorManagement.DataAccessLayer.Migrations
 
                     b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PracticeNumber")
                         .IsRequired()
@@ -184,9 +186,6 @@ namespace DoctorManagement.DataAccessLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("TitleId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -195,9 +194,9 @@ namespace DoctorManagement.DataAccessLayer.Migrations
 
                     b.HasIndex("ContactId");
 
-                    b.HasIndex("PracticeSiteId");
+                    b.HasIndex("DataSourceTitleId");
 
-                    b.HasIndex("TitleId");
+                    b.HasIndex("PracticeSiteId");
 
                     b.ToTable("Doctors");
                 });
@@ -443,19 +442,19 @@ namespace DoctorManagement.DataAccessLayer.Migrations
                         .WithMany()
                         .HasForeignKey("ContactId");
 
+                    b.HasOne("DoctorManagement.DataAccessLayer.Entities.DataSourceEntity", "DataSourceTitle")
+                        .WithMany()
+                        .HasForeignKey("DataSourceTitleId");
+
                     b.HasOne("DoctorManagement.DataAccessLayer.Entities.AddressEntity", "PracticeSite")
                         .WithMany()
                         .HasForeignKey("PracticeSiteId");
 
-                    b.HasOne("DoctorManagement.DataAccessLayer.Entities.DataSourceEntity", "Title")
-                        .WithMany()
-                        .HasForeignKey("TitleId");
-
                     b.Navigation("Contact");
 
-                    b.Navigation("PracticeSite");
+                    b.Navigation("DataSourceTitle");
 
-                    b.Navigation("Title");
+                    b.Navigation("PracticeSite");
                 });
 
             modelBuilder.Entity("DoctorManagement.DataAccessLayer.Entities.PatientEntity", b =>
