@@ -1,4 +1,5 @@
-﻿using DoctorManagement.MAUI.Services;
+﻿
+using DoctorManagement.MAUI.Services;
 using DoctorManagement.MAUI.Services.Interfaces;
 using DoctorManagement.Presentation.ViewModels;
 using DoctorManagement.Shared.DataTransferObjects;
@@ -14,17 +15,15 @@ namespace DoctorManagement.MAUI.Components.Pages
 {
     public partial class Doctors
     {
-        //[Inject]
-        //public IAppLocationService LocationService { get; set; }
+        [Inject]
+        public IAppLocationService LocationService { get; set; }
+        public Location? AppLocation { get; set; }
         protected async override Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            //var location = await LocationService.GetAppCurrentLocation();
-
-            //if(location is Location validLocation)
-            //{
-               
-            //}
+            var location = await LocationService.GetAppCurrentLocation();
+            this.AppLocation = location;
+            
         }
 
     }

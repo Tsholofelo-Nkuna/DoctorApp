@@ -29,6 +29,39 @@ namespace DoctorManagement.MAUI.Services
               
             }
         }
+
+        public async Task ViewLocationOnMap(Location location, string label)
+        {
+           
+            var options = new MapLaunchOptions { Name = label};
+
+            try
+            {
+                await Map.Default.OpenAsync(location, options); 
+            }
+            catch (Exception ex)
+            {
+                // No map application available to open
+            }
+        }
+
+        public async Task<Placemark?> GetReverseGeocodeData(double latitude = 47.673988, double longitude = -122.121513)
+        {
+            try
+            {
+                IEnumerable<Placemark> placemarks = await Geocoding.Default.GetPlacemarksAsync(latitude, longitude);
+
+                Placemark placemark = placemarks?.FirstOrDefault();
+
+                return placemark;
+            }
+            catch (Exception ex)
+            {
+
+                return null;
+            }
+           
+        }
         public void CancelLocationRequest()
         {
             if (!_cancellationTokenSource.IsCancellationRequested)

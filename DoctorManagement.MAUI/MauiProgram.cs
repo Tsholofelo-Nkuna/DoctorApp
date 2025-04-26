@@ -23,7 +23,7 @@ namespace DoctorManagement.MAUI
                 config.Timeout = TimeSpan.FromSeconds(10);
                 config.DesiredAccuracy = GeolocationAccuracy.Medium;
             });
-           // builder.Services.AddSingleton<IAppLocationService, AppLocationService>();
+            builder.Services.AddSingleton<IAppLocationService, AppLocationService>();
             builder.Services.AddApiConsumers("https://10.0.0.2:7178");
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();

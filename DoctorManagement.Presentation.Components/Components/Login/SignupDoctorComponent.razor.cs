@@ -24,6 +24,8 @@ namespace DoctorManagement.Presentation.Components.Login
         public ResponseDto<bool> ServiceResponse { get; set; } = new();
         public IEnumerable<DataSourceDto> TitleOptions { get; set; } = [];
         public ModalViewModel<SignupDoctorDto> ModalViewModel { get; set; } = new();
+        [Parameter]
+        public EventCallback UseCurrentLocationClick { get; set; }
         public bool FormEditContextIsValid
         {
             get
