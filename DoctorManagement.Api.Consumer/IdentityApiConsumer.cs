@@ -35,38 +35,52 @@ namespace DoctorManagement.Api.Consumer
 
         public async Task<ResponseDto<bool>?> Login(string userName, string password)
         {
-            var response = await this.HttpClient.PostAsJsonAsync<Dictionary<string, string>>(
-                "/login?useCookies=true",
-                  new()
-                  {
+            try
+            {
+                var response = await this.HttpClient.PostAsJsonAsync<Dictionary<string, string>>(
+               "/login?useCookies=true",
+                 new()
+                 {
                       { "email", userName },
                       { "password", password }
-                  });
-            if (response is { IsSuccessStatusCode: true})
-            {
-                return new()
+                 });
+                if (response is { IsSuccessStatusCode: true })
                 {
-                    Data = true,
-                    Message = "Login successful"
-                };
+                    return new()
+                    {
+                        Data = true,
+                        Message = "Login successful"
+                    };
+                }
+                else
+                {
+                    return null;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return null ;
+
+                return null;
             }
         }
 
         public async Task<ResponseDto<bool>?> PatientSignup(SignupDto patientSignUp)
         {
-            patientSignUp.Contact.Email = patientSignUp.Credentials.Username;
-            var apiResponse = await this.HttpClient.PostAsJsonAsync($"api/Accounts/Signup/Patient", patientSignUp);
-            if (apiResponse is { IsSuccessStatusCode: true } && await(apiResponse.Content.ReadFromJsonAsync<ResponseDto<bool>>()) is ResponseDto<bool> responseContent)
+            try
             {
-                return responseContent;
+                patientSignUp.Contact.Email = patientSignUp.Credentials.Username;
+                var apiResponse = await this.HttpClient.PostAsJsonAsync($"api/Accounts/Signup/Patient", patientSignUp);
+                if (apiResponse is { IsSuccessStatusCode: true } && await (apiResponse.Content.ReadFromJsonAsync<ResponseDto<bool>>()) is ResponseDto<bool> responseContent)
+                {
+                    return responseContent;
+                }
+                else
+                {
+                    return null;
+                }
             }
-            else
-            {
-                return null;
+            catch (Exception ex) { 
+               return null;
             }
         }
     }

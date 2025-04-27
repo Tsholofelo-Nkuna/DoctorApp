@@ -22,14 +22,12 @@ namespace DoctorManagement.Api.Consumer.Base
         {
             var handler = new HttpClientHandler();
 
-#if DEBUG
             handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>
             {
-                if (cert != null && cert.Issuer.Equals("CN=localhost"))
+                if (cert != null && (cert.Issuer.Equals("CN=localhost") || cert.Issuer.Contains("let's encrypt", StringComparison.OrdinalIgnoreCase)))
                     return true;
                 return errors == System.Net.Security.SslPolicyErrors.None;
             };
-#endif
 
             var client = new HttpClient(handler);
             HttpClient = httpClientFactory.CreateClient(options.Value.HttpClientName);

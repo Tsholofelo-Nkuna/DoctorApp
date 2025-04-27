@@ -35,6 +35,12 @@ namespace DoctorManagement.Presentation.Components.Doctors
         public ModalViewModel<DoctorFilter> DocSearchModalViewModel { get; set; } = new();
         public PageRequestDto<DoctorDto> PageRequestDto { get; set; } = new();
         private string _doctorsController = "Doctors";
+
+        [Parameter, EditorRequired]
+        public Func<(double x1, double y1), (double x2, double y2), double>? DistanceCalculator { get; set; }
+
+        [Parameter, EditorRequired]
+        public (double Latitude, double Longitude) CurrentAppLocation { get; set; } = (0, 0);
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();

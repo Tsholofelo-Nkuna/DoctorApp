@@ -26,5 +26,9 @@ namespace DoctorManagement.MAUI.Components.Pages
             
         }
 
+        public double ComputeDistance((double Longitude, double Latitude) point1, (double Longitude, double Latitude ) point2)
+        {
+            return Location.CalculateDistance(point1.Latitude, point1.Longitude, point2.Latitude, point2.Longitude, DistanceUnits.Kilometers);
+        }
     }
 }

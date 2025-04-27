@@ -51,7 +51,7 @@
         <DataAnnotationsValidator></DataAnnotationsValidator>
        
         <h6 class="text-primary pt-1">
-            Practice site <ButtonComponent OnButtonClick="async ()=>{ await UseCurrentLocationClick.InvokeAsync(); }" Type="primary"><Content>Use current location <i class="bi bi-geo-alt"></i></Content></ButtonComponent>
+            Practice site/residential address <ButtonComponent OnButtonClick="async ()=>{ await UseCurrentLocationClick.InvokeAsync(); }" Type="primary"><Content>Use current location <i class="bi bi-geo-alt"></i></Content></ButtonComponent>
         </h6>
         <label for="@nameof(ViewModel.Data.PracticeSite.HouseNumber)">House/Building No.</label>
         <InputText id="@nameof(ViewModel.Data.PracticeSite.HouseNumber)" @bind-Value="ViewModel.Data.PracticeSite!.HouseNumber" class="form-control"></InputText>

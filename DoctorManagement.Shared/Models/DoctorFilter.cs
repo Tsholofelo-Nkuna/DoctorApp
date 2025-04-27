@@ -13,5 +13,7 @@ namespace DoctorManagement.Shared.Models
         public string State { get; set; } = string.Empty;
         public string Zip { get; set; } = string.Empty;
         public string Specialty { get; set; } = string.Empty;
+        public double Longitude { get; set; }
+        public double Latitude { get; set; }
     }
 }

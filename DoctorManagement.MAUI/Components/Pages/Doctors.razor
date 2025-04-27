@@ -1,2 +1,6 @@
 ﻿@page "/Doctors"
- <DoctorListComponent></DoctorListComponent> 
+ <DoctorListComponent
+     CurrentAppLocation="(AppLocation?.Latitude ?? 0,AppLocation?.Longitude ?? 0)"
+     DistanceCalculator="ComputeDistance"
+    >
+ </DoctorListComponent> 

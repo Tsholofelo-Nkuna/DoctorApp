@@ -23,6 +23,7 @@ namespace DoctorManagement.BusinessLogicLayer.Services
 
         protected override IQueryable<DoctorEntity> GetQueryable(DoctorFilter filters)
         {
+            var address = $"{filters.City}, {filters.State} {filters.Zip}";
             var query = base.GetQueryable(filters);
 
             if (!string.IsNullOrEmpty(filters.City))

@@ -6,7 +6,7 @@
 
 <div class="vh-100" style="display:grid; grid-template-columns:1fr; grid-template-rows: 1fr; align-items:center">
     <CardComponent Context="cardContext"
-        ViewModel="@(new CardComponentViewModel<LoginCredentialsDto>{ Title = " Sign in to see a doctor", Data = this.ViewModel.Data})">
+        ViewModel="@(new CardComponentViewModel<LoginCredentialsDto>{ Title = " Find health worker", Data = this.ViewModel.Data})">
         <Header>
             <h3 class="text-primary px-1">
                 @cardContext.Title
@@ -34,7 +34,7 @@
                 <div class="d-flex justify-content-center">
                     <span>Or</span>
                 </div>
-                <a href="signup/doctor"  class="d-block btn btn-secondary">Sign up as doctor</a>
+                <a href="signup/doctor"  class="d-block btn btn-secondary">Sign up as health worker</a>
             </div>
         </Footer>
     </CardComponent>

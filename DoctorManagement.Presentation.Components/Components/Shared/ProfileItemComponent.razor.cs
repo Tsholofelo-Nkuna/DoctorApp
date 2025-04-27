@@ -17,6 +17,8 @@ namespace DoctorManagement.Presentation.Components.Shared
     {
         [Parameter]
         public RenderFragment<ProfileItemViewModel>? ContextMenu { get; set; }
+        [Parameter]
+        public RenderFragment<ProfileItemViewModel>? AdditionalContent { get; set; }
         public ModalViewModel<DtoBase> ContextMenuModalViewModel { get; set; } = new();
         protected override async Task OnInitializedAsync()
         {

@@ -6,7 +6,7 @@
  <div class="d-flex justify-content-center my-1">
     <ButtonComponent Type="primary" OnButtonClick="(bComp) => { DocSearchModalViewModel.Show = true; }">
         <Content>
-            Find a doctor <i class="bi bi-search"></i>
+            Find health worker <i class="bi bi-search"></i>
         </Content>
     </ButtonComponent>
 </div>
@@ -17,8 +17,11 @@
             <ProfileItemComponent Context="profileContext"
                                   ViewModel="@(new(){
                             Title = $"{item.Title?.Description} {item.Initials} {item.LastName}({item.PracticeNumber})",
-                            Description = item.Specialty,
+                            Description = $"{item.Specialty} at {item.PracticeSite?.City}",
                             EnableContextMenu = true})">
+                <AdditionalContent>
+                    <div>@($"{DistanceCalculator((item.PracticeSite?.Latitude ?? 0, item.PracticeSite?.Longitude ?? 0), (CurrentAppLocation.Latitude, CurrentAppLocation.Longitude)):F1} km away")</div>
+                </AdditionalContent>
                 <ContextMenu>
                     <div class="container">
                         <div class="d-flex justify-content-center py-2">
@@ -51,7 +54,7 @@
 
 <ModalComponent ViewModel="DocSearchModalViewModel" Context="docSearchModalContext">
    <Header>
-       <p class="fw-bold text-primary">Find a doctor <i class="bi bi-search"></i></p>
+       <p class="fw-bold text-primary">Find health worker <i class="bi bi-search"></i></p>
    </Header>
    <Body>
        <EditForm Model ="docSearchModalContext.Data" Context="editFormContext">

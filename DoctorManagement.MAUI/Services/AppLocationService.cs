@@ -22,7 +22,7 @@ namespace DoctorManagement.MAUI.Services
             {
                return Geolocation.Default.GetLocationAsync(this._geolocationRequest,this._cancellationTokenSource.Token);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return null;
 

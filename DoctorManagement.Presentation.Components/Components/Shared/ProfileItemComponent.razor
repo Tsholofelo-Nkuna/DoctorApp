@@ -7,6 +7,11 @@
     <div class="d-flex flex-column w-100 text-truncate border-1 border-bottom">
         <p class="fw-bold p-0 m-0" style="font-size:0.9rem">@ViewModel.Title</p>
         <p class="text-tertiary p-0 m-0" style="font-size:0.77rem">@ViewModel.Description</p>
+        @if(AdditionalContent is not null){
+         <div style="font-size:0.67rem">
+             @AdditionalContent(ViewModel)
+         </div>
+        }
     </div>
 </div>
 <ModalComponent ViewModel="ContextMenuModalViewModel">
