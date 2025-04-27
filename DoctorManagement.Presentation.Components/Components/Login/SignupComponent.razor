@@ -31,7 +31,9 @@
     <EditForm EditContext="AddressEditContext">
         <DataAnnotationsValidator></DataAnnotationsValidator>
         <h4 class="text-primary">Address</h4>
-
+        <ButtonComponent OnButtonClick=" async () => { await CurrentLocationButtonClick.InvokeAsync(); }">
+            <Content>Use current location <i class="bi bi-geo-alt"></i></Content>
+        </ButtonComponent>
         <label>House/Building No.</label>
         <InputText @bind-Value="ViewModel.Data.Address.HouseNumber" class="form-control" />
         <ValidationMessage For="() => ViewModel.Data.Address.HouseNumber"></ValidationMessage>

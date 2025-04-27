@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DoctorManagement.Api.Consumer\DoctorManagement.Api.Consumer.csproj" />
-    <ProjectReference Include="..\DoctorManagement.Shared\DoctorManagement.Shared.csproj" />
   </ItemGroup>
 
 

@@ -17,17 +17,22 @@ namespace DoctorManagement.MAUI.Components.Pages
         public async Task OnUseCurrentLocationClicked()
         {
             var currentLocation = await this.AppLocationService.GetAppCurrentLocation();
-            var marker = await this.AppLocationService.GetReverseGeocodeData(currentLocation?.Latitude ?? 0, currentLocation?.Longitude ?? 0);
-            if(marker is Placemark validPlacemark)
+            if(currentLocation is Location validLocation)
             {
-                DocSignupComponent.ViewModel.Data.PracticeSite.City = marker.SubAdminArea;
-                DocSignupComponent.ViewModel.Data.PracticeSite.State = marker.AdminArea;
-                DocSignupComponent.ViewModel.Data.PracticeSite.Zip = marker.PostalCode;
-                DocSignupComponent.ViewModel.Data.PracticeSite.HouseNumber = marker.SubLocality;
-                DocSignupComponent.ViewModel.Data.PracticeSite.StreetName = marker.Thoroughfare;
-                DocSignupComponent.ViewModel.Data.PracticeSite.Latitude = currentLocation?.Latitude ?? 0;
-                DocSignupComponent.ViewModel.Data.PracticeSite.Longitude = currentLocation?.Longitude ?? 0;
+                DocSignupComponent.ViewModel.Data.PracticeSite.Latitude = validLocation.Latitude;
+                DocSignupComponent.ViewModel.Data.PracticeSite.Longitude = validLocation.Longitude;
+                var marker = await this.AppLocationService.GetReverseGeocodeData(validLocation.Latitude, validLocation.Longitude);
+                if (marker is Placemark validPlacemark)
+                {
+                    DocSignupComponent.ViewModel.Data.PracticeSite.City = marker.SubAdminArea;
+                    DocSignupComponent.ViewModel.Data.PracticeSite.State = marker.AdminArea;
+                    DocSignupComponent.ViewModel.Data.PracticeSite.Zip = marker.PostalCode;
+                    DocSignupComponent.ViewModel.Data.PracticeSite.HouseNumber = marker.SubLocality;
+                    DocSignupComponent.ViewModel.Data.PracticeSite.StreetName = marker.Thoroughfare;
+
+                }
             }
+           
         }
     }
 }

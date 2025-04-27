@@ -23,6 +23,8 @@ namespace DoctorManagement.Presentation.Components.Login
         public EditContext AddressEditContext { get; set; }
         public ModalViewModel<SignupDto> ModalViewModel { get; set; } = new();
         public ResponseDto<bool> ServerMessage { get; set; } = new();
+        [Parameter]
+        public EventCallback CurrentLocationButtonClick { get; set; }
         public SignupComponent(): base(){
             this.ContactEditContext = new(ViewModel.Data.Contact);
             this.AddressEditContext = new(ViewModel.Data.Address);
