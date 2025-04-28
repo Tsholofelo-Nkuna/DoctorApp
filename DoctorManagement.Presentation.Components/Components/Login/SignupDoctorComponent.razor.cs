@@ -26,6 +26,9 @@ namespace DoctorManagement.Presentation.Components.Login
         public ModalViewModel<SignupDoctorDto> ModalViewModel { get; set; } = new();
         [Parameter]
         public EventCallback UseCurrentLocationClick { get; set; }
+        [Parameter]
+        public bool UseCurrentLocationButtonLoading { get; set; }
+        private bool _submitButtonLoading = false;
         public bool FormEditContextIsValid
         {
             get
@@ -76,6 +79,7 @@ namespace DoctorManagement.Presentation.Components.Login
         
         public async Task OnSubmitCliked()
         {
+            _submitButtonLoading = true;
             if (this.FormEditContextIsValid)
             {
                 var serviceResponse = await this.IdentityApiConsumer.DoctorSignup(ViewModel.Data);
@@ -91,7 +95,9 @@ namespace DoctorManagement.Presentation.Components.Login
                 }
 
                 ModalViewModel.Show = true;
+              
             }
+            _submitButtonLoading = false;
         }
         public Task OnTitleFieldChange(ChangeEventArgs args)
         {  

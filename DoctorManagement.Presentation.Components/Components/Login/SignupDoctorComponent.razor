@@ -50,9 +50,9 @@
     <EditForm EditContext="AddressEditContext">
         <DataAnnotationsValidator></DataAnnotationsValidator>
        
-        <h6 class="text-primary pt-1">
-            Practice site/residential address <ButtonComponent OnButtonClick="async ()=>{ await UseCurrentLocationClick.InvokeAsync(); }" Type="primary"><Content>Use current location <i class="bi bi-geo-alt"></i></Content></ButtonComponent>
-        </h6>
+        <h5 class="text-primary pt-1">
+            Practice site/residential address <ButtonComponent Loading="UseCurrentLocationButtonLoading" OnButtonClick="async ()=>{ await UseCurrentLocationClick.InvokeAsync(); }" Type="primary"><Content>Use current location <i class="bi bi-geo-alt"></i></Content></ButtonComponent>
+        </h5>
         <label for="@nameof(ViewModel.Data.PracticeSite.HouseNumber)">House/Building No.</label>
         <InputText id="@nameof(ViewModel.Data.PracticeSite.HouseNumber)" @bind-Value="ViewModel.Data.PracticeSite!.HouseNumber" class="form-control"></InputText>
         <ValidationMessage For="() => ViewModel.Data.PracticeSite.HouseNumber"></ValidationMessage>
@@ -91,7 +91,10 @@
         </ul>
     }
     <div class="d-flex justify-content-center py-1">
-        <button @onclick="OnSubmitCliked" class="btn btn-primary">Submit</button>
+       
+        <ButtonComponent  OnButtonClick="OnSubmitCliked" Type="primary" Loading="_submitButtonLoading">
+            <Content>Submit</Content>
+        </ButtonComponent>
         <button onclick="history.back();" class="btn btn-link">Back</button>
     </div>
 </div>

@@ -1,6 +1,6 @@
-﻿<a class="btn btn-@Type position-relative"  @attributes = "AdditionalAttributes" @onclick="OnButtonClicked">
-    @*  @if(true){
-        <div class="spinner-border-sm text-@Type position-absolute"></div>
-     } *@
+﻿<a disabled="@Loading" class="btn btn-@Type position-relative"  @attributes = "AdditionalAttributes" @onclick="OnButtonClicked">
+     @if(Loading){
+        <div class="spinner-border spinner-border-sm position-absolute" style="left:45%;top:40%;"></div>
+     }
      @Content
 </a>

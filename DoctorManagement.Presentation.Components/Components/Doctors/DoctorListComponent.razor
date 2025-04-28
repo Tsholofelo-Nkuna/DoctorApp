@@ -20,7 +20,7 @@
                             Description = $"{item.Specialty} at {item.PracticeSite?.City}",
                             EnableContextMenu = true})">
                 <AdditionalContent>
-                    <div>@($"{DistanceCalculator((item.PracticeSite?.Latitude ?? 0, item.PracticeSite?.Longitude ?? 0), (CurrentAppLocation.Latitude, CurrentAppLocation.Longitude)):F1} km away")</div>
+                    <div class="text-primary">@($"{DistanceCalculator((item.PracticeSite?.Latitude ?? 0, item.PracticeSite?.Longitude ?? 0), (CurrentAppLocation.Latitude, CurrentAppLocation.Longitude)):F1} km away")</div>
                 </AdditionalContent>
                 <ContextMenu>
                     <div class="container">

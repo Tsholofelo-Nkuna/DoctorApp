@@ -4,9 +4,9 @@
 @inherits BaseComponent<ProfileItemViewModel, DtoBase>
 <div @onclick="OnItemClick" class="bg-tertiary text-tertiary my-1 position-relative" style="cursor:pointer;display:grid; grid-template-columns: auto 1fr; width:100%;column-gap:1rem;align-items:center">
     <div style="width:2.5rem; height:2.5rem;" class="rounded-circle bg-secondary-subtle"></div>
-    <div class="d-flex flex-column w-100 text-truncate border-1 border-bottom">
+    <div class="d-flex flex-column w-100 border-1 border-bottom">
         <p class="fw-bold p-0 m-0" style="font-size:0.9rem">@ViewModel.Title</p>
-        <p class="text-tertiary p-0 m-0" style="font-size:0.77rem">@ViewModel.Description</p>
+        <p class="text-tertiary p-0 m-0 text-truncate" style="font-size:0.77rem;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">@ViewModel.Description</p>
         @if(AdditionalContent is not null){
          <div style="font-size:0.67rem">
              @AdditionalContent(ViewModel)

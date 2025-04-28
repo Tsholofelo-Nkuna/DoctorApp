@@ -1,0 +1,20 @@
+﻿@use "../scss/bootstrap" with ($primary: hsl(262, 52%, 33%));
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+label {
+    font-weight: 600;
+}
+
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid #26b050;
+}
+
+.invalid {
+    outline: 1px solid red;
+}
+
+.validation-message {
+    color: red;
+}

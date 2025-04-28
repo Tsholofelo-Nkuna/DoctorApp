@@ -25,6 +25,10 @@ namespace DoctorManagement.Presentation.Components.Login
         public ResponseDto<bool> ServerMessage { get; set; } = new();
         [Parameter]
         public EventCallback CurrentLocationButtonClick { get; set; }
+        private bool _submitLoading = false;
+        [Parameter]
+        public bool CurrentLocationButtonLoading { get; set; }
+      
         public SignupComponent(): base(){
             this.ContactEditContext = new(ViewModel.Data.Contact);
             this.AddressEditContext = new(ViewModel.Data.Address);
@@ -59,7 +63,7 @@ namespace DoctorManagement.Presentation.Components.Login
         }
         public async Task OnSubmitClick(ButtonComponent sender)
         {
-
+            _submitLoading = true;
             if (this.EditContextIsValid && this._identityApiConsumer is not null) {
 
                 var result = await this._identityApiConsumer.PatientSignup(new()
@@ -79,8 +83,10 @@ namespace DoctorManagement.Presentation.Components.Login
                 }
 
                 ModalViewModel.Show = true;
+               
             }
-            
+            _submitLoading = false;
+
         }
 
         public Task OnCloseModal()

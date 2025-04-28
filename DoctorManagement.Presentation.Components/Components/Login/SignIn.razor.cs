@@ -8,6 +8,7 @@ namespace DoctorManagement.Presentation.Components.Login
     {
         [Inject]
         public IIdentityApiConsumer IdentityApiConsumer { get; set; }
+        private bool _loginButtonLoading;
         protected override void OnInitialized()
         {
             base.OnInitialized();
@@ -17,7 +18,7 @@ namespace DoctorManagement.Presentation.Components.Login
         public async Task Login()
         {
             
-
+            _loginButtonLoading = true;
             if (this.ViewModel.EditContext.Validate())
             {
                 try
@@ -34,6 +35,7 @@ namespace DoctorManagement.Presentation.Components.Login
                     
                 }
             }
+            _loginButtonLoading = false;
 
         }
     }

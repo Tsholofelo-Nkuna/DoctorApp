@@ -26,7 +26,10 @@
         </Body>
         <Footer>
             <div class="d-flex flex-column">
-                <button class="btn btn-primary me-1 d-block" @onclick="Login">Login</button>
+               
+                <ButtonComponent Type="primary" OnButtonClick="Login" Loading="_loginButtonLoading">
+                    <Content>Login</Content>
+                </ButtonComponent>
                 <div class="d-flex align-items-baseline justify-content-center">
                     <span style="font-size:0.77rem;">Don't have an account?</span>
                     <a href="/signup" class="btn btn-link">Sign up</a>

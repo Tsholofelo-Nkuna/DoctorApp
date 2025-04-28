@@ -14,8 +14,10 @@ namespace DoctorManagement.MAUI.Components.Pages
         [Inject]
         public IAppLocationService AppLocationService { get; set; }
         public SignupComponent SComp { get; set; }
+        private bool _currentLocationButtonLoading {  get; set; }
         public async Task OnCurrentLocationButtonClicked()
         {
+            _currentLocationButtonLoading = true;
             var currentLocation = await AppLocationService.GetAppCurrentLocation();
             if(currentLocation is Location validLocation)
             {
@@ -32,6 +34,7 @@ namespace DoctorManagement.MAUI.Components.Pages
                    
                 }
             }
+            _currentLocationButtonLoading = false;
         }
     }
 }

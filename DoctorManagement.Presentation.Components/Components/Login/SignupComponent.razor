@@ -30,10 +30,12 @@
     <hr />
     <EditForm EditContext="AddressEditContext">
         <DataAnnotationsValidator></DataAnnotationsValidator>
-        <h4 class="text-primary">Address</h4>
-        <ButtonComponent OnButtonClick=" async () => { await CurrentLocationButtonClick.InvokeAsync(); }">
+        <h4 class="text-primary">Address 
+            <ButtonComponent Loading="CurrentLocationButtonLoading" OnButtonClick=" async () => { await CurrentLocationButtonClick.InvokeAsync(); }">
             <Content>Use current location <i class="bi bi-geo-alt"></i></Content>
-        </ButtonComponent>
+           </ButtonComponent>
+        </h4>
+        
         <label>House/Building No.</label>
         <InputText @bind-Value="ViewModel.Data.Address.HouseNumber" class="form-control" />
         <ValidationMessage For="() => ViewModel.Data.Address.HouseNumber"></ValidationMessage>
@@ -63,7 +65,7 @@
          </ul>
      }
     <div class="d-flex justify-content-center py-1">
-        <ButtonComponent Type="primary" OnButtonClick="OnSubmitClick">
+        <ButtonComponent Loading="_submitLoading" Type="primary" OnButtonClick="OnSubmitClick">
             <Content>
                 Submit
             </Content>

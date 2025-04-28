@@ -20,10 +20,13 @@ namespace DoctorManagement.Presentation.Components.Shared
         [Parameter]
         public EventCallback<ButtonComponent> OnButtonClick { get; set; }
 
-        public Task OnButtonClicked()
+        public async Task OnButtonClicked()
         {
-            OnButtonClick.InvokeAsync(this);
-            return Task.CompletedTask;
+            if (!Loading)
+            {
+                await OnButtonClick.InvokeAsync(this);
+            }
+          
         }
     }
 }
