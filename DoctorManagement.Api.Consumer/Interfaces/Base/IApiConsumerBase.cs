@@ -14,6 +14,6 @@ namespace DoctorManagement.Api.Consumer.Interfaces.Base
         public Task<PageResponse<TDto>?> Get(PageRequestDto<TFilter> pageRequest, string controller);
         public Task<ResponseDto<bool>?> Delete(Guid guid, string controller);
         public Task<ResponseDto<bool>?> Add(TDto dto, string controller);
-        public (string accessToken, string refreshToken) GetAccessToken(string username, string password);
+        public event EventHandler<ResponseDto<bool>> Unauthorized;
     }
 }

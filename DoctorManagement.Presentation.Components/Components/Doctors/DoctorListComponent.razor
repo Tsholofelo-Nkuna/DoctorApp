@@ -4,13 +4,13 @@
 @inherits BaseComponent<DoctorListViewModel, List<DoctorDto>>
 
  <div class="d-flex justify-content-center my-1">
-    <ButtonComponent Type="primary" OnButtonClick="(bComp) => { DocSearchModalViewModel.Show = true; }">
+    <ButtonComponent Type="primary" OnButtonClick="(bComp) => { ViewModel.DocSearchModalViewModel.Show = true; }">
         <Content>
             Find health worker <i class="bi bi-search"></i>
         </Content>
     </ButtonComponent>
 </div>
-@foreach (var item in (PageResponse.Data ?? []))
+@foreach (var item in (ViewModel.Data ?? []))
 {
     <div class="row justify-content-center">
         <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6">
@@ -32,7 +32,8 @@
                                 @($"{item.Title?.Description} {item.Initials} {item.LastName}({item.PracticeNumber})")
                             </div>
                         </div>
-                        <div class="d-flex justify-content-center">
+                        <div class="d-flex flex-column align-items-center">
+                           
                             <ButtonComponent Type="primary">
                                 <Content>
                                     Schedule appointment <i class="bi bi-calendar"></i>
@@ -45,14 +46,14 @@
         </div>
     </div>
 }
-@if(!(this.PageResponse.Data?.Any() ?? false)){
+@if(!(this.ViewModel.Data?.Any() ?? false)){
 
    <div class="text-center fs-5">No doctors found</div>
 
 }
 
 
-<ModalComponent ViewModel="DocSearchModalViewModel" Context="docSearchModalContext">
+<ModalComponent ViewModel="ViewModel.DocSearchModalViewModel" Context="docSearchModalContext">
    <Header>
        <p class="fw-bold text-primary">Find health worker <i class="bi bi-search"></i></p>
    </Header>

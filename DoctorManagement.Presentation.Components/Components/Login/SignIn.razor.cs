@@ -1,5 +1,8 @@
 ﻿
 using DoctorManagement.Api.Consumer.Interfaces;
+
+using DoctorManagement.Shared.Constants;
+using DoctorManagement.Shared.DataTransferObjects;
 using Microsoft.AspNetCore.Components;
 
 namespace DoctorManagement.Presentation.Components.Login
@@ -8,7 +11,12 @@ namespace DoctorManagement.Presentation.Components.Login
     {
         [Inject]
         public IIdentityApiConsumer IdentityApiConsumer { get; set; }
+       
         private bool _loginButtonLoading;
+
+        [Parameter]
+        public EventCallback<TokenResponseDto> OnTokenReceived { get; set; }
+     
         protected override void OnInitialized()
         {
             base.OnInitialized();
@@ -24,9 +32,9 @@ namespace DoctorManagement.Presentation.Components.Login
                 try
                 {
                     var response = await this.IdentityApiConsumer.Login(this.ViewModel.Data.Username, this.ViewModel.Data.Password);
-                    if (response is { Data: true })
+                    if (response is { Data: TokenResponseDto })
                     {
-                        this.NavManager.NavigateTo("/Doctors");
+                        await OnTokenReceived.InvokeAsync(response.Data);
                     }
                 }
                 catch (Exception ex)

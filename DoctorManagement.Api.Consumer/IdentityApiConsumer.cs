@@ -3,6 +3,7 @@ using DoctorManagement.Api.Consumer.Interfaces;
 using DoctorManagement.Shared.DataTransferObjects;
 using DoctorManagement.Shared.DataTransferObjects.Base;
 using DoctorManagement.Shared.Models.Base;
+
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,11 @@ namespace DoctorManagement.Api.Consumer
 {
     public class IdentityApiConsumer : ApiConsumerBase<SignupDto, BaseFilter>, IIdentityApiConsumer
     {
-        public IdentityApiConsumer(IOptions<ApiOptions> options, IHttpClientFactory httpClientFactory) : base(options, httpClientFactory)
+
+        
+        public IdentityApiConsumer(
+            IOptions<ApiOptions> options, 
+            IHttpClientFactory httpClientFactory) : base(options, httpClientFactory)
         {
 
         }
@@ -33,22 +38,22 @@ namespace DoctorManagement.Api.Consumer
             }
         }
 
-        public async Task<ResponseDto<bool>?> Login(string userName, string password)
+        public async Task<ResponseDto<TokenResponseDto>?> Login(string userName, string password)
         {
             try
             {
                 var response = await this.HttpClient.PostAsJsonAsync<Dictionary<string, string>>(
-               "/login?useCookies=true",
+               "/login",
                  new()
                  {
                       { "email", userName },
                       { "password", password }
                  });
-                if (response is { IsSuccessStatusCode: true })
+                if (response is { IsSuccessStatusCode: true } && ( await response.Content.ReadFromJsonAsync<TokenResponseDto>()) is TokenResponseDto token)
                 {
                     return new()
                     {
-                        Data = true,
+                        Data = token,
                         Message = "Login successful"
                     };
                 }

@@ -13,7 +13,9 @@ namespace DoctorManagement.Api.Consumer
 {
     public class DataSourceApiConsumer : ApiConsumerBase<DataSourceDto, DataSourceFilter>, IDataSourceApiConsumer
     {
-        public DataSourceApiConsumer(IOptions<ApiOptions> options, IHttpClientFactory httpClientFactory) : base(options, httpClientFactory)
+        public DataSourceApiConsumer(
+            IOptions<ApiOptions> options,
+            IHttpClientFactory httpClientFactory) : base(options, httpClientFactory)
         {
         }
     }

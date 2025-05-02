@@ -69,8 +69,4 @@
       <ProjectReference Include="..\DoctorManagement.Presentation.Components\DoctorManagement.Presentation.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Platforms\Android\Resources\xml\" />
-    </ItemGroup>
-
 </Project>

@@ -26,10 +26,15 @@ namespace DoctorManagement.API
                 });
             });
             builder.Services
-                .AddAuthentication()
-                .AddCookie(config=>
+                .AddAuthentication(config =>
                 {
-                    config.LoginPath = "/";
+                    config.DefaultScheme = IdentityConstants.BearerScheme;
+                    config.DefaultAuthenticateScheme = IdentityConstants.BearerScheme;
+                    
+                })
+                .AddBearerToken(IdentityConstants.BearerScheme, config =>
+                {
+                    config.BearerTokenExpiration = TimeSpan.FromMinutes(3);
                 });
             builder.Services.AddHttpClient(WebApiNameConstants.AppApi, config =>
             {
@@ -40,7 +45,7 @@ namespace DoctorManagement.API
             builder.Services.AddDbContext<WebDbContext>(config =>
             {
                 config.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
-            }).AddIdentity<IdentityUser, IdentityRole>(config =>
+            }).AddIdentityCore<IdentityUser>(config =>
             {
                 config.Password.RequireLowercase = false;
                 config.Password.RequiredLength = 4;
@@ -48,6 +53,7 @@ namespace DoctorManagement.API
                 config.Password.RequireUppercase = false;
                 config.Password.RequireDigit = false;
             })
+            .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<WebDbContext>()
             .AddDefaultTokenProviders()
             .AddApiEndpoints();
@@ -72,6 +78,7 @@ namespace DoctorManagement.API
 
             app.UseHttpsRedirection();
             app.UseCors();
+          
             app.UseAuthorization();
 
 

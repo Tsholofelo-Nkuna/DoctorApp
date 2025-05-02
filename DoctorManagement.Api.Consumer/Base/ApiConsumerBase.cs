@@ -1,10 +1,13 @@
 ﻿using DoctorManagement.Api.Consumer.Interfaces.Base;
+using DoctorManagement.Shared.Constants;
 using DoctorManagement.Shared.DataTransferObjects;
 using DoctorManagement.Shared.Models.Base;
+
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,9 +17,20 @@ namespace DoctorManagement.Api.Consumer.Base
     public class ApiConsumerBase<TDto, TFilter> : IApiConsumerBase<TDto, TFilter> where TDto : new() where TFilter: BaseFilter, new()
     {
        
-        public string AccessToken { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string AccessToken
+        {
+            get => _token;
+            set
+            {
+                _token = value;
+                HttpClient.DefaultRequestHeaders.Authorization = new("Bearer", _token);
+            }
+        }
         protected HttpClient HttpClient { get; set; }
+        private string _token;
        
+        public event EventHandler<ResponseDto<bool>> Unauthorized;
+      
 
         public ApiConsumerBase(IOptions<ApiOptions> options, IHttpClientFactory httpClientFactory)
         {
@@ -37,48 +51,111 @@ namespace DoctorManagement.Api.Consumer.Base
             this.HttpClient.BaseAddress = new Uri(options.Value.BaseAddress);
             
         }
+
         public virtual async Task<ResponseDto<bool>?> Add(TDto dto, string controller)
         {
-            var apiResponse = await this.HttpClient.PostAsJsonAsync(controller, dto);
-            if(apiResponse is { IsSuccessStatusCode : true } && (await apiResponse.Content.ReadFromJsonAsync<ResponseDto<bool>>()) is ResponseDto<bool> responseContent)
+            try
             {
-                return responseContent;
+                var apiResponse = await this.HttpClient.PostAsJsonAsync(controller, dto);
+                if (apiResponse is { IsSuccessStatusCode: true } && (await apiResponse.Content.ReadFromJsonAsync<ResponseDto<bool>>()) is ResponseDto<bool> responseContent)
+                {
+                    responseContent.StatusCode = HttpStatusCode.OK;
+                    return responseContent;
+                }
+                else if (apiResponse is { StatusCode: HttpStatusCode.Unauthorized })
+                {
+                    ResponseDto<bool> results = new()
+                    {
+                        Data = false,
+                        Message = "Not authorized",
+                        StatusCode = HttpStatusCode.Unauthorized,
+                    };
+                    Unauthorized?.Invoke(this, results);
+                    return results;
+                }
+                else
+                {
+                    return null;
+                }
             }
-            else
+            catch (Exception ex)
             {
+
                 return null;
             }
         }
 
         public virtual async Task<ResponseDto<bool>?> Delete(Guid guid, string controller)
         {
-            var apiResponse = await this.HttpClient.DeleteAsync($"api/{controller}/{guid}");
-            if(apiResponse is { IsSuccessStatusCode :true } && await (apiResponse.Content.ReadFromJsonAsync<ResponseDto<bool>>()) is ResponseDto<bool> responseContent)
+            try
             {
-                return responseContent;
+                var apiResponse = await this.HttpClient.DeleteAsync($"api/{controller}/{guid}");
+                if (apiResponse is { IsSuccessStatusCode: true } && await (apiResponse.Content.ReadFromJsonAsync<ResponseDto<bool>>()) is ResponseDto<bool> responseContent)
+                {
+                    responseContent.StatusCode = HttpStatusCode.OK;
+                    return responseContent;
+                }
+                else if (apiResponse is { StatusCode: HttpStatusCode.Unauthorized })
+                {
+                    string message = "Not authorized";
+                    var results = new ResponseDto<bool>()
+                    {
+                        Data = false,
+                        Message = message,
+                        StatusCode = HttpStatusCode.Unauthorized,
+                    };
+                    Unauthorized?.Invoke(this, results);
+                    return results;
+                }
+                else
+                {
+                    return null;
+                }
             }
-            else
+            catch (Exception ex)
             {
+
                 return null;
             }
         }
 
         public virtual async Task<PageResponse<TDto>?> Get(PageRequestDto<TFilter> pageRequest, string controller)
         {
-            var apiResponse = await this.HttpClient.PostAsJsonAsync($"api/{controller}/Get", pageRequest);
-            if(apiResponse is { IsSuccessStatusCode :true } && (await apiResponse.Content.ReadFromJsonAsync<PageResponse<TDto>>()) is PageResponse<TDto> response)
+            try
             {
-                return response;
+                var apiResponse = await this.HttpClient.PostAsJsonAsync($"api/{controller}/Get", pageRequest);
+                if (apiResponse is { IsSuccessStatusCode: true } && (await apiResponse.Content.ReadFromJsonAsync<PageResponse<TDto>>()) is PageResponse<TDto> response)
+                {
+                    response.StatusCode = HttpStatusCode.OK;
+                    return response;
+                }
+                else if (apiResponse is { StatusCode: HttpStatusCode.Unauthorized })
+                {
+                    string message = "Not authorized";
+                    Unauthorized.Invoke(this, new()
+                    {
+                        Data = false,
+                        StatusCode = HttpStatusCode.Unauthorized,
+                        Message = message
+
+                    });
+                    return new()
+                    {
+                        Data = [],
+                        Message = message,
+                        StatusCode = HttpStatusCode.Unauthorized,
+                    };
+                }
+                else
+                {
+                    return null;
+                }
             }
-            else
+            catch (Exception ex)
             {
+
                 return null;
             }
-        }
-
-        public virtual (string accessToken, string refreshToken) GetAccessToken(string username, string password)
-        {
-            return ("","");
         }
     }
 }

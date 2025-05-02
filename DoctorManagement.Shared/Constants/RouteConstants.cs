@@ -8,8 +8,9 @@ namespace DoctorManagement.Shared.Constants
 {
     public class RouteConstants
     {
-        public const string Login = "/";
+        public const string Login = "/Login";
         public const string Signup = "/Signup";
         public const string DoctorSignup = "/Signup/Doctor";
+        public const string Doctors = "/";
     }
 }

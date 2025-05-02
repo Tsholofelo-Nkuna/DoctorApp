@@ -8,7 +8,9 @@ namespace DoctorManagement.Api.Consumer
 {
     public class PatientApiConsumer : ApiConsumerBase<PatientDto, BaseFilter>, IPatientApiConsumer
     {
-        public PatientApiConsumer(IOptions<ApiOptions> options, IHttpClientFactory httpClientFactory) : base(options, httpClientFactory)
+        public PatientApiConsumer(
+            IOptions<ApiOptions> options,
+            IHttpClientFactory httpClientFactory) : base(options, httpClientFactory)
         {
         }
     }

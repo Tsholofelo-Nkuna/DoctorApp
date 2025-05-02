@@ -1,6 +1,8 @@
 ﻿using DoctorManagement.Api.Consumer;
 using DoctorManagement.MAUI.Services;
 using DoctorManagement.MAUI.Services.Interfaces;
+using DoctorManagement.Presentation;
+using DoctorManagement.Shared.Constants;
 using Microsoft.Extensions.Logging;
 
 namespace DoctorManagement.MAUI
@@ -15,6 +17,7 @@ namespace DoctorManagement.MAUI
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+
                 });
 
             builder.Services.AddMauiBlazorWebView();
@@ -24,7 +27,14 @@ namespace DoctorManagement.MAUI
                 config.DesiredAccuracy = GeolocationAccuracy.Medium;
             });
             builder.Services.AddSingleton<IAppLocationService, AppLocationService>();
-            builder.Services.AddApiConsumers("https://epichealth.growthlytix.co.za");
+
+
+            var apiBaseAddress = "https://epichealth.growthlytix.co.za";
+#if DEBUG
+                apiBaseAddress = "http://localhost:5158";
+#endif
+            builder.Services.AddPresentationServices(ServiceScope.Singleton);
+            builder.Services.AddApiConsumers(apiBaseAddress, ServiceScope.Singleton);
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
     		builder.Logging.AddDebug();
