@@ -1,0 +1,41 @@
+﻿@using DoctorManagement.Presentation.Components.Base
+@using DoctorManagement.Presentation.ViewModels
+@using DoctorManagement.Shared.DataTransferObjects
+@inherits BaseComponent<AppointmentComponentViewModel, AppointmentDto>
+<div class="py-2">
+    <p class="fw-bold text-primary">New appointment</p>
+    <EditForm EditContext="ViewModel.EditContext">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+
+        <div> <label>To:</label> <span class="text-secondary">@ViewModel.Data?.Doctor?.DisplayName</span></div>
+        
+
+        <label for="@nameof(ViewModel.Data.AppointmentTypeId)" class="mt-2">Appointment Type</label>
+        <InputSelect 
+            id="@nameof(ViewModel.Data.AppointmentTypeId)" 
+            @bind-Value="ViewModel.Data.AppointmentTypeId"
+            class="form-select">
+            <option selected value="-1">Please select</option>
+            @foreach(var item in ViewModel.AppointmentTypeList){
+                <option value="@item.Value">@item.Description</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="() => ViewModel.Data.AppointmentTypeId"></ValidationMessage>
+
+        <label for="@nameof(ViewModel.Data.ScheduledDate)" class="mt-2">Date</label>
+        <InputDate
+            id="@nameof(ViewModel.Data.ScheduledDate)"
+            @bind-Value = "ViewModel.Data.ScheduledDate"
+            class="form-control"
+        >
+        </InputDate>
+        <ValidationMessage For="() => ViewModel.Data.ScheduledDate"></ValidationMessage>
+        <div class="d-flex my-1">
+            <ButtonComponent Type="primary" OnButtonClick="OnAppointmentFormSubmit">
+                <Content>
+                    Submit <i class="bi bi-send"></i>
+                </Content>
+            </ButtonComponent>
+        </div>
+    </EditForm>
+</div>

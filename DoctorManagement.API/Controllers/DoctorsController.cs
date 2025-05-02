@@ -1,6 +1,7 @@
 ﻿using DoctorManagement.API.Controllers.Base;
 using DoctorManagement.BusinessLogicLayer.Interfaces;
 using DoctorManagement.DataAccessLayer.Entities;
+using DoctorManagement.Shared.Constants;
 using DoctorManagement.Shared.DataTransferObjects;
 using DoctorManagement.Shared.Models;
 using DoctorManagement.Shared.Models.Base;

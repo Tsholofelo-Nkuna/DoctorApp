@@ -35,6 +35,6 @@ namespace DoctorManagement.Shared.DataTransferObjects
                 return (this.FirstName?.Any() ?? false) ? $"{this.FirstName?[0]}" : string.Empty;
             }
         }
-
+        public string DisplayName => $"{Title?.Description} {this.Initials} {this.LastName}";
     }
 }

@@ -18,5 +18,15 @@ namespace DoctorManagement.BusinessLogicLayer.Services
         public DataSourceService(WebDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
         }
+
+        protected override IQueryable<DataSourceEntity> GetQueryable(DataSourceFilter filters)
+        {
+            var query = base.GetQueryable(filters);
+            if (!string.IsNullOrEmpty(filters.TypeCode))
+            {
+                query = query.Where(ds => ds.TypeCode == filters.TypeCode);
+            }
+            return query;
+        }
     }
 }

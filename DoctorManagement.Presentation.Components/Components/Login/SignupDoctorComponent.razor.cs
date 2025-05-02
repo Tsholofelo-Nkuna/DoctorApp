@@ -1,5 +1,6 @@
 ﻿using DoctorManagement.Api.Consumer.Interfaces;
 using DoctorManagement.Presentation.ViewModels;
+using DoctorManagement.Shared.Constants;
 using DoctorManagement.Shared.DataTransferObjects;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -68,7 +69,7 @@ namespace DoctorManagement.Presentation.Components.Login
 
         public async Task GetData()
         {
-            var response = await this.DataSourceApiConsumer.Get(new() { GetAllPages = true }, "DataSource");
+            var response = await this.DataSourceApiConsumer.Get(new() { GetAllPages = true, Filter = new() { TypeCode = DataSourceTypeCodeConstants.ProfessionalTitle } }, "DataSource");
             if (response is {Data: IEnumerable<DataSourceDto> } responseContent)
             {
                 this.TitleOptions = responseContent.Data;

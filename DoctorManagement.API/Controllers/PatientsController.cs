@@ -3,6 +3,7 @@ using DoctorManagement.BusinessLogicLayer.Interfaces;
 using DoctorManagement.DataAccessLayer.Entities;
 using DoctorManagement.Shared.DataTransferObjects;
 using DoctorManagement.Shared.Models.Base;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -10,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DoctorManagement.API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController, Authorize]
     public class PatientsController : ApiBaseController<PatientDto, PatientEntity, BaseFilter>
     {
        

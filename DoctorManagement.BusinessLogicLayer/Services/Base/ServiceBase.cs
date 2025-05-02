@@ -29,7 +29,7 @@ namespace DoctorManagement.BusinessLogicLayer.Services.Base
             this.mapper = mapper;
         }
 
-        public virtual bool AddOrUpdate(List<TDto> records, string? currentUserId)
+        public bool AddOrUpdate(List<TDto> records, string? currentUserId)
         {
            var newRecords = records.Where(x => x.Id == Guid.Empty).ToList();
            var updatedRecords = records.Where(x => x.Id != Guid.Empty).ToList();
@@ -38,7 +38,7 @@ namespace DoctorManagement.BusinessLogicLayer.Services.Base
            return inserted && updated;
         }
 
-        private bool Add(List<TDto> inserted, string? currentUserId)
+        protected virtual bool Add(List<TDto> inserted, string? currentUserId)
         {
             var insertedEntities = this.mapper.Map<List<TEntity>>(inserted);
             var currentDateTime = DateTime.Now;
@@ -51,7 +51,7 @@ namespace DoctorManagement.BusinessLogicLayer.Services.Base
             return dbContext.SaveChanges() > 0;
         }
 
-        private bool Update(List<TDto> updated, string? currentUserId)
+        protected virtual bool Update(List<TDto> updated, string? currentUserId)
         {
             var updates = this.mapper.Map<List<TEntity>> (updated);
             var currentDateTime = DateTime.Now;

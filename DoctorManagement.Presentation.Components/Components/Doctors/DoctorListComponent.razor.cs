@@ -46,5 +46,11 @@ namespace DoctorManagement.Presentation.Components.Doctors
                    GetAllPages = true
                });
         }
+
+        public Task OnScheduleButtonClicked(DoctorDto doctor)
+        {
+            this.NavManager.NavigateTo($"{RouteConstants.ScheduleAppointment}/{doctor.Id}");
+            return Task.CompletedTask;
+        }
     }
 }

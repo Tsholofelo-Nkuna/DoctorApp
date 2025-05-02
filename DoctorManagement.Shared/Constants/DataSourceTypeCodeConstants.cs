@@ -9,5 +9,6 @@ namespace DoctorManagement.Shared.Constants
     public class DataSourceTypeCodeConstants
     {
         public const string ProfessionalTitle = "ProfessionalTitle";
+        public const string AppointmentType = "AppointmentType";
     }
 }
