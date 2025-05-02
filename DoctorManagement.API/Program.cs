@@ -34,7 +34,7 @@ namespace DoctorManagement.API
                 })
                 .AddBearerToken(IdentityConstants.BearerScheme, config =>
                 {
-                    config.BearerTokenExpiration = TimeSpan.FromMinutes(3);
+                    config.BearerTokenExpiration = TimeSpan.FromMinutes(60);
                 });
             builder.Services.AddHttpClient(WebApiNameConstants.AppApi, config =>
             {
