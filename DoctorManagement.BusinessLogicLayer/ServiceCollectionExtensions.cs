@@ -13,6 +13,7 @@ namespace DoctorManagement.BusinessLogicLayer
             services.AddScoped<IUserContextService, UserContextService>();
             services.AddScoped<IDocterService, DoctorService>();
             services.AddScoped<IDataSourceService, DataSourceService>();
+            services.AddScoped<IAppointmentService, AppointmentService>();
             return services;
         }
     }

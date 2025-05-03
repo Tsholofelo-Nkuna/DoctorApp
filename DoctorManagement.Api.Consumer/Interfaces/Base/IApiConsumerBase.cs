@@ -11,9 +11,9 @@ namespace DoctorManagement.Api.Consumer.Interfaces.Base
     public interface IApiConsumerBase<TDto, TFilter> where TDto : new() where TFilter : BaseFilter, new()
     {
         public string AccessToken { get; set; }
-        public Task<PageResponse<TDto>?> Get(PageRequestDto<TFilter> pageRequest, string controller);
-        public Task<ResponseDto<bool>?> Delete(Guid guid, string controller);
-        public Task<ResponseDto<bool>?> Add(TDto dto, string controller);
+        public Task<PageResponse<TDto>?> Get(PageRequestDto<TFilter> pageRequest);
+        public Task<ResponseDto<bool>?> Delete(Guid guid);
+        public Task<ResponseDto<bool>?> Add(TDto dto);
         public event EventHandler<ResponseDto<bool>> Unauthorized;
     }
 }

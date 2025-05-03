@@ -1,5 +1,15 @@
 ﻿@inherits LayoutComponentBase
-
+@if (!IsLoginPage)
+{
+    <nav class="nav nav-tabs m-1 position-sticky sticky-top bg-light" style="font-size:0.67rem;">
+        @foreach (var item in NavItems)
+        {
+                <a style="cursor:pointer;" @onclick="() => { OnTabLinkClicked(item); }" class="nav-link @(item.Index == ActiveIndex ? "active":"")">
+                  <i class="@item.Icon me-1"></i>  @item.Text
+                </a>
+        }
+    </nav>
+}
 <div class="container">
     @if (!AppIsConnectedToInternet)
     {

@@ -14,7 +14,8 @@ namespace DoctorManagement.API.Controllers
     public class DataSourceController : ApiBaseController<DataSourceDto, DataSourceEntity, DataSourceFilter>
     {
         private readonly IDataSourceService _dataSourceService;
-        public DataSourceController(IUserContextService userContextService, IHttpClientFactory httpClientFactory, IDataSourceService dataSourceService) : base(userContextService, httpClientFactory, dataSourceService)
+        public DataSourceController(IUserContextService userContextService,
+            IHttpClientFactory httpClientFactory, IDataSourceService dataSourceService) : base(userContextService, httpClientFactory, dataSourceService)
         {
             _dataSourceService = dataSourceService;
             

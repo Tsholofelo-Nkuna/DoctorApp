@@ -17,6 +17,7 @@ namespace DoctorManagement.Api.Consumer
             IOptions<ApiOptions> options,
             IHttpClientFactory httpClientFactory) : base(options, httpClientFactory)
         {
+            this.ControllerName = "DataSource";
         }
     }
 }

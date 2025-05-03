@@ -29,7 +29,7 @@ namespace DoctorManagement.BusinessLogicLayer.Services.Base
             this.mapper = mapper;
         }
 
-        public bool AddOrUpdate(List<TDto> records, string? currentUserId)
+        public virtual bool AddOrUpdate(List<TDto> records, string? currentUserId)
         {
            var newRecords = records.Where(x => x.Id == Guid.Empty).ToList();
            var updatedRecords = records.Where(x => x.Id != Guid.Empty).ToList();
@@ -38,30 +38,45 @@ namespace DoctorManagement.BusinessLogicLayer.Services.Base
            return inserted && updated;
         }
 
-        protected virtual bool Add(List<TDto> inserted, string? currentUserId)
+        private  bool Add(List<TDto> inserted, string? currentUserId)
         {
-            var insertedEntities = this.mapper.Map<List<TEntity>>(inserted);
-            var currentDateTime = DateTime.Now;
-            inserted.ForEach(x =>
+            try
             {
-                x.CreatedByUserId = currentUserId;
-                x.CreatedOn = currentDateTime;
-            });
-            _entitySet.UpdateRange(insertedEntities);
-            return dbContext.SaveChanges() > 0;
+                var insertedEntities = this.mapper.Map<List<TEntity>>(inserted);
+                var currentDateTime = DateTime.Now;
+                inserted.ForEach(x =>
+                {
+                    x.CreatedByUserId = currentUserId;
+                    x.CreatedOn = currentDateTime;
+                });
+                _entitySet.UpdateRange(insertedEntities);
+                return dbContext.SaveChanges() > 0;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
-        protected virtual bool Update(List<TDto> updated, string? currentUserId)
+        private  bool Update(List<TDto> updated, string? currentUserId)
         {
-            var updates = this.mapper.Map<List<TEntity>> (updated);
-            var currentDateTime = DateTime.Now;
-            updates.ForEach(x =>
+            try
             {
-                x.LastModifiedOn = currentDateTime;
-                x.LastModifiedByUserId = currentUserId;
-            });
-            _entitySet.UpdateRange(updates);
-            return dbContext.SaveChanges() > 0;
+                var updates = this.mapper.Map<List<TEntity>>(updated);
+                var currentDateTime = DateTime.Now;
+                updates.ForEach(x =>
+                {
+                    x.LastModifiedOn = currentDateTime;
+                    x.LastModifiedByUserId = currentUserId;
+                });
+                _entitySet.UpdateRange(updates);
+                return dbContext.SaveChanges() > 0;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
         public virtual bool Delete(IEnumerable<Guid> identifiers, string? currentUserId)
         {

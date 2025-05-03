@@ -4,6 +4,7 @@ using DoctorManagement.Shared.DataTransferObjects;
 using DoctorManagement.Shared.Constants;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication;
 
 namespace DoctorManagement.API.Controllers
 {
@@ -13,12 +14,20 @@ namespace DoctorManagement.API.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+      
         private readonly HttpClient AppApi;
-        public AccountsController(IUserContextService userContextService, IHttpClientFactory httpClientFactory, RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
+       
+        public AccountsController(IUserContextService userContextService, 
+            IHttpClientFactory httpClientFactory,
+            RoleManager<IdentityRole> roleManager,
+            UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;
+           
             this.AppApi = httpClientFactory.CreateClient(WebApiNameConstants.AppApi);
+          
         }
 
         [HttpPost("Signup/Patient")]
@@ -147,6 +156,34 @@ namespace DoctorManagement.API.Controllers
                     Data = false,
                     Message = userCreationResult?.Errors?.FirstOrDefault()?.Description ?? string.Empty,
 
+                };
+            }
+        }
+
+        [HttpPost("[action]")]
+        public async Task<ResponseDto<TokenResponseDto>> SignIn(LoginCredentialsDto credentials)
+        {
+            var response = await this.AppApi.PostAsJsonAsync<Dictionary<string, string>>(
+               "/login",
+                 new()
+                 {
+                      { "email", credentials.Username },
+                      { "password", credentials.Password }
+                 });
+            var tkn = (await response.Content.ReadFromJsonAsync<TokenResponseDto>());
+            if (response is { IsSuccessStatusCode: true } && tkn is TokenResponseDto token)
+            { 
+                return new()
+                {
+                    Data = token,
+                    Message = "Login successful"
+                };
+            }
+            else
+            {
+                return new()
+                {
+                    Message = "Login failed"
                 };
             }
         }

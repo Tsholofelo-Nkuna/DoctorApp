@@ -69,7 +69,7 @@ namespace DoctorManagement.Presentation.Components.Login
 
         public async Task GetData()
         {
-            var response = await this.DataSourceApiConsumer.Get(new() { GetAllPages = true, Filter = new() { TypeCode = DataSourceTypeCodeConstants.ProfessionalTitle } }, "DataSource");
+            var response = await this.DataSourceApiConsumer.Get(new() { GetAllPages = true, Filter = new() { TypeCode = DataSourceTypeCodeConstants.ProfessionalTitle } });
             if (response is {Data: IEnumerable<DataSourceDto> } responseContent)
             {
                 this.TitleOptions = responseContent.Data;

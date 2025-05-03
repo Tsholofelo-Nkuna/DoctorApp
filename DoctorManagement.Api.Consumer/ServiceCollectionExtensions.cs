@@ -25,7 +25,8 @@ namespace DoctorManagement.Api.Consumer
                     .AddScoped<IPatientApiConsumer, PatientApiConsumer>()
                     .AddScoped<IIdentityApiConsumer, IdentityApiConsumer>()
                     .AddScoped<IDoctorApiConsumer, DoctorApiConsumer>()
-                    .AddScoped<IDataSourceApiConsumer, DataSourceApiConsumer>();
+                    .AddScoped<IDataSourceApiConsumer, DataSourceApiConsumer>()
+                    .AddScoped<IAppointmentApiConsumer, AppointmentApiConsumer>();
             }
             else if(scope == ServiceScope.Singleton)
             {
@@ -34,7 +35,8 @@ namespace DoctorManagement.Api.Consumer
                    .AddSingleton<IPatientApiConsumer, PatientApiConsumer>()
                    .AddSingleton<IIdentityApiConsumer, IdentityApiConsumer>()
                    .AddSingleton<IDoctorApiConsumer, DoctorApiConsumer>()
-                   .AddSingleton<IDataSourceApiConsumer, DataSourceApiConsumer>();
+                   .AddSingleton<IDataSourceApiConsumer, DataSourceApiConsumer>()
+                   .AddSingleton<IAppointmentApiConsumer, AppointmentApiConsumer>();
             }
             else
             {
@@ -42,7 +44,8 @@ namespace DoctorManagement.Api.Consumer
                 .AddTransient<IPatientApiConsumer, PatientApiConsumer>()
                 .AddTransient<IIdentityApiConsumer, IdentityApiConsumer>()
                 .AddTransient<IDoctorApiConsumer, DoctorApiConsumer>()
-                .AddTransient<IDataSourceApiConsumer, DataSourceApiConsumer>();
+                .AddTransient<IDataSourceApiConsumer, DataSourceApiConsumer>()
+                .AddTransient<IAppointmentApiConsumer, AppointmentApiConsumer>();
             }
                 
                 

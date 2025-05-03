@@ -43,11 +43,7 @@ namespace DoctorManagement.MAUI.Components.Pages
                 ViewModel.Data = _doctorListPageResponse?.Data?.ToList() ?? [];
             }
         }
-        private string _doctorsController = "Doctors";
-        //public Doctors(): base()
-        //{
-           
-        //}
+      
         protected async override Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
@@ -89,7 +85,7 @@ namespace DoctorManagement.MAUI.Components.Pages
                 GetAllPages = false,
                 PageIndex = pageRequest.PageIndex,
                 PageSize = pageRequest.PageSize,
-            }, this._doctorsController) ?? new();
+            }) ?? new();
 
             return results;
         }

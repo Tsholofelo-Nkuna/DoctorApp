@@ -4,6 +4,12 @@
 @using DoctorManagement.Shared.DataTransferObjects
 @attribute [Route($"{RouteConstants.ScheduleAppointment}"+"/{doctorId:guid}")]
 @inherits BaseComponent<AppointmentComponentViewModel, AppointmentDto>
-<AppointmentComponent ViewModel="ViewModel">
+@if (!string.IsNullOrEmpty(this.AppointmentSubmissionResponse.Message))
+{
+    <div class="mt-1 alert alert-@(AppointmentSubmissionResponse.Success ? "success":"danger")">
+        @this.AppointmentSubmissionResponse.Message
+    </div>
+}
+<AppointmentComponent ViewModel="ViewModel" OnValidSumit="OnSubmitAppointment">
 
 </AppointmentComponent>

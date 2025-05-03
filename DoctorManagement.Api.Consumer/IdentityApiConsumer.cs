@@ -22,7 +22,7 @@ namespace DoctorManagement.Api.Consumer
             IOptions<ApiOptions> options, 
             IHttpClientFactory httpClientFactory) : base(options, httpClientFactory)
         {
-
+            this.ControllerName = "Accounts";
         }
 
         public async Task<ResponseDto<bool>?> DoctorSignup(SignupDoctorDto doctorSignUp)
@@ -42,18 +42,17 @@ namespace DoctorManagement.Api.Consumer
         {
             try
             {
-                var response = await this.HttpClient.PostAsJsonAsync<Dictionary<string, string>>(
-               "/login",
-                 new()
-                 {
-                      { "email", userName },
-                      { "password", password }
-                 });
-                if (response is { IsSuccessStatusCode: true } && ( await response.Content.ReadFromJsonAsync<TokenResponseDto>()) is TokenResponseDto token)
+                var response = await this.HttpClient.PostAsJsonAsync<LoginCredentialsDto>(
+               "api/accounts/signin" , new LoginCredentialsDto {
+                   Username = userName,
+                   Password = password
+               });
+             
+                if (response is { IsSuccessStatusCode: true } && ( await response.Content.ReadFromJsonAsync<ResponseDto<TokenResponseDto>>()) is ResponseDto<TokenResponseDto> token)
                 {
                     return new()
                     {
-                        Data = token,
+                        Data = token.Data,
                         Message = "Login successful"
                     };
                 }

@@ -12,6 +12,7 @@ namespace DoctorManagement.DataAccessLayer
         public virtual DbSet<AddressEntity> Addresses { get; set; }
         public virtual DbSet<ContactEntity> Contacts { get; set; }
         public virtual DbSet<DataSourceEntity> DataSource { get; set; }
+        public virtual DbSet<AppointmentEntity> Appointments { get; set; }
 
     }
 }

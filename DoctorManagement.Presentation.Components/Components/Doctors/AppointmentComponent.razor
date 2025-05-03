@@ -31,7 +31,7 @@
         </InputDate>
         <ValidationMessage For="() => ViewModel.Data.ScheduledDate"></ValidationMessage>
         <div class="d-flex my-1">
-            <ButtonComponent Type="primary" OnButtonClick="OnAppointmentFormSubmit">
+            <ButtonComponent Loading="ViewModel.AppointmentSubmissionInProgress" Type="primary" OnButtonClick="OnAppointmentFormSubmit">
                 <Content>
                     Submit <i class="bi bi-send"></i>
                 </Content>

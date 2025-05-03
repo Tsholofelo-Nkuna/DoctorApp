@@ -2,7 +2,6 @@
 using DoctorManagement.Api.Consumer.Interfaces;
 using DoctorManagement.Shared.DataTransferObjects;
 using DoctorManagement.Shared.Models;
-using DoctorManagement.Shared.Models.Base;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -12,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace DoctorManagement.Api.Consumer
 {
-    public class DoctorApiConsumer : ApiConsumerBase<DoctorDto, DoctorFilter>, IDoctorApiConsumer
+    public class AppointmentApiConsumer : ApiConsumerBase<AppointmentDto, AppointmentFilter>, IAppointmentApiConsumer
     {
-        public DoctorApiConsumer(IOptions<ApiOptions> options, IHttpClientFactory httpClientFactory) : base(options, httpClientFactory)
+        public AppointmentApiConsumer(IOptions<ApiOptions> options, IHttpClientFactory httpClientFactory) : base(options, httpClientFactory)
         {
-            this.ControllerName = "Doctors";
+            this.ControllerName = "Appointments";
         }
     }
 }

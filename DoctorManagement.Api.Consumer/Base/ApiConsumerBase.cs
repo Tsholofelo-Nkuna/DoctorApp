@@ -16,6 +16,7 @@ namespace DoctorManagement.Api.Consumer.Base
 {
     public class ApiConsumerBase<TDto, TFilter> : IApiConsumerBase<TDto, TFilter> where TDto : new() where TFilter: BaseFilter, new()
     {
+        public string ControllerName { get; set; }
        
         public string AccessToken
         {
@@ -52,11 +53,11 @@ namespace DoctorManagement.Api.Consumer.Base
             
         }
 
-        public virtual async Task<ResponseDto<bool>?> Add(TDto dto, string controller)
+        public virtual async Task<ResponseDto<bool>?> Add(TDto dto)
         {
             try
             {
-                var apiResponse = await this.HttpClient.PostAsJsonAsync(controller, dto);
+                var apiResponse = await this.HttpClient.PostAsJsonAsync($"api/{this.ControllerName}", dto);
                 if (apiResponse is { IsSuccessStatusCode: true } && (await apiResponse.Content.ReadFromJsonAsync<ResponseDto<bool>>()) is ResponseDto<bool> responseContent)
                 {
                     responseContent.StatusCode = HttpStatusCode.OK;
@@ -85,11 +86,11 @@ namespace DoctorManagement.Api.Consumer.Base
             }
         }
 
-        public virtual async Task<ResponseDto<bool>?> Delete(Guid guid, string controller)
+        public virtual async Task<ResponseDto<bool>?> Delete(Guid guid)
         {
             try
             {
-                var apiResponse = await this.HttpClient.DeleteAsync($"api/{controller}/{guid}");
+                var apiResponse = await this.HttpClient.DeleteAsync($"api/{ControllerName}/{guid}");
                 if (apiResponse is { IsSuccessStatusCode: true } && await (apiResponse.Content.ReadFromJsonAsync<ResponseDto<bool>>()) is ResponseDto<bool> responseContent)
                 {
                     responseContent.StatusCode = HttpStatusCode.OK;
@@ -119,11 +120,11 @@ namespace DoctorManagement.Api.Consumer.Base
             }
         }
 
-        public virtual async Task<PageResponse<TDto>?> Get(PageRequestDto<TFilter> pageRequest, string controller)
+        public virtual async Task<PageResponse<TDto>?> Get(PageRequestDto<TFilter> pageRequest)
         {
             try
             {
-                var apiResponse = await this.HttpClient.PostAsJsonAsync($"api/{controller}/Get", pageRequest);
+                var apiResponse = await this.HttpClient.PostAsJsonAsync($"api/{ControllerName}/Get", pageRequest);
                 if (apiResponse is { IsSuccessStatusCode: true } && (await apiResponse.Content.ReadFromJsonAsync<PageResponse<TDto>>()) is PageResponse<TDto> response)
                 {
                     response.StatusCode = HttpStatusCode.OK;

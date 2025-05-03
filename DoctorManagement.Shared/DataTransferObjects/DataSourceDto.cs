@@ -13,5 +13,6 @@ namespace DoctorManagement.Shared.DataTransferObjects
         public int Value { get; set; }
         public string TypeCode { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
+        public string Abbr {  get; set; } = string.Empty;
     }
 }

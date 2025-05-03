@@ -17,7 +17,6 @@ namespace DoctorManagement.API.Controllers
       
         public DoctorsController(IUserContextService userContextService,IHttpClientFactory httpClient, IDocterService docterService) : base(userContextService, httpClient, docterService)
         {
-          
         }
 
 

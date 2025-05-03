@@ -13,8 +13,8 @@ namespace DoctorManagement.Shared.DataTransferObjects
         [Required]
         public DateTime? ScheduledDate { get; set; }
         public DataSourceDto? AppointmentType { get; set; }
-        public DoctorDto Doctor { get; set; }
-        public PatientDto Patient { get; set; }
+        public DoctorDto? Doctor { get; set; }
+        public PatientDto? Patient { get; set; }
 
         [Required, Range(1, int.MaxValue, ErrorMessage = "Invalid input")]
         public int AppointmentTypeId { get; set; }
