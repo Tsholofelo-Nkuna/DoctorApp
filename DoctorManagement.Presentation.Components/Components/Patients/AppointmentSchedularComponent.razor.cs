@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DoctorManagement.Presentation.Components.Doctors
+namespace DoctorManagement.Presentation.Components.Patients
 {
-    public partial class AppointmentComponent
+    public partial class AppointmentSchedularComponent
     {
         [Parameter]
         public EventCallback<AppointmentDto> OnValidSumit { get; set; }
@@ -18,7 +18,12 @@ namespace DoctorManagement.Presentation.Components.Doctors
             {
                 await OnValidSumit.InvokeAsync(ViewModel.Data);
             }
-           
         }
+
+        public string CurrentAppointmentType =>
+            this.ViewModel
+            .AppointmentTypeList
+            .FirstOrDefault(x => x.Value == ViewModel.Data.AppointmentTypeId)?.Description
+            ?? string.Empty;
     }
 }

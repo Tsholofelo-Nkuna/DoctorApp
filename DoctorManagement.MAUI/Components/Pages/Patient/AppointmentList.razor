@@ -1,0 +1,9 @@
+﻿@using DoctorManagement.Shared.DataTransferObjects.Base
+@using DoctorManagement.Shared.Models.Base
+
+@attribute [Route(RouteConstants.PatientAppointments)]
+@inherits Base.BasePage<AppointmentListComponentViewModel, List<AppointmentDto>>
+
+<AppointmentListComponent ViewModel="ViewModel">
+
+</AppointmentListComponent>

@@ -3,6 +3,7 @@ using DoctorManagement.BusinessLogicLayer.Interfaces;
 using DoctorManagement.BusinessLogicLayer.Services.Base;
 using DoctorManagement.DataAccessLayer;
 using DoctorManagement.DataAccessLayer.Entities;
+using DoctorManagement.Shared;
 using DoctorManagement.Shared.DataTransferObjects;
 using DoctorManagement.Shared.Models;
 using DoctorManagement.Shared.Models.Base;
@@ -59,6 +60,25 @@ namespace DoctorManagement.BusinessLogicLayer.Services
             });
             return base.AddOrUpdate(records, currentUserId);
         }
-       
+
+        public override DoctorDto? Map(DoctorEntity? source)
+        {
+            var doctor =  base.Map(source);
+            if(source is { PracticeSite : AddressEntity } && doctor is not null)
+            {
+               doctor.PracticeSite = source.PracticeSite.CopyTo(doctor.PracticeSite);
+            }
+
+            if(source is { Contact : ContactEntity } && doctor is not null)
+            {
+                doctor.Contact = source.Contact.CopyTo(doctor.Contact);
+            }
+            if(source is { Title : DataSourceEntity } && doctor is not null)
+            {
+                doctor.Title = source.Title.CopyTo(doctor.Title);  
+            }
+            return doctor;  
+        }
+
     }
 }

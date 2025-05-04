@@ -17,10 +17,11 @@ using System.Threading.Tasks;
 
 namespace DoctorManagement.BusinessLogicLayer.Services.Base
 {
-    public class ServiceBase<TDto, TEntity, TFilter> : IServiceBase<TDto, TEntity, TFilter> where TDto : DtoBase, new() where TEntity : EntityBase where TFilter : BaseFilter, new()
+    public class ServiceBase<TDto, TEntity, TFilter> : BaseMapper<TEntity, TDto>, IBaseMapper<TEntity, TDto>, IServiceBase<TDto, TEntity, TFilter> where TDto : DtoBase, new() where TEntity : EntityBase where TFilter : BaseFilter, new()
     {
         protected readonly WebDbContext dbContext;
         private readonly DbSet<TEntity> _entitySet;
+        [Obsolete(@"Use this.Map and the object.CopyTo methods")]
         protected readonly IMapper mapper;
         public ServiceBase(WebDbContext dbContext, IMapper mapper)
         {
@@ -38,7 +39,7 @@ namespace DoctorManagement.BusinessLogicLayer.Services.Base
            return inserted && updated;
         }
 
-        private  bool Add(List<TDto> inserted, string? currentUserId)
+        protected virtual bool Add(List<TDto> inserted, string? currentUserId)
         {
             try
             {
@@ -58,7 +59,7 @@ namespace DoctorManagement.BusinessLogicLayer.Services.Base
             }
         }
 
-        private  bool Update(List<TDto> updated, string? currentUserId)
+        protected virtual bool Update(List<TDto> updated, string? currentUserId)
         {
             try
             {
@@ -88,27 +89,36 @@ namespace DoctorManagement.BusinessLogicLayer.Services.Base
 
         public PageResponse<TDto> Get(PageRequestDto<TFilter> pageRequest)
         {
-            var query = this.GetQueryable(pageRequest.Filter);
-            var totalRecordCount = query.Count();
-            if (!pageRequest.GetAllPages)
-            {
-                query =  query
-                    .Skip((pageRequest.PageIndex - 1)*pageRequest.PageSize)
-                    .Take(pageRequest.PageSize);
-            }
-            else
+            try
             {
 
-            }
-            var results = query.ToList();
+                var query = this.GetQueryable(pageRequest.Filter);
+                var totalRecordCount = query.Count();
+                if (!pageRequest.GetAllPages)
+                {
+                    query = query
+                        .Skip((pageRequest.PageIndex - 1) * pageRequest.PageSize)
+                        .Take(pageRequest.PageSize);
+                }
+                else
+                {
 
-            return new()
+                }
+                var results = query?.ToList()?.Select( x => this.Map(x));
+
+                return new()
+                {
+                    PageIndex = pageRequest.PageIndex,
+                    PageSize = pageRequest.PageSize,
+                    Data = results,
+                    TotalRecordCount = totalRecordCount,
+                };
+            }
+            catch (Exception ex)
             {
-                PageIndex = pageRequest.PageIndex,
-                PageSize = pageRequest.PageSize,
-                Data = this.mapper.Map<List<TDto>>(results),
-                TotalRecordCount = totalRecordCount,
-            };
+
+                throw;
+            }
         }
       
         protected virtual  IQueryable<TEntity> GetQueryable(TFilter filters)

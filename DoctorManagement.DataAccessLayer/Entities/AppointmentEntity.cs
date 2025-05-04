@@ -13,6 +13,7 @@ namespace DoctorManagement.DataAccessLayer.Entities
         public DataSourceEntity? AppointmentType { get; set; }
         public DoctorEntity Doctor { get; set; }
         public PatientEntity Patient { get; set; }
+        public DataSourceEntity? AppointmentStatus { get; set; }
         
     }
 }

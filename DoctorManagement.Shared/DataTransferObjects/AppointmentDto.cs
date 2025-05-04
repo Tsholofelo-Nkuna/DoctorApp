@@ -10,7 +10,7 @@ namespace DoctorManagement.Shared.DataTransferObjects
 {
     public class AppointmentDto: DtoBase
     {
-        [Required]
+      //  [Required]
         public DateTime? ScheduledDate { get; set; }
         public DataSourceDto? AppointmentType { get; set; }
         public DoctorDto? Doctor { get; set; }

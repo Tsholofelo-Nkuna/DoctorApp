@@ -1,5 +1,5 @@
 ﻿@inherits LayoutComponentBase
-@if (!IsLoginPage)
+@if (this.NavBarPages.Any(url => url == NavigationManager.Uri))
 {
     <nav class="nav nav-tabs m-1 position-sticky sticky-top bg-light" style="font-size:0.67rem;">
         @foreach (var item in NavItems)

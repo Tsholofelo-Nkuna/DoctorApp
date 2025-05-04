@@ -1,0 +1,20 @@
+﻿@using DoctorManagement.Presentation.Components.Base
+@using DoctorManagement.Presentation.ViewModels
+@using DoctorManagement.Presentation.ViewModels.Base
+@using DoctorManagement.Shared.DataTransferObjects
+@attribute [Route(RouteConstants.ScheduleAppointment+"/{doctorId:guid}")]
+@inherits BaseComponent<AppointmentSchedularComponentViewModel, AppointmentDto>
+@if (!string.IsNullOrEmpty(this.AppointmentSubmissionResponse.Message))
+{
+    <div style="font-size:0.67rem;" class="fw-bold mt-1 alert alert-@(AppointmentSubmissionResponse.Success ? "success":"danger")">
+        @this.AppointmentSubmissionResponse.Message
+        @if(AppointmentSubmissionResponse.Success){
+            <span class="ms-1">
+                Got to <a href="@RouteConstants.PatientAppointments">My appointments</a> to track the status of your request.
+            </span>
+        }
+    </div>
+}
+<AppointmentSchedularComponent ViewModel="ViewModel" OnValidSumit="OnSubmitAppointment">
+
+</AppointmentSchedularComponent>

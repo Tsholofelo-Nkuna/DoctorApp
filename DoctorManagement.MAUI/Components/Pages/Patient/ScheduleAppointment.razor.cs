@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DoctorManagement.MAUI.Components.Pages
+namespace DoctorManagement.MAUI.Components.Pages.Patient
 {
     public partial class ScheduleAppointment
     {
@@ -49,7 +49,7 @@ namespace DoctorManagement.MAUI.Components.Pages
                 ScheduledDate = appointment.ScheduledDate,
                 AppointmentTypeId = appointment.AppointmentTypeId,
             });
-            var message = results?.Data ?? false ? "Appointment request created. Go to appointments to track your request." : "Failed to create appointment request";
+            var message = results?.Data ?? false ? "Appointment request created." : "Failed to create appointment request.";
             this.AppointmentSubmissionResponse  = (results?.Data ?? false, message);
             ViewModel.AppointmentSubmissionInProgress = false;
            

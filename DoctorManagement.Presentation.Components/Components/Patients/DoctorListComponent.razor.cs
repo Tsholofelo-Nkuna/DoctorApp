@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DoctorManagement.Presentation.Components.Doctors
+namespace DoctorManagement.Presentation.Components.Patients
 {
     public partial class DoctorListComponent:  BaseComponent<DoctorListViewModel, List<DoctorDto>>
     {

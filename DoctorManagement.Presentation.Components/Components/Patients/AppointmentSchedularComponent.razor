@@ -1,7 +1,7 @@
 ﻿@using DoctorManagement.Presentation.Components.Base
 @using DoctorManagement.Presentation.ViewModels
 @using DoctorManagement.Shared.DataTransferObjects
-@inherits BaseComponent<AppointmentComponentViewModel, AppointmentDto>
+@inherits BaseComponent<AppointmentSchedularComponentViewModel, AppointmentDto>
 <div class="py-2">
     <p class="fw-bold text-primary">New appointment</p>
     <EditForm EditContext="ViewModel.EditContext">
@@ -12,6 +12,7 @@
 
         <label for="@nameof(ViewModel.Data.AppointmentTypeId)" class="mt-2">Appointment Type</label>
         <InputSelect 
+            
             id="@nameof(ViewModel.Data.AppointmentTypeId)" 
             @bind-Value="ViewModel.Data.AppointmentTypeId"
             class="form-select">
@@ -27,9 +28,35 @@
             id="@nameof(ViewModel.Data.ScheduledDate)"
             @bind-Value = "ViewModel.Data.ScheduledDate"
             class="form-control"
+            Type="InputDateType.DateTimeLocal"
         >
         </InputDate>
         <ValidationMessage For="() => ViewModel.Data.ScheduledDate"></ValidationMessage>
+        @if(CurrentAppointmentType.Equals("invitation", StringComparison.OrdinalIgnoreCase)
+         && ViewModel.Data.ScheduledDate is not null
+        )
+        {
+            <div class="alert alert-info my-1" style="font-size:0.67rem">
+                <p>
+                    click submit to invite @ViewModel.Data.Doctor?.DisplayName
+                    to your current location @(ViewModel.Data.ScheduledDate is not null ? $"on {ViewModel.Data.ScheduledDate:dd-MMM-yyyy a\\t hh:mm tt}":"")
+                </p>
+                <button class="btn btn-outline-primary btn-sm">
+                    View current location <i class="bi bi-geo-alt"></i>
+                </button>
+            </div>
+        }
+        else if (CurrentAppointmentType.Equals("visit", StringComparison.OrdinalIgnoreCase)
+        && ViewModel.Data.ScheduledDate is not null)
+        {
+            <div class="alert alert-info my-1" style="font-size:0.67rem">
+                <p>
+                    click submit to send a request to visit @ViewModel.Data.Doctor?.DisplayName
+                    at @($"{ViewModel.Data.Doctor?.PracticeSite?.City}, {ViewModel.Data.Doctor?.PracticeSite?.State} {ViewModel.Data.Doctor?.PracticeSite?.Zip}") @(ViewModel.Data.ScheduledDate is not null ? $"on {ViewModel.Data.ScheduledDate:dd-MMM-yyyy a\\t hh:mm tt}" : "")
+                </p>
+                
+            </div>
+        }
         <div class="d-flex my-1">
             <ButtonComponent Loading="ViewModel.AppointmentSubmissionInProgress" Type="primary" OnButtonClick="OnAppointmentFormSubmit">
                 <Content>

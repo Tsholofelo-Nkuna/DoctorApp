@@ -25,7 +25,7 @@ namespace DoctorManagement.Presentation.Components.Base
             await base.OnInitializedAsync();
         }
 
-        protected virtual void OnUnauthorized(object sender, ResponseDto<bool> eventArgs)
+        protected virtual void OnUnauthorized(object? sender, ResponseDto<bool> eventArgs)
         {
             this.NavManager.NavigateTo(RouteConstants.Login);
         }

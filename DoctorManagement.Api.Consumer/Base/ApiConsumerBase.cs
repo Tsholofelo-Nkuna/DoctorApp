@@ -133,7 +133,7 @@ namespace DoctorManagement.Api.Consumer.Base
                 else if (apiResponse is { StatusCode: HttpStatusCode.Unauthorized })
                 {
                     string message = "Not authorized";
-                    Unauthorized.Invoke(this, new()
+                    Unauthorized?.Invoke(this, new()
                     {
                         Data = false,
                         StatusCode = HttpStatusCode.Unauthorized,

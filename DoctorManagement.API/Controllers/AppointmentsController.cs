@@ -7,6 +7,7 @@ using DoctorManagement.Shared.DataTransferObjects;
 using DoctorManagement.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorManagement.API.Controllers
@@ -17,6 +18,15 @@ namespace DoctorManagement.API.Controllers
     {
         public AppointmentsController(IUserContextService userContextService, IHttpClientFactory httpClientFactory, IAppointmentService primaryService) : base(userContextService, httpClientFactory, primaryService)
         {
+        }
+
+        public override PageResponse<AppointmentDto> Get([FromBody] PageRequestDto<AppointmentFilter> pageRequest)
+        {
+            if(this.userContextService.GetCurrentUserAsync().Result is IdentityUser currentUser)
+            {
+                pageRequest.Filter.CurrentUserId = currentUser.Id;
+            }
+            return base.Get(pageRequest);
         }
     }
 }

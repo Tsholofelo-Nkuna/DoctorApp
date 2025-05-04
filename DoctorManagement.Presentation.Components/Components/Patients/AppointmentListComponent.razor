@@ -1,0 +1,22 @@
+﻿@using DoctorManagement.Presentation.Components.Base
+@using DoctorManagement.Presentation.ViewModels
+@using DoctorManagement.Shared.DataTransferObjects
+@inherits BaseComponent<AppointmentListComponentViewModel, List<AppointmentDto>>
+
+<div class="d-flex justify-content-center text-primary fw-bold my-1">
+    Appointment Requests
+</div>
+
+@foreach(var appointment in ViewModel.Data){
+    <ProfileItemComponent 
+        ViewModel="@(new(){
+                        Title = appointment.Doctor?.DisplayName ?? "",
+                        Description = $"{appointment.AppointmentType?.Description} Request"
+                    })">
+       <AdditionalContent>
+           <div>
+               Awaiting acceptance
+           </div>
+       </AdditionalContent>
+    </ProfileItemComponent>
+}
