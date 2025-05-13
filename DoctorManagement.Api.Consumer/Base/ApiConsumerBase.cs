@@ -53,25 +53,25 @@ namespace DoctorManagement.Api.Consumer.Base
             
         }
 
-        public virtual async Task<ResponseDto<bool>?> Add(TDto dto)
+        public virtual async Task<ResponseDto<IEnumerable<Guid>>?> Add(TDto dto)
         {
             try
             {
                 var apiResponse = await this.HttpClient.PostAsJsonAsync($"api/{this.ControllerName}", dto);
-                if (apiResponse is { IsSuccessStatusCode: true } && (await apiResponse.Content.ReadFromJsonAsync<ResponseDto<bool>>()) is ResponseDto<bool> responseContent)
+                if (apiResponse is { IsSuccessStatusCode: true } && (await apiResponse.Content.ReadFromJsonAsync<ResponseDto<IEnumerable<Guid>>>()) is ResponseDto<IEnumerable<Guid>> responseContent)
                 {
                     responseContent.StatusCode = HttpStatusCode.OK;
                     return responseContent;
                 }
                 else if (apiResponse is { StatusCode: HttpStatusCode.Unauthorized })
                 {
-                    ResponseDto<bool> results = new()
+                    ResponseDto<IEnumerable<Guid>> results = new()
                     {
-                        Data = false,
+                        Data = [],
                         Message = "Not authorized",
                         StatusCode = HttpStatusCode.Unauthorized,
                     };
-                    Unauthorized?.Invoke(this, results);
+                    Unauthorized?.Invoke(this, new() { Data = false, Message = results.Message, StatusCode = results.StatusCode});
                     return results;
                 }
                 else

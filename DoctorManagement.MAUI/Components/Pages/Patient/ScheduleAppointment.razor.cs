@@ -1,5 +1,7 @@
 ﻿using DoctorManagement.Api.Consumer;
 using DoctorManagement.Api.Consumer.Interfaces;
+using DoctorManagement.Presentation.Components.Templates.Email;
+using DoctorManagement.Presentation.Services.Interfaces;
 using DoctorManagement.Shared.Constants;
 using DoctorManagement.Shared.DataTransferObjects;
 using Microsoft.AspNetCore.Components;
@@ -22,6 +24,8 @@ namespace DoctorManagement.MAUI.Components.Pages.Patient
         [Parameter]
          public Guid DoctorId { get; set; } 
         public (bool Success, string Message ) AppointmentSubmissionResponse { get; set; } = (false, string.Empty);
+       [Inject]
+        public IMailTemplateMessageHandler MailTemplateMessageHandler { get; set; }
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
@@ -49,8 +53,26 @@ namespace DoctorManagement.MAUI.Components.Pages.Patient
                 ScheduledDate = appointment.ScheduledDate,
                 AppointmentTypeId = appointment.AppointmentTypeId,
             });
-            var message = results?.Data ?? false ? "Appointment request created." : "Failed to create appointment request.";
-            this.AppointmentSubmissionResponse  = (results?.Data ?? false, message);
+            var message = results?.Data?.Any() ?? false ? "Appointment request created." : "Failed to create appointment request.";
+            this.AppointmentSubmissionResponse  = (results?.Data?.Any() ?? false, message);
+            if (results?.Data?.FirstOrDefault() is Guid validGuid && validGuid != Guid.Empty)
+            {
+                var newlyCreatedAppointmentData = await this.AppointmentApiConsumer.Get(new() { Filter = new() { Id = validGuid } });
+                if(newlyCreatedAppointmentData?.Data?.FirstOrDefault() is AppointmentDto newAppointment 
+                    && newAppointment.Doctor is { Contact : ContactDto})
+                {
+                   await this.MailTemplateMessageHandler.SendTemplateMessageAsync(
+                        newAppointment.Doctor.Contact.Email,
+                        "New Appointment Request",
+                        typeof(AppointmentRequestTemplate),
+                        new Dictionary<string, object?> {
+                         {"ViewModel", new Presentation.ViewModels.Templates.Email.AppointmentRequestTemplateViewModel(){
+                           Data = newAppointment
+                         } }
+                        }
+                      );
+                }
+            }
             ViewModel.AppointmentSubmissionInProgress = false;
            
         }

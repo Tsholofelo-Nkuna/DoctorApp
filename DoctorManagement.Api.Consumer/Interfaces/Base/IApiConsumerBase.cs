@@ -13,7 +13,7 @@ namespace DoctorManagement.Api.Consumer.Interfaces.Base
         public string AccessToken { get; set; }
         public Task<PageResponse<TDto>?> Get(PageRequestDto<TFilter> pageRequest);
         public Task<ResponseDto<bool>?> Delete(Guid guid);
-        public Task<ResponseDto<bool>?> Add(TDto dto);
+        public Task<ResponseDto<IEnumerable<Guid>>?> Add(TDto dto);
       
     }
 }

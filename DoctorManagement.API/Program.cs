@@ -5,6 +5,7 @@ using DoctorManagement.Shared.Constants;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 
 namespace DoctorManagement.API
 {
@@ -57,12 +58,13 @@ namespace DoctorManagement.API
             .AddEntityFrameworkStores<WebDbContext>()
             .AddDefaultTokenProviders()
             .AddApiEndpoints();
-
+            
             builder.Services.AddBusinessLogicServices();
             builder.Services.AddControllers(options =>
             {
                 //options.
             });
+            builder.Services.AddRazorPages();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -84,6 +86,8 @@ namespace DoctorManagement.API
 
             app.MapControllers();
             app.MapIdentityApi<IdentityUser>();
+            app.MapRazorPages();
+          
             app.Run();
         }
     }

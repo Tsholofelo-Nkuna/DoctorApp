@@ -33,7 +33,7 @@ namespace DoctorManagement.MAUI
 #if DEBUG
                 apiBaseAddress = "http://localhost:5158";
 #endif
-            builder.Services.AddPresentationServices(ServiceScope.Singleton);
+            builder.Services.AddPresentationServices(ServiceScope.Singleton, builder.Configuration);
             builder.Services.AddApiConsumers(apiBaseAddress, ServiceScope.Singleton);
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();

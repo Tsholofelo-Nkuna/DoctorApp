@@ -16,6 +16,7 @@
         <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6">
             <ProfileItemComponent Context="profileContext"
                                   ViewModel="@(new(){
+                            ProfileIcon ="bi bi-heart-pulse",
                             Title = $"{item.Title?.Description} {item.Initials} {item.LastName}({item.PracticeNumber})",
                             Description = $"{item.Specialty} at {item.PracticeSite?.City}",
                             EnableContextMenu = true})">

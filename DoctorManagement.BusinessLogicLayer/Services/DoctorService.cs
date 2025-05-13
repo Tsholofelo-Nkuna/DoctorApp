@@ -52,7 +52,7 @@ namespace DoctorManagement.BusinessLogicLayer.Services
                 .Include(x => x.PracticeSite);
         }
 
-        public override bool AddOrUpdate(List<DoctorDto> records, string? currentUserId)
+        public override IEnumerable<Guid> AddOrUpdate(List<DoctorDto> records, string? currentUserId)
         {
             records.ForEach(rec =>
             {

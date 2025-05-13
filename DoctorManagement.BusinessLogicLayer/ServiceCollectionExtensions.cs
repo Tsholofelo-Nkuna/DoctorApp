@@ -1,5 +1,6 @@
 ﻿using DoctorManagement.BusinessLogicLayer.Interfaces;
 using DoctorManagement.BusinessLogicLayer.Services;
+using DoctorManagement.Shared.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DoctorManagement.BusinessLogicLayer
@@ -14,6 +15,7 @@ namespace DoctorManagement.BusinessLogicLayer
             services.AddScoped<IDocterService, DoctorService>();
             services.AddScoped<IDataSourceService, DataSourceService>();
             services.AddScoped<IAppointmentService, AppointmentService>();
+            services.AddScoped<MailSenderService>();
             return services;
         }
     }

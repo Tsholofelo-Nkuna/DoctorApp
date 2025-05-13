@@ -32,13 +32,13 @@ namespace DoctorManagement.API.Controllers.Base
         }
 
         [HttpPost]
-         public virtual async Task<ResponseDto<bool>> Post([FromBody] TDto rec)
+         public virtual async Task<ResponseDto<IEnumerable<Guid>>> Post([FromBody] TDto rec)
         {
             var added = this._principalService.AddOrUpdate([rec], (await this.userContextService.GetCurrentUserAsync())?.Id);
             return new()
             {
                 Data = added,
-                Message = added ? "New record created" : "Failed to create new record"
+                Message = added.Any() ? "New record created" : "Failed to create new record"
             };
         }
 

@@ -11,5 +11,8 @@ namespace DoctorManagement.Api.Consumer.Interfaces
 {
     public interface IAppointmentApiConsumer : IApiConsumerBase<AppointmentDto, AppointmentFilter>
     {
+        public Task<ResponseDto<AppointmentDto?>?> Accept(Guid appointmentId);
+        public Task<ResponseDto<AppointmentDto?>?> Reject(Guid appointmentId);
+
     }
 }

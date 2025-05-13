@@ -25,7 +25,6 @@ namespace DoctorManagement.MAUI.Services
             catch (Exception ex)
             {
                 return null;
-
               
             }
         }

@@ -17,7 +17,7 @@ namespace DoctorManagement.BusinessLogicLayer.Services
         public AppointmentService(WebDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
         }
-        public override bool AddOrUpdate(List<AppointmentDto> inserted, string? currentUserId)
+        public override IEnumerable<Guid> AddOrUpdate(List<AppointmentDto> inserted, string? currentUserId)
         {
             var targetDoctorEntities = from insertedRec in inserted.Where(doc => doc.DoctorId != Guid.Empty)
                                 join doctor in this.dbContext.Doctors.AsNoTracking()
@@ -69,7 +69,9 @@ namespace DoctorManagement.BusinessLogicLayer.Services
                 .Include(appointment => appointment.Doctor)
                 .ThenInclude(doc => doc.Title)
                 .Include(doc => doc.Doctor.PracticeSite)
-                .Include(doc => doc.Doctor.Contact);
+                .Include(doc => doc.Doctor.Contact)
+                .Include(appointment => appointment.AppointmentStatus);
+              
         }
         public override AppointmentDto? Map(AppointmentEntity? source)
         {
@@ -90,6 +92,10 @@ namespace DoctorManagement.BusinessLogicLayer.Services
                     {
                         validDoctorTarget.Title = validTitleSource.CopyTo(validDoctorTarget.Title);
                     }
+                    if(validDoctorSource.Contact is ContactEntity validContactEntity && validDto.Doctor is DoctorDto validTargetDoctot)
+                    {
+                        validTargetDoctot.Contact = validContactEntity.CopyTo(validTargetDoctot.Contact);
+                    }
                 }
 
                 if(validSource.Patient is PatientEntity validPatientSource)
@@ -97,9 +103,57 @@ namespace DoctorManagement.BusinessLogicLayer.Services
                     validDto.Patient = validPatientSource.CopyTo(validDto.Patient);
                     validDto.PatientId = validDto?.Patient?.Id ?? default;
                 }
+
+                if(validSource.AppointmentStatus is DataSourceEntity validAppointmentStatusSource)
+                {
+                    validDto.AppointmentStatus = validAppointmentStatusSource.CopyTo(validDto.AppointmentStatus);
+                }
             }
 
             return appointmentDto;
+        }
+        protected override IEnumerable<Guid> Add(List<AppointmentDto> inserted, string? currentUserId)
+        {
+           var pendingDs = dbContext.DataSource.AsNoTracking().FirstOrDefault(ds =>
+            ds.TypeCode == DataSourceTypeCodeConstants.AppointmentStatus
+            && ds.Name == "Pending"
+            );
+            inserted.ForEach(x => x.AppointmentStatus = pendingDs.CopyTo(new DataSourceDto()));
+            return base.Add(inserted, currentUserId);
+        }
+
+        public async Task<AppointmentDto?> Accept(Guid appointmentId)
+        {
+            var updatedAppointment = this.dbContext.Appointments.AsNoTracking()
+                .Where(appointment => appointment.Id == appointmentId)
+                .FirstOrDefault();
+            if(updatedAppointment is AppointmentEntity validAppointment)
+            {
+                validAppointment.AppointmentStatus = dbContext.DataSource.AsNoTracking()
+                    .Where(x => x.Name == "Accepted" && x.TypeCode == DataSourceTypeCodeConstants.AppointmentStatus)
+                    .FirstOrDefault();
+                this.dbContext.Update(validAppointment);
+                await this.dbContext.SaveChangesAsync();
+            }
+
+            return this.Get(new() { Filter = new() { Id = appointmentId } })?.Data?.FirstOrDefault();
+        }
+
+        public async Task<AppointmentDto?> Reject(Guid appointmentId)
+        {
+            var updatedAppointment = this.dbContext.Appointments.AsNoTracking()
+                .Where(appointment => appointment.Id == appointmentId)
+                .FirstOrDefault();
+            if (updatedAppointment is AppointmentEntity validAppointment)
+            {
+                validAppointment.AppointmentStatus = dbContext.DataSource.AsNoTracking()
+                    .Where(x => x.Name == "Rejected" && x.TypeCode == DataSourceTypeCodeConstants.AppointmentStatus)
+                    .FirstOrDefault();
+                this.dbContext.Update(validAppointment);
+                await this.dbContext.SaveChangesAsync();
+            }
+
+            return this.Get(new() { Filter = new() { Id = appointmentId } })?.Data?.FirstOrDefault();
         }
     }
 }

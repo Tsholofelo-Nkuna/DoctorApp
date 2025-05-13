@@ -13,5 +13,7 @@ namespace DoctorManagement.BusinessLogicLayer.Interfaces
 {
     public interface IAppointmentService: IServiceBase<AppointmentDto, AppointmentEntity, AppointmentFilter>
     {
+        public Task<AppointmentDto?> Accept(Guid appointmentId);
+        public Task<AppointmentDto?> Reject(Guid appointmentId);
     }
 }

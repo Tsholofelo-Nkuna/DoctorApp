@@ -1,0 +1,12 @@
+﻿@using DoctorManagement.Presentation.Interface.Base
+@using DoctorManagement.Presentation.ViewModels
+@using DoctorManagement.Presentation.ViewModels.Templates.Email
+@using DoctorManagement.Shared.DataTransferObjects
+
+@implements IBaseComponent<AppointmentRequestTemplateViewModel, AppointmentDto>
+
+<h5>New appointment request</h5>
+<p style="margin:1rem;">@($"{ViewModel.Data.AppointmentType?.Description} request on {ViewModel.Data.ScheduledDate: dd-MMM-yyyy}")</p>
+<div style="display:flex;column-gap:0.5rem;">
+    <a href="@($"{ApiOptions.Value.BaseAddress}/doctors/ProcessAppointment?appointmentId={ViewModel.Data.Id}")" style="padding:0.25rem 1rem;color:white;background-color:cadetblue">View Details</a>
+</div>

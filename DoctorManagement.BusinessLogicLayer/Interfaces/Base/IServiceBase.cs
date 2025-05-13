@@ -15,7 +15,7 @@ namespace DoctorManagement.BusinessLogicLayer.Interfaces.Base
     public interface IServiceBase<TDto, TEntity, TFilter> where TDto: DtoBase, new() where TEntity : EntityBase where TFilter: BaseFilter, new()
     {
         public bool Delete(IEnumerable<Guid> identifiers, string? currentUserId);
-        public bool AddOrUpdate(List<TDto> records, string? currentUserId);
+        public IEnumerable<Guid> AddOrUpdate(List<TDto> records, string? currentUserId);
         public PageResponse<TDto> Get(PageRequestDto<TFilter> pageRequest);
       
     }

@@ -32,8 +32,8 @@ namespace DoctorManagement.MAUI.Components.Layout
 
         public IEnumerable<(string Url, int Index, string Text, string Icon)> NavItems
             = [
-                (RouteConstants.Doctors, 0, "Health workers", "bi bi-hospital"),
-                (RouteConstants.PatientAppointments, 1, "My appointments", "bi bi-calendar")
+                (RouteConstants.Doctors, 0, "Health workers", "bi bi-heart-pulse"),
+                (RouteConstants.PatientAppointments, 1, "My appointments", "bi bi-calendar3")
               ];
 
         public int ActiveIndex { get; set; }

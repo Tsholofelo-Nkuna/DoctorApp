@@ -13,5 +13,6 @@ namespace DoctorManagement.Presentation.ViewModels
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public bool EnableContextMenu { get; set; }
+        public string ProfileIcon { get; set; } = "bi bi-person";
     }
 }

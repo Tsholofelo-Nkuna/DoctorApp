@@ -10,12 +10,13 @@
 @foreach(var appointment in ViewModel.Data){
     <ProfileItemComponent 
         ViewModel="@(new(){
-                        Title = appointment.Doctor?.DisplayName ?? "",
-                        Description = $"{appointment.AppointmentType?.Description} Request"
+                        Title = $"Scheduled date: {appointment.ScheduledDate:dd-MMM-yyyy}" ?? "",
+                        Description = $"{appointment.AppointmentType?.Description}",
+                        ProfileIcon = "bi bi-calendar3"
                     })">
        <AdditionalContent>
-           <div>
-               Awaiting acceptance
+           <div class="d-flex my-1">
+               <div style="font-size:0.7rem;" class="badge @(BadgeColor(appointment))">@appointment?.AppointmentStatus?.Description</div>
            </div>
        </AdditionalContent>
     </ProfileItemComponent>

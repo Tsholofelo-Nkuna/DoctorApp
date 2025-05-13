@@ -30,16 +30,17 @@ namespace DoctorManagement.BusinessLogicLayer.Services.Base
             this.mapper = mapper;
         }
 
-        public virtual bool AddOrUpdate(List<TDto> records, string? currentUserId)
+        public virtual IEnumerable<Guid> AddOrUpdate(List<TDto> records, string? currentUserId)
         {
            var newRecords = records.Where(x => x.Id == Guid.Empty).ToList();
            var updatedRecords = records.Where(x => x.Id != Guid.Empty).ToList();
-           var updated = updatedRecords.Any() ? this.Update(newRecords, currentUserId) : true;
-           var inserted = newRecords.Any() ? this.Add(newRecords, currentUserId) : true;
-           return inserted && updated;
+           var updated = this.Update(updatedRecords, currentUserId);
+           var inserted = this.Add(newRecords, currentUserId);
+           var affectedRecords = updatedRecords.Select(rec => rec.Id).Concat(newRecords.Select(x => x.Id));
+           return (updated ?? []).Concat(inserted ?? []);
         }
 
-        protected virtual bool Add(List<TDto> inserted, string? currentUserId)
+        protected virtual IEnumerable<Guid> Add(List<TDto> inserted, string? currentUserId)
         {
             try
             {
@@ -51,7 +52,7 @@ namespace DoctorManagement.BusinessLogicLayer.Services.Base
                     x.CreatedOn = currentDateTime;
                 });
                 _entitySet.UpdateRange(insertedEntities);
-                return dbContext.SaveChanges() > 0;
+                return dbContext.SaveChanges() > 0 ? insertedEntities.Select(rec => rec.Id) : [];
             }
             catch (Exception ex)
             {
@@ -59,7 +60,7 @@ namespace DoctorManagement.BusinessLogicLayer.Services.Base
             }
         }
 
-        protected virtual bool Update(List<TDto> updated, string? currentUserId)
+        protected virtual IEnumerable<Guid> Update(List<TDto> updated, string? currentUserId)
         {
             try
             {
@@ -71,7 +72,7 @@ namespace DoctorManagement.BusinessLogicLayer.Services.Base
                     x.LastModifiedByUserId = currentUserId;
                 });
                 _entitySet.UpdateRange(updates);
-                return dbContext.SaveChanges() > 0;
+                return dbContext.SaveChanges() > 0 ? updates.Select(up => up.Id) : [];
             }
             catch (Exception ex)
             {

@@ -1,0 +1,19 @@
+﻿@page 
+@model DoctorManagement.API.Areas.Doctors.Pages.ProcessAppointmentModel
+@{
+    Layout = "_Layout";
+}
+
+<p class="fw-bolder d-flex py-2">Appointment Request</p>
+<div class="d-flex column-gap-1">
+    <label class="fw-bold">Scheduled date:</label>
+    <span>@($"{Model.Appointment?.ScheduledDate: dd-MMM-yyyy}")</span>
+</div>
+<div class="d-flex column-gap-1">
+    <label class="fw-bold">Type:</label>
+    <span>@($"{Model.Appointment?.AppointmentType?.Description}")</span>
+</div>
+<div class="d-flex column-gap-1">
+    <a class="btn btn-primary">Accept</a>
+    <a class="btn btn-danger">Reject</a>
+</div>
