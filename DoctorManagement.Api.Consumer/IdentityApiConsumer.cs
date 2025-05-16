@@ -25,10 +25,10 @@ namespace DoctorManagement.Api.Consumer
             this.ControllerName = "Accounts";
         }
 
-        public async Task<ResponseDto<bool>?> DoctorSignup(SignupDoctorDto doctorSignUp)
+        public async Task<ResponseDto<IEnumerable<Guid>>?> DoctorSignup(SignupDoctorDto doctorSignUp)
         {
             var apiResponse = await this.HttpClient.PostAsJsonAsync<SignupDoctorDto>($"api/Accounts/Signup/Doctor", doctorSignUp);
-            if (apiResponse is { IsSuccessStatusCode: true } && await (apiResponse.Content.ReadFromJsonAsync<ResponseDto<bool>>()) is ResponseDto<bool> responseContent)
+            if (apiResponse is { IsSuccessStatusCode: true } && await (apiResponse.Content.ReadFromJsonAsync<ResponseDto<IEnumerable<Guid>>>()) is ResponseDto<IEnumerable<Guid>> responseContent)
             {
                 return responseContent;
             }
@@ -68,13 +68,13 @@ namespace DoctorManagement.Api.Consumer
             }
         }
 
-        public async Task<ResponseDto<bool>?> PatientSignup(SignupDto patientSignUp)
+        public async Task<ResponseDto<IEnumerable<Guid>>?> PatientSignup(SignupDto patientSignUp)
         {
             try
             {
                 patientSignUp.Contact.Email = patientSignUp.Credentials.Username;
                 var apiResponse = await this.HttpClient.PostAsJsonAsync($"api/Accounts/Signup/Patient", patientSignUp);
-                if (apiResponse is { IsSuccessStatusCode: true } && await (apiResponse.Content.ReadFromJsonAsync<ResponseDto<bool>>()) is ResponseDto<bool> responseContent)
+                if (apiResponse is { IsSuccessStatusCode: true } && await (apiResponse.Content.ReadFromJsonAsync<ResponseDto<IEnumerable<Guid>>>()) is ResponseDto<IEnumerable<Guid>> responseContent)
                 {
                     return responseContent;
                 }

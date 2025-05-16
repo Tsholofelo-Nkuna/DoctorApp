@@ -24,6 +24,12 @@ namespace DoctorManagement.API.Controllers
         { 
          
         }
-     
+
+        [AllowAnonymous]
+        public override Task<ResponseDto<IEnumerable<Guid>>> Post([FromBody] PatientDto rec)
+        {
+            return base.Post(rec);
+        }
+
     }
 }

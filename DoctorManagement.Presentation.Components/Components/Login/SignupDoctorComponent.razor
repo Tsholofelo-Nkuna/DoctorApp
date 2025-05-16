@@ -100,8 +100,8 @@
 </div>
 <ModalComponent ViewModel="ModalViewModel">
     <Body>
-        <div class="text-@(ServiceResponse.Data ? "success":"danger")">
-            @ServiceResponse.Message
+        <div class="text-@((ServiceResponse?.Data?.Any() ?? false) ? "success":"danger")">
+            @ServiceResponse?.Message
         </div>
     </Body>
     <Footer>

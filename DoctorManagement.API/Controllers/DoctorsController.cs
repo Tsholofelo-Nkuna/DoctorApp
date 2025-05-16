@@ -18,5 +18,11 @@ namespace DoctorManagement.API.Controllers
         public DoctorsController(IUserContextService userContextService,IHttpClientFactory httpClient, IDocterService docterService) : base(userContextService, httpClient, docterService)
         {
         }
+
+        [AllowAnonymous]
+        public override Task<ResponseDto<IEnumerable<Guid>>> Post([FromBody] DoctorDto rec)
+        {
+            return base.Post(rec);
+        }
     }
 }

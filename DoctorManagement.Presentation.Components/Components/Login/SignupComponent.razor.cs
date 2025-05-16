@@ -22,7 +22,7 @@ namespace DoctorManagement.Presentation.Components.Login
         public EditContext CredentialsEditContext { get; set; }
         public EditContext AddressEditContext { get; set; }
         public ModalViewModel<SignupDto> ModalViewModel { get; set; } = new();
-        public ResponseDto<bool> ServerMessage { get; set; } = new();
+        public ResponseDto<IEnumerable<Guid>>? ServerMessage { get; set; } = new();
         [Parameter]
         public EventCallback CurrentLocationButtonClick { get; set; }
         private bool _submitLoading = false;
@@ -78,8 +78,9 @@ namespace DoctorManagement.Presentation.Components.Login
                 }
                 else
                 {
+                    this.ServerMessage = new();
                     this.ServerMessage.Message = "Unkown error occured!";
-                    this.ServerMessage.Data = false;
+                    this.ServerMessage.Data = [];
                 }
 
                 ModalViewModel.Show = true;

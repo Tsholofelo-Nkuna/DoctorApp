@@ -7,6 +7,3 @@ Values
 ('Cancelled',4,'Cancelled',@ds,'Cancelled', newId(), CURRENT_TIMESTAMP),
 ('Sent',5,'Pending',@ds,'Pending', newId(), CURRENT_TIMESTAMP)
 
-
-
-select * from DataSource

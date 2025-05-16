@@ -31,7 +31,7 @@ namespace DoctorManagement.API.Controllers
         }
 
         [HttpPost("Signup/Patient")]
-        public async Task<ResponseDto<bool>> PatientSignup(SignupDto patientSignUp)
+        public async Task<ResponseDto<IEnumerable<Guid>>> PatientSignup(SignupDto patientSignUp)
         {
            var userCreationResult = await _userManager.CreateAsync(new() { 
                UserName = patientSignUp.Credentials.Username, 
@@ -56,7 +56,7 @@ namespace DoctorManagement.API.Controllers
                        UserId = newlyCreatedUser.Id,
                    });
                    if(apiResponse is { IsSuccessStatusCode : true } 
-                   &&  (await apiResponse.Content.ReadFromJsonAsync<ResponseDto<bool>>()) is ResponseDto<bool> validResponseContent)
+                   &&  (await apiResponse.Content.ReadFromJsonAsync<ResponseDto<IEnumerable<Guid>>>()) is ResponseDto<IEnumerable<Guid>> validResponseContent)
                     {
                         return validResponseContent;
                     }
@@ -64,7 +64,7 @@ namespace DoctorManagement.API.Controllers
                     {
                         return new()
                         {
-                            Data = false,
+                            Data = [],
                             Message = "Failed to create patient record!"
                         };
                     }
@@ -74,7 +74,7 @@ namespace DoctorManagement.API.Controllers
                 {
                     return new()
                     {
-                        Data = false,
+                        Data = [],
                         Message = userRoleCreated?.Errors?.FirstOrDefault()?.Description ?? string.Empty,
                     };
                 }
@@ -83,7 +83,7 @@ namespace DoctorManagement.API.Controllers
             {
                 return new()
                 {
-                    Data = false,
+                    Data = [],
                     Message = userCreationResult?.Errors?.FirstOrDefault()?.Description ?? string.Empty,
 
                 };
@@ -91,7 +91,7 @@ namespace DoctorManagement.API.Controllers
         }
 
         [HttpPost("Signup/Doctor")]
-        public async Task<ResponseDto<bool>> DoctorSignup(SignupDoctorDto doctorSignup)
+        public async Task<ResponseDto<IEnumerable<Guid>>> DoctorSignup(SignupDoctorDto doctorSignup)
         {
             var userCreationResult = await _userManager.CreateAsync(new()
             {
@@ -126,7 +126,7 @@ namespace DoctorManagement.API.Controllers
                     });
                   
                     if (apiResponse is { IsSuccessStatusCode: true }
-                    && (await apiResponse.Content.ReadFromJsonAsync<ResponseDto<bool>>()) is ResponseDto<bool> validResponseContent)
+                    && (await apiResponse.Content.ReadFromJsonAsync<ResponseDto<IEnumerable<Guid>>>()) is ResponseDto<IEnumerable<Guid>> validResponseContent)
                     {
                         return validResponseContent;
                     }
@@ -134,7 +134,7 @@ namespace DoctorManagement.API.Controllers
                     {
                         return new()
                         {
-                            Data = false,
+                            Data = [],
                             Message = "Failed to create doctor record"
                         };
                     }
@@ -144,7 +144,7 @@ namespace DoctorManagement.API.Controllers
                 {
                     return new()
                     {
-                        Data = false,
+                        Data = [],
                         Message = userRoleCreated?.Errors?.FirstOrDefault()?.Description ?? string.Empty,
                     };
                 }
@@ -153,7 +153,7 @@ namespace DoctorManagement.API.Controllers
             {
                 return new()
                 {
-                    Data = false,
+                    Data = [],
                     Message = userCreationResult?.Errors?.FirstOrDefault()?.Description ?? string.Empty,
 
                 };

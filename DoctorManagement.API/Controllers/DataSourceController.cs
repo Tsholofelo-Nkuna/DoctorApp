@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DoctorManagement.API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController, Authorize]
+    [ApiController]
     public class DataSourceController : ApiBaseController<DataSourceDto, DataSourceEntity, DataSourceFilter>
     {
         private readonly IDataSourceService _dataSourceService;
@@ -19,6 +19,12 @@ namespace DoctorManagement.API.Controllers
         {
             _dataSourceService = dataSourceService;
             
+        }
+
+        [AllowAnonymous]
+        public override Task<ResponseDto<IEnumerable<Guid>>> Post([FromBody] DataSourceDto rec)
+        {
+            return base.Post(rec);
         }
 
     }

@@ -70,7 +70,7 @@
                 Submit
             </Content>
         </ButtonComponent>
-        <ButtonComponent Type="link" onclick="history.back()">
+        <ButtonComponent Type="link" href="@(RouteConstants.Login)">
             <Content>
                 Back
             </Content>
@@ -79,8 +79,8 @@
 </div>
 <ModalComponent ViewModel="ModalViewModel" Context="ModalContext">
     <Body>
-        <div class="text-@(ServerMessage.Data ? "success":"danger")">
-            @ServerMessage.Message
+        <div class="text-@((ServerMessage?.Data?.Any()?? false) ? "success":"danger")">
+            @ServerMessage?.Message
         </div>
     </Body>
     <Footer>

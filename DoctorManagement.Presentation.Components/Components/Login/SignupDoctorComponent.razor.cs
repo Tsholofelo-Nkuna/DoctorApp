@@ -22,7 +22,7 @@ namespace DoctorManagement.Presentation.Components.Login
         public IIdentityApiConsumer IdentityApiConsumer { get; set; }
         [Inject]
         public IDataSourceApiConsumer DataSourceApiConsumer { get; set; }
-        public ResponseDto<bool> ServiceResponse { get; set; } = new();
+        public ResponseDto<IEnumerable<Guid>>? ServiceResponse { get; set; } = new();
         public IEnumerable<DataSourceDto> TitleOptions { get; set; } = [];
         public ModalViewModel<SignupDoctorDto> ModalViewModel { get; set; } = new();
         [Parameter]
@@ -91,7 +91,8 @@ namespace DoctorManagement.Presentation.Components.Login
                 }
                 else
                 {
-                    this.ServiceResponse.Data = false;
+                    this.ServiceResponse ??= new();
+                    this.ServiceResponse.Data = [];
                     this.ServiceResponse.Message = "Unkown error occured";
                 }
 
