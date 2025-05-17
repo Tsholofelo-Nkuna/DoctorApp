@@ -1,5 +1,6 @@
 ﻿@page 
 @model DoctorManagement.API.Areas.Doctors.Pages.ProcessAppointmentModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     Layout = "_Layout";
 }
@@ -14,6 +15,27 @@
     <span>@($"{Model.Appointment?.AppointmentType?.Description}")</span>
 </div>
 <div class="d-flex column-gap-1">
-    <a class="btn btn-primary">Accept</a>
-    <a class="btn btn-danger">Reject</a>
+    <label class="fw-bold">Status:</label>
+    <span class="text-@Model.AppointmentStatusClass(Model.Appointment?.AppointmentStatus?.Name ?? string.Empty)">@($"{Model.Appointment?.AppointmentStatus?.Description}")</span>
+</div>
+<div class="d-flex column-gap-1">
+    <label class="fw-bold">Location:</label>
+    @if(Model.Appointment?.AppointmentType?.Name?.Equals("doctorVisit", StringComparison.OrdinalIgnoreCase) ?? false){
+       <div class="d-inline-flex flex-column">
+            <div>@($"{Model.Appointment?.Doctor?.PracticeSite?.HouseNumber} {Model.Appointment?.Doctor?.PracticeSite?.StreetName}")</div>
+            <div>@($"{Model.Appointment?.Doctor?.PracticeSite?.City}, {Model.Appointment?.Doctor?.PracticeSite?.State}, {Model.Appointment?.Doctor?.PracticeSite?.Zip}")</div>
+       </div>
+    }
+    else if (Model.Appointment?.AppointmentType?.Name?.Equals("doctorInvitation", StringComparison.OrdinalIgnoreCase) ?? false)
+    {
+       <div class="d-inline-flex flex-column">
+            <div>@($"{Model.Appointment?.Patient?.Address?.HouseNumber} {Model.Appointment?.Patient?.Address?.StreetName}")</div>
+            <div>@($"{Model.Appointment?.Patient?.Address?.City}, {Model.Appointment?.Patient?.Address?.State}, {Model.Appointment?.Patient?.Address?.Zip}")</div>
+       </div>
+
+    }
+</div>
+<div class="d-flex column-gap-1 my-2">
+    <a asp-page-handler="Accept" asp-route-appointmentId="@(Model.Appointment?.Id)" class="btn btn-primary">Accept</a>
+    <a asp-page-handler="Reject" asp-route-appointmentId="@Model.Appointment?.Id" class="btn btn-danger">Reject</a>
 </div>

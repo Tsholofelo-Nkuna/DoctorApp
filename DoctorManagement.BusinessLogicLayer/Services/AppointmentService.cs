@@ -65,6 +65,8 @@ namespace DoctorManagement.BusinessLogicLayer.Services
             }
             return query
                 .Include(appointment => appointment.Patient)
+                .ThenInclude(patient => patient.Address)
+                .Include(appointment => appointment.Patient.Contact)
                 .Include(appointment => appointment.AppointmentType)
                 .Include(appointment => appointment.Doctor)
                 .ThenInclude(doc => doc.Title)
@@ -96,12 +98,21 @@ namespace DoctorManagement.BusinessLogicLayer.Services
                     {
                         validTargetDoctot.Contact = validContactEntity.CopyTo(validTargetDoctot.Contact);
                     }
+
+                    if(validDoctorSource.PracticeSite is AddressEntity && validDto is { Doctor : DoctorDto })
+                    {
+                        validDto.Doctor.PracticeSite = validDoctorSource.PracticeSite.CopyTo(validDto.Doctor.PracticeSite);
+                    }
                 }
 
                 if(validSource.Patient is PatientEntity validPatientSource)
                 {
                     validDto.Patient = validPatientSource.CopyTo(validDto.Patient);
                     validDto.PatientId = validDto?.Patient?.Id ?? default;
+                    if(validPatientSource is { Address : AddressEntity } patientWithAddress && validDto is { Patient : PatientDto})
+                    {
+                        validDto.Patient.Address = patientWithAddress.Address.CopyTo(validDto.Patient.Address);
+                    }
                 }
 
                 if(validSource.AppointmentStatus is DataSourceEntity validAppointmentStatusSource)

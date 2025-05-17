@@ -23,7 +23,7 @@ namespace DoctorManagement.Api.Consumer
         {
             try
             {
-                var result = await this.HttpClient.PostAsync($"api/{this.ControllerName}/Accept", null);
+                var result = await this.HttpClient.PostAsync($"api/{this.ControllerName}/Accept/{appointmentId}", null);
                 if(result is { IsSuccessStatusCode: true} && await( result.Content.ReadFromJsonAsync<ResponseDto<AppointmentDto?>?>() ) is ResponseDto<AppointmentDto?> validReasponseContent)
                 {
                     return validReasponseContent;
@@ -44,7 +44,7 @@ namespace DoctorManagement.Api.Consumer
         {
             try
             {
-                var result = await this.HttpClient.PostAsync($"api/{this.ControllerName}/Reject", null);
+                var result = await this.HttpClient.PostAsync($"api/{this.ControllerName}/Reject/{appointmentId}", null);
                 if (result is { IsSuccessStatusCode: true } && await(result.Content.ReadFromJsonAsync<ResponseDto<AppointmentDto?>?>()) is ResponseDto<AppointmentDto?> validReasponseContent)
                 {
                     return validReasponseContent;

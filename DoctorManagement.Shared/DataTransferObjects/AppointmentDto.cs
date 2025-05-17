@@ -10,6 +10,7 @@ namespace DoctorManagement.Shared.DataTransferObjects
 {
     public class AppointmentDto: DtoBase
     {
+        [DisplayFormat(DataFormatString ="{0:dd-MMM-yyyy}")]
         public DateTime? ScheduledDate { get; set; }
         public DataSourceDto? AppointmentType { get; set; }
         public DoctorDto? Doctor { get; set; }

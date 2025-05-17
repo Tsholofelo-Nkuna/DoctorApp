@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DoctorManagement.Api.Consumer\DoctorManagement.Api.Consumer.csproj" />
     <ProjectReference Include="..\DoctorManagement.BusinessLogicLayer\DoctorManagement.BusinessLogicLayer.csproj" />
   </ItemGroup>
 

@@ -23,6 +23,7 @@ namespace DoctorManagement.API.Controllers
             _appointmentsService = primaryService;
         }
 
+        [AllowAnonymous]
         public override PageResponse<AppointmentDto> Get([FromBody] PageRequestDto<AppointmentFilter> pageRequest)
         {
             if(this.userContextService.GetCurrentUserAsync().Result is IdentityUser currentUser)
@@ -32,7 +33,7 @@ namespace DoctorManagement.API.Controllers
             return base.Get(pageRequest);
         }
 
-        [HttpGet("[action]/{appointmentId}"), AllowAnonymous]
+        [HttpPost("[action]/{appointmentId}"), AllowAnonymous]
         public async Task<ResponseDto<AppointmentDto?>> Accept(Guid appointmentId)
         {
             var acceptResult =  await this._appointmentsService.Accept(appointmentId);
@@ -44,7 +45,7 @@ namespace DoctorManagement.API.Controllers
             };
         }
 
-        [HttpGet("[action]/{appointmentId}"), AllowAnonymous]
+        [HttpPost("[action]/{appointmentId}"), AllowAnonymous]
         public async Task<ResponseDto<AppointmentDto?>> Reject(Guid appointmentId)
         {
             var acceptResult = await this._appointmentsService.Reject(appointmentId);

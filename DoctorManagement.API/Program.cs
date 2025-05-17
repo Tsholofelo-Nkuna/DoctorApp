@@ -1,4 +1,5 @@
 
+using DoctorManagement.Api.Consumer;
 using DoctorManagement.BusinessLogicLayer;
 using DoctorManagement.DataAccessLayer;
 using DoctorManagement.Shared.Constants;
@@ -64,6 +65,11 @@ namespace DoctorManagement.API
             {
                 //options.
             });
+            var apiAddress = builder.Configuration["WebApiUrls:Default"];
+#if DEBUG
+            apiAddress = "http://localhost:5158";
+#endif
+            builder.Services.AddApiConsumers(apiAddress, ServiceScope.Scoped);
             builder.Services.AddRazorPages();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
