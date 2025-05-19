@@ -1,4 +1,5 @@
-﻿using DoctorManagement.Shared.DataTransferObjects.Base;
+﻿using DoctorManagement.Shared.Attributes.Validation;
+using DoctorManagement.Shared.DataTransferObjects.Base;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,7 +11,7 @@ namespace DoctorManagement.Shared.DataTransferObjects
 {
     public class AppointmentDto: DtoBase
     {
-        [DisplayFormat(DataFormatString ="{0:dd-MMM-yyyy}")]
+        [DisplayFormat(DataFormatString ="{0:dd-MMM-yyyy}"), PresentOrFutureDate]
         public DateTime? ScheduledDate { get; set; }
         public DataSourceDto? AppointmentType { get; set; }
         public DoctorDto? Doctor { get; set; }
