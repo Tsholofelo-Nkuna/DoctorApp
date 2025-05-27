@@ -17,8 +17,9 @@ namespace DoctorManagement.Shared.DataTransferObjects
 
         [Required]
         public string PracticeNumber { get; set; } = string.Empty;
-        [Required]
-        public string Specialty { get; set; } = string.Empty ;
+       
+        [Required(ErrorMessage = "Specialty is required")]
+        public int SpecialtyId { get; set; }
         public AddressDto? PracticeSite { get; set; } 
         public ContactDto? Contact { get; set; }
         public string UserId { get; set; } = string.Empty;
@@ -27,6 +28,8 @@ namespace DoctorManagement.Shared.DataTransferObjects
         [Range(1, int.MaxValue)]
         public int TitleDatasourceId { get; set; }
         public DataSourceDto? Title { get; set; }
+
+        public DataSourceDto? Specialty { get; set; }
 
         public string Initials
         {

@@ -44,7 +44,7 @@ namespace DoctorManagement.BusinessLogicLayer.Services
 
             if (!string.IsNullOrEmpty(filters.Specialty))
             {
-                query = query.Where(docRec => docRec.Specialty.Contains(filters.Specialty));
+                //query = query.Where(docRec => docRec.Specialty.Contains(filters.Specialty));
             }
 
             return  query.Include(x => x.Contact)
@@ -57,6 +57,7 @@ namespace DoctorManagement.BusinessLogicLayer.Services
             records.ForEach(rec =>
             {
                 rec.Title = this.mapper.Map<DataSourceDto>(this.dbContext.DataSource.AsNoTracking().FirstOrDefault(ds => ds.Value == rec.TitleDatasourceId));
+                
             });
             return base.AddOrUpdate(records, currentUserId);
         }
@@ -76,6 +77,10 @@ namespace DoctorManagement.BusinessLogicLayer.Services
             if(source is { Title : DataSourceEntity } && doctor is not null)
             {
                 doctor.Title = source.Title.CopyTo(doctor.Title);  
+            }
+            if(source is { Specialty : DataSourceEntity } && doctor is not null)
+            {
+                doctor.Specialty = source.Specialty.CopyTo(doctor.Specialty);
             }
             return doctor;  
         }

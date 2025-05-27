@@ -18,7 +18,7 @@
                                   ViewModel="@(new(){
                             ProfileIcon ="bi bi-heart-pulse",
                             Title = $"{item.Title?.Description} {item.Initials} {item.LastName}({item.PracticeNumber})",
-                            Description = $"{item.Specialty} at {item.PracticeSite?.City}",
+                            Description = $"{item.Specialty?.Description} at {item.PracticeSite?.City}",
                             EnableContextMenu = true})">
                 <AdditionalContent>
                     <div class="text-primary">@($"{DistanceCalculator((item.PracticeSite?.Latitude ?? 0, item.PracticeSite?.Longitude ?? 0), (CurrentAppLocation.Latitude, CurrentAppLocation.Longitude)):F1} km away")</div>

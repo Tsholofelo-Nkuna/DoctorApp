@@ -24,6 +24,7 @@ namespace DoctorManagement.Presentation.Components.Login
         public IDataSourceApiConsumer DataSourceApiConsumer { get; set; }
         public ResponseDto<IEnumerable<Guid>>? ServiceResponse { get; set; } = new();
         public IEnumerable<DataSourceDto> TitleOptions { get; set; } = [];
+        public IEnumerable<DataSourceDto> DoctorSpecialties { get; set; } = [];
         public ModalViewModel<SignupDoctorDto> ModalViewModel { get; set; } = new();
         [Parameter]
         public EventCallback UseCurrentLocationClick { get; set; }
@@ -70,9 +71,15 @@ namespace DoctorManagement.Presentation.Components.Login
         public async Task GetData()
         {
             var response = await this.DataSourceApiConsumer.Get(new() { GetAllPages = true, Filter = new() { TypeCode = DataSourceTypeCodeConstants.ProfessionalTitle } });
+            var doctorSpecialtyListResponse = await this.DataSourceApiConsumer.Get(new() { GetAllPages = true, Filter = new() { TypeCode = DataSourceTypeCodeConstants.Specialty } });
             if (response is {Data: IEnumerable<DataSourceDto> } responseContent)
             {
                 this.TitleOptions = responseContent.Data;
+                //StateHasChanged();
+            }
+            if (doctorSpecialtyListResponse is { Data: IEnumerable<DataSourceDto> } specialtyListResponse)
+            {
+                this.DoctorSpecialties = specialtyListResponse.Data;
                 //StateHasChanged();
             }
         }

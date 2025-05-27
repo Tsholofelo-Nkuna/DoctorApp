@@ -4,7 +4,7 @@ using DoctorManagement.Shared.DataTransferObjects;
 using DoctorManagement.Shared.Constants;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authentication;
+using DoctorManagement.Shared.Models;
 
 namespace DoctorManagement.API.Controllers
 {
@@ -14,18 +14,19 @@ namespace DoctorManagement.API.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-      
+        private readonly IDataSourceService _dataSourceService;
         private readonly HttpClient AppApi;
        
         public AccountsController(IUserContextService userContextService, 
             IHttpClientFactory httpClientFactory,
             RoleManager<IdentityRole> roleManager,
             UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            SignInManager<IdentityUser> signInManager,
+            IDataSourceService dataSourceService)
         {
             _roleManager = roleManager;
             _userManager = userManager;
-           
+            _dataSourceService = dataSourceService;
             this.AppApi = httpClientFactory.CreateClient(WebApiNameConstants.AppApi);
           
         }
@@ -112,12 +113,14 @@ namespace DoctorManagement.API.Controllers
                 var userRoleCreated = await _userManager.AddToRoleAsync(newlyCreatedUser, RoleConstants.Doctor);
                 if (userRoleCreated is { Succeeded: true })
                 {
+                    var specialtyRecord = _dataSourceService.Get(new PageRequestDto<DataSourceFilter>() { Filter = new() { TypeCode = DataSourceTypeCodeConstants.Specialty }, GetAllPages = true })
+                        .Data?.FirstOrDefault(x => x.Value == doctorSignup.SpecialtyId);
                     var apiResponse = await this.AppApi.PostAsJsonAsync<DoctorDto>("api/Doctors", new()
                     {
                         Contact = doctorSignup.Contact,
                         PracticeNumber = doctorSignup.PracticeNumber,
                         PracticeSite = doctorSignup.PracticeSite,
-                        Specialty = doctorSignup.Specialty,
+                        Specialty = specialtyRecord,
                         FirstName = doctorSignup.FirstName,
                         LastName = doctorSignup.LastName,
                         TitleDatasourceId = doctorSignup.TitleDatasourceId,

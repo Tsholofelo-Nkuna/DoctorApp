@@ -27,13 +27,21 @@ namespace DoctorManagement.Api.Consumer
 
         public async Task<ResponseDto<IEnumerable<Guid>>?> DoctorSignup(SignupDoctorDto doctorSignUp)
         {
-            var apiResponse = await this.HttpClient.PostAsJsonAsync<SignupDoctorDto>($"api/Accounts/Signup/Doctor", doctorSignUp);
-            if (apiResponse is { IsSuccessStatusCode: true } && await (apiResponse.Content.ReadFromJsonAsync<ResponseDto<IEnumerable<Guid>>>()) is ResponseDto<IEnumerable<Guid>> responseContent)
+            try
             {
-                return responseContent;
+                var apiResponse = await this.HttpClient.PostAsJsonAsync<SignupDoctorDto>($"api/Accounts/Signup/Doctor", doctorSignUp);
+                if (apiResponse is { IsSuccessStatusCode: true } && await (apiResponse.Content.ReadFromJsonAsync<ResponseDto<IEnumerable<Guid>>>()) is ResponseDto<IEnumerable<Guid>> responseContent)
+                {
+                    return responseContent;
+                }
+                else
+                {
+                    return null;
+                }
             }
-            else
+            catch (Exception ex)
             {
+
                 return null;
             }
         }

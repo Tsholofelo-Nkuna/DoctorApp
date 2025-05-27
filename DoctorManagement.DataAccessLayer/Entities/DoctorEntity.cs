@@ -19,6 +19,6 @@ namespace DoctorManagement.DataAccessLayer.Entities
         public AddressEntity? PracticeSite { get; set; }
         public DataSourceEntity? Title { get; set; }
         public string UserId { get; set; }
-        public string Specialty { get; set; } = string.Empty;
+        public DataSourceEntity? Specialty {  get; set; }
     }
 }
