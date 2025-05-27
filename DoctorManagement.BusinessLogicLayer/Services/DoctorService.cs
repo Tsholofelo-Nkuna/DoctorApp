@@ -42,14 +42,15 @@ namespace DoctorManagement.BusinessLogicLayer.Services
                 query = query.Where(doc => doc.PracticeSite.Zip == (filters.Zip));
             }
 
-            if (!string.IsNullOrEmpty(filters.Specialty))
+            if (filters.SpecialtyId > 0)
             {
-                //query = query.Where(docRec => docRec.Specialty.Contains(filters.Specialty));
+                query = query.Where(docRec => docRec.Specialty.Value == filters.SpecialtyId);
             }
 
             return  query.Include(x => x.Contact)
                 .Include(x => x.Title)
-                .Include(x => x.PracticeSite);
+                .Include(x => x.PracticeSite)
+                .Include(x => x.Specialty);
         }
 
         public override IEnumerable<Guid> AddOrUpdate(List<DoctorDto> records, string? currentUserId)

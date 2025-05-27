@@ -4,11 +4,20 @@
 @inherits BaseComponent<DoctorListViewModel, List<DoctorDto>>
 
  <div class="d-flex justify-content-center my-1">
-    <ButtonComponent Type="primary" OnButtonClick="(bComp) => { ViewModel.DocSearchModalViewModel.Show = true; }">
+    @* <ButtonComponent Type="primary" OnButtonClick="(bComp) => { ViewModel.DocSearchModalViewModel.Show = true; }">
         <Content>
             Find health worker <i class="bi bi-search"></i>
         </Content>
-    </ButtonComponent>
+    </ButtonComponent> *@
+    <EditForm EditContext="this.ViewModel.DocSearchModalViewModel.EditContext">
+      
+        <InputSelect @oninput="async (val) => { await OnDoctorSpecialtyDropListChange(val.Value); } " @bind-Value="this.ViewModel.DocSearchModalViewModel.Data.SpecialtyId" class="form-select my-1">
+            <option value="@(0)">Please select</option>
+            @foreach(var option in this.ViewModel.DoctorSpecialtyList){
+                <option value="@option?.Value">@option?.Description</option>
+            }
+        </InputSelect>
+    </EditForm>
 </div>
 @foreach (var item in (ViewModel.Data ?? []))
 {
@@ -18,7 +27,7 @@
                                   ViewModel="@(new(){
                             ProfileIcon ="bi bi-heart-pulse",
                             Title = $"{item.Title?.Description} {item.Initials} {item.LastName}({item.PracticeNumber})",
-                            Description = $"{item.Specialty?.Description} at {item.PracticeSite?.City}",
+                            Description = $"Specialty: {item.Specialty?.Description}",
                             EnableContextMenu = true})">
                 <AdditionalContent>
                     <div class="text-primary">@($"{DistanceCalculator((item.PracticeSite?.Latitude ?? 0, item.PracticeSite?.Longitude ?? 0), (CurrentAppLocation.Latitude, CurrentAppLocation.Longitude)):F1} km away")</div>

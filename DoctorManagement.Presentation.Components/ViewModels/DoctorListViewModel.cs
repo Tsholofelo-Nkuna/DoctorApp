@@ -12,5 +12,6 @@ namespace DoctorManagement.Presentation.ViewModels
     public class DoctorListViewModel : BaseViewModel<List<DoctorDto>> 
     {
         public ModalViewModel<DoctorFilter> DocSearchModalViewModel { get; set; } = new();
+        public IEnumerable<DataSourceDto> DoctorSpecialtyList { get; set; } = [];
     }
 }
