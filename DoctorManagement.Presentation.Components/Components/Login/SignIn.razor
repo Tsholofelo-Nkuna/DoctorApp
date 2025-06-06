@@ -6,9 +6,9 @@
 
 <div class="vh-100" style="display:grid; grid-template-columns:1fr; grid-template-rows: 1fr; align-items:center">
     <CardComponent Context="cardContext"
-        ViewModel="@(new CardComponentViewModel<LoginCredentialsDto>{ Title = " Find health worker", Data = this.ViewModel.Data})">
+                   ViewModel="@(new CardComponentViewModel<LoginCredentialsDto>{ Title = "Find healthcare professional", Data = this.ViewModel.Data})">
         <Header>
-            <h3 class="text-primary px-1">
+            <h3 class="text-primary px-1 text-center fs-6">
                 @cardContext.Title
             </h3>
         </Header>
@@ -37,7 +37,9 @@
                 <div class="d-flex justify-content-center">
                     <span>Or</span>
                 </div>
-                <a href="signup/doctor"  class="d-block btn btn-secondary">Sign up as health worker</a>
+                <a href="signup/doctor" class="d-block btn btn-secondary text-center" style="font-size:0.78rem;">
+                    Sign up as Healthcare professional
+                </a>
             </div>
         </Footer>
     </CardComponent>
