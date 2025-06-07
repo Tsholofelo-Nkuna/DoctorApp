@@ -11,6 +11,7 @@ namespace DoctorManagement.Presentation.ViewModels
     public class AppointmentSchedularComponentViewModel : BaseViewModel<AppointmentDto>
     {
         public IEnumerable<DataSourceDto> AppointmentTypeList { get; set; } = [];
+        public IEnumerable<DataSourceDto> PaymentMethodOptions { get; set; } = [];
         public bool AppointmentSubmissionInProgress { get; set; }
     }
 }

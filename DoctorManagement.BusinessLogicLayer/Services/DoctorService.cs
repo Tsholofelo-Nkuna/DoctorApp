@@ -42,9 +42,9 @@ namespace DoctorManagement.BusinessLogicLayer.Services
                 query = query.Where(doc => doc.PracticeSite.Zip == (filters.Zip));
             }
 
-            if (filters.SpecialtyId > 0)
+            if (filters.SpecialtyValue > 0)
             {
-                query = query.Where(docRec => docRec.Specialty.Value == filters.SpecialtyId);
+                query = query.Where(docRec => docRec.Specialty.Value == filters.SpecialtyValue);
             }
 
             return  query.Include(x => x.Contact)

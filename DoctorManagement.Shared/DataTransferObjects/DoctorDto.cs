@@ -19,7 +19,7 @@ namespace DoctorManagement.Shared.DataTransferObjects
         public string PracticeNumber { get; set; } = string.Empty;
        
         [Required(ErrorMessage = "Specialty is required")]
-        public int SpecialtyId { get; set; }
+        public int SpecialtyValue { get; set; }
         public AddressDto? PracticeSite { get; set; } 
         public ContactDto? Contact { get; set; }
         public string UserId { get; set; } = string.Empty;

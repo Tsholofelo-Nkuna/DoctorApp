@@ -40,7 +40,7 @@ namespace DoctorManagement.Presentation.Components.Patients
             if(val is object validValue)
             {
                 var value = Convert.ToInt32(validValue);
-                ViewModel.DocSearchModalViewModel.Data.SpecialtyId = value;
+                ViewModel.DocSearchModalViewModel.Data.SpecialtyValue = value;
                 await OnFindDoctorSecondButtonClicked();
             }
          

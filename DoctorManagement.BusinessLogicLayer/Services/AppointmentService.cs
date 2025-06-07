@@ -38,6 +38,12 @@ namespace DoctorManagement.BusinessLogicLayer.Services
                                    on appointmentType.Value equals appointmentRec.AppointmentTypeId
                                    select appointmentType).Select(aTypeE => mapper.Map<DataSourceDto>(aTypeE));
 
+            var paymentTypes = (from paymentType in dbContext.DataSource.AsNoTracking().Where(app =>
+                                    app.TypeCode == DataSourceTypeCodeConstants.PaymentMethod).ToList()
+                                join appointmentRec in inserted
+                                on paymentType.Value equals appointmentRec.PaymentMethodId
+                                select paymentType).Select(aTypeE => mapper.Map<DataSourceDto>(aTypeE));
+
             inserted.ForEach(insert =>
             {
                 if(targetDoctors.Any(target => target.Id == insert.DoctorId))
@@ -52,6 +58,10 @@ namespace DoctorManagement.BusinessLogicLayer.Services
                 if(appointmentTypes.Any(aType => aType.Value == insert.AppointmentTypeId))
                 {
                     insert.AppointmentType = appointmentTypes.FirstOrDefault(x => x.Value == insert.AppointmentTypeId);
+                }
+                if (paymentTypes.Any(aType => aType.Value == insert.PaymentMethodId))
+                {
+                    insert.PaymentMethod = paymentTypes.FirstOrDefault(x => x.Value == insert.PaymentMethodId);
                 }
             });
             return base.AddOrUpdate(inserted, currentUserId);

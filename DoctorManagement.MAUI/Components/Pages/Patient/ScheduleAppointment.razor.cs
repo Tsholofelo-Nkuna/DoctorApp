@@ -36,9 +36,14 @@ namespace DoctorManagement.MAUI.Components.Pages.Patient
             DataSourceApiConsumer.AccessToken =  accessToken;
             DoctorApiConsumer.AccessToken = accessToken;
             AppointmentApiConsumer.AccessToken = accessToken;
+
             var appointmentTypeOptions = await DataSourceApiConsumer
                 .Get(new() { GetAllPages = true, Filter = new() { TypeCode = DataSourceTypeCodeConstants.AppointmentType } });
+            var paymentMethodOptions = await DataSourceApiConsumer
+              .Get(new() { GetAllPages = true, Filter = new() { TypeCode = DataSourceTypeCodeConstants.PaymentMethod } });
+
             ViewModel.AppointmentTypeList = appointmentTypeOptions?.Data ?? [];
+            ViewModel.PaymentMethodOptions = paymentMethodOptions?.Data ?? [];
             ViewModel.Data.DoctorId = DoctorId;
             ViewModel.Data.Doctor = (await DoctorApiConsumer.Get(new() { Filter = new() { Id = DoctorId} }))?.Data?.FirstOrDefault() ?? new();
            
@@ -52,6 +57,7 @@ namespace DoctorManagement.MAUI.Components.Pages.Patient
                 DoctorId = appointment.DoctorId,
                 ScheduledDate = appointment.ScheduledDate,
                 AppointmentTypeId = appointment.AppointmentTypeId,
+                PaymentMethodId = appointment.PaymentMethodId,
             });
             var message = results?.Data?.Any() ?? false ? "Appointment request created." : "Failed to create appointment request.";
             this.AppointmentSubmissionResponse  = (results?.Data?.Any() ?? false, message);

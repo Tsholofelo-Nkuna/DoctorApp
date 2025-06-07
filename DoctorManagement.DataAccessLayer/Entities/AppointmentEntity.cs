@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +15,7 @@ namespace DoctorManagement.DataAccessLayer.Entities
         public DoctorEntity Doctor { get; set; }
         public PatientEntity Patient { get; set; }
         public DataSourceEntity? AppointmentStatus { get; set; }
+        public DataSourceEntity? PaymentMethod { get; set; }
         
     }
 }

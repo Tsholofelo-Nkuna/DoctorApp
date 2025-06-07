@@ -15,6 +15,6 @@ namespace DoctorManagement.Shared.Models
         public string Specialty { get; set; } = string.Empty;
         public double Longitude { get; set; }
         public double Latitude { get; set; }
-        public int SpecialtyId { get; set; }
+        public int SpecialtyValue { get; set; }
     }
 }

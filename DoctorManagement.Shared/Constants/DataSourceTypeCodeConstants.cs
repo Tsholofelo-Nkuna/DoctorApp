@@ -12,5 +12,6 @@ namespace DoctorManagement.Shared.Constants
         public const string AppointmentType = "AppointmentType";
         public const string AppointmentStatus = "AppointmentStatus";
         public const string Specialty = "Specialty";
+        public const string PaymentMethod = "PaymentMethod";
     }
 }

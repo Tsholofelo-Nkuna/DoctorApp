@@ -11,7 +11,7 @@
     </ButtonComponent> *@
     <EditForm EditContext="this.ViewModel.DocSearchModalViewModel.EditContext">
       
-        <InputSelect @oninput="async (val) => { await OnDoctorSpecialtyDropListChange(val.Value); } " @bind-Value="this.ViewModel.DocSearchModalViewModel.Data.SpecialtyId" class="form-select my-1">
+        <InputSelect @oninput="async (val) => { await OnDoctorSpecialtyDropListChange(val.Value); } " @bind-Value="this.ViewModel.DocSearchModalViewModel.Data.SpecialtyValue" class="form-select my-1">
             <option value="@(0)">Please select</option>
             @foreach(var option in this.ViewModel.DoctorSpecialtyList){
                 <option value="@option?.Value">@option?.Description</option>

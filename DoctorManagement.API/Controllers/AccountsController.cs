@@ -114,7 +114,7 @@ namespace DoctorManagement.API.Controllers
                 if (userRoleCreated is { Succeeded: true })
                 {
                     var specialtyRecord = _dataSourceService.Get(new PageRequestDto<DataSourceFilter>() { Filter = new() { TypeCode = DataSourceTypeCodeConstants.Specialty }, GetAllPages = true })
-                        .Data?.FirstOrDefault(x => x.Value == doctorSignup.SpecialtyId);
+                        .Data?.FirstOrDefault(x => x.Value == doctorSignup.SpecialtyValue);
                     var apiResponse = await this.AppApi.PostAsJsonAsync<DoctorDto>("api/Doctors", new()
                     {
                         Contact = doctorSignup.Contact,

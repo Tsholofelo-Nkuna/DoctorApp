@@ -22,5 +22,8 @@ namespace DoctorManagement.Shared.DataTransferObjects
         public Guid PatientId { get; set; }
         public Guid DoctorId { get; set; }
         public DataSourceDto? AppointmentStatus { get; set; }
+        [Required, Range(1, int.MaxValue, ErrorMessage = "Invalid input")]
+        public int PaymentMethodId { get; set; }
+        public DataSourceDto? PaymentMethod { get; set; }
     }
 }

@@ -43,14 +43,14 @@
         <label for="@nameof(ViewModel.Data.PracticeNumber)">Practice Number</label>
         <InputText id="@nameof(ViewModel.Data.PracticeNumber)" @bind-Value="ViewModel.Data.PracticeNumber" class="form-control"></InputText>
         <ValidationMessage For="() => ViewModel.Data.PracticeNumber"></ValidationMessage>
-        <label for="@nameof(ViewModel.Data.SpecialtyId)">Specialty</label>
-        <InputSelect id="@nameof(ViewModel.Data.SpecialtyId)" @bind-Value="ViewModel.Data.SpecialtyId" class="form-select">
+        <label for="@nameof(ViewModel.Data.SpecialtyValue)">Specialty</label>
+        <InputSelect id="@nameof(ViewModel.Data.SpecialtyValue)" @bind-Value="ViewModel.Data.SpecialtyValue" class="form-select">
             <option>Please select</option>
             @foreach(var specialtyOption in this.DoctorSpecialties){
                 <option value="@specialtyOption.Value">@specialtyOption.Description</option>
             }
         </InputSelect>
-        <ValidationMessage For="() => ViewModel.Data.SpecialtyId"></ValidationMessage>
+        <ValidationMessage For="() => ViewModel.Data.SpecialtyValue"></ValidationMessage>
     </EditForm>
     <EditForm EditContext="AddressEditContext">
         <DataAnnotationsValidator></DataAnnotationsValidator>
