@@ -43,9 +43,9 @@ namespace DoctorManagement.Presentation.Components.Login
             get
             {
                 return  this.CredentialsEditContext.Validate()
+                && this.GeneralInfoEditContext.Validate()
                 && this.AddressEditContext.Validate()
-                && this.ContactEditContext.Validate()
-                && this.GeneralInfoEditContext.Validate();
+                && this.ContactEditContext.Validate();
             }
         }
 
@@ -75,6 +75,7 @@ namespace DoctorManagement.Presentation.Components.Login
                     Address = ViewModel.Data.Address,
                     Contact = ViewModel.Data.Contact,
                     Credentials = ViewModel.Data.Credentials,
+                    GeneralInfo = ViewModel.Data.GeneralInfo,
                 });
                 if(result is not null)
                 {

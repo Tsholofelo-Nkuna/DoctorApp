@@ -19,10 +19,11 @@
     <hr />
      <EditForm EditContext="GeneralInfoEditContext">
          <DataAnnotationsValidator></DataAnnotationsValidator>
-        <label>ID</label>
-        <InputText @bind-Value="ViewModel.Data.GeneralInfo.IdentityNumber" class="form-control" placeholder="ID"></InputText>
+        <label>Id no.</label>
+        <InputText @bind-Value="ViewModel.Data.GeneralInfo.IdentityNumber" class="form-control"></InputText>
         <ValidationMessage For="() => ViewModel.Data.GeneralInfo.IdentityNumber"></ValidationMessage>
-
+         <label>Medical aid no.</label>
+        <InputText @bind-Value="ViewModel.Data.GeneralInfo.MedicalAidNumber" class="form-control"></InputText>
      </EditForm>
     <hr />
     <EditForm EditContext ="ContactEditContext">

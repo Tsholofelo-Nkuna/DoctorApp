@@ -18,7 +18,8 @@ namespace DoctorManagement.Shared.DataTransferObjects
 
     public class GeneralInfo
     {
-        [Required]
+        [Required, RegularExpression(@"\d{13}", ErrorMessage = "Invalid Id")]
         public string IdentityNumber { get; set; } = string.Empty;
+        public string MedicalAidNumber { get; set; } = string.Empty ;
     }
 }

@@ -55,6 +55,8 @@ namespace DoctorManagement.API.Controllers
                        Address = patientSignUp.Address, 
                        Contact = patientSignUp.Contact,
                        UserId = newlyCreatedUser.Id,
+                       IdentityNumber = patientSignUp.GeneralInfo.IdentityNumber,
+                       MedicalAidNumber = patientSignUp.GeneralInfo.MedicalAidNumber,
                    });
                    if(apiResponse is { IsSuccessStatusCode : true } 
                    &&  (await apiResponse.Content.ReadFromJsonAsync<ResponseDto<IEnumerable<Guid>>>()) is ResponseDto<IEnumerable<Guid>> validResponseContent)
