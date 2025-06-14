@@ -17,6 +17,14 @@
       
     </EditForm>
     <hr />
+     <EditForm EditContext="GeneralInfoEditContext">
+         <DataAnnotationsValidator></DataAnnotationsValidator>
+        <label>ID</label>
+        <InputText @bind-Value="ViewModel.Data.GeneralInfo.IdentityNumber" class="form-control" placeholder="ID"></InputText>
+        <ValidationMessage For="() => ViewModel.Data.GeneralInfo.IdentityNumber"></ValidationMessage>
+
+     </EditForm>
+    <hr />
     <EditForm EditContext ="ContactEditContext">
         <DataAnnotationsValidator></DataAnnotationsValidator>
         <h4 class="text-primary">Contact Details</h4>

@@ -21,6 +21,7 @@ namespace DoctorManagement.Presentation.Components.Login
         public EditContext ContactEditContext { get; set; }
         public EditContext CredentialsEditContext { get; set; }
         public EditContext AddressEditContext { get; set; }
+        public EditContext GeneralInfoEditContext { get; set; }
         public ModalViewModel<SignupDto> ModalViewModel { get; set; } = new();
         public ResponseDto<IEnumerable<Guid>>? ServerMessage { get; set; } = new();
         [Parameter]
@@ -33,6 +34,7 @@ namespace DoctorManagement.Presentation.Components.Login
             this.ContactEditContext = new(ViewModel.Data.Contact);
             this.AddressEditContext = new(ViewModel.Data.Address);
             this.CredentialsEditContext = new(ViewModel.Data.Credentials);
+            this.GeneralInfoEditContext = new(ViewModel.Data.GeneralInfo);
             this.ModalViewModel.Data = ViewModel.Data;
         }
 
@@ -42,7 +44,8 @@ namespace DoctorManagement.Presentation.Components.Login
             {
                 return  this.CredentialsEditContext.Validate()
                 && this.AddressEditContext.Validate()
-                && this.ContactEditContext.Validate();
+                && this.ContactEditContext.Validate()
+                && this.GeneralInfoEditContext.Validate();
             }
         }
 
@@ -50,9 +53,10 @@ namespace DoctorManagement.Presentation.Components.Login
         {
             get
             {
-                return this.CredentialsEditContext.GetValidationMessages().Concat(this.AddressEditContext.GetValidationMessages())
-                    .Concat(this.ContactEditContext.GetValidationMessages());
-              
+                return this.CredentialsEditContext.GetValidationMessages()
+                    .Concat(this.AddressEditContext.GetValidationMessages())
+                    .Concat(this.ContactEditContext.GetValidationMessages())
+                    .Concat(this.GeneralInfoEditContext.GetValidationMessages());
              
             }
         }
