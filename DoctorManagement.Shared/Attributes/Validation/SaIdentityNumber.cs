@@ -16,7 +16,7 @@ namespace DoctorManagement.Shared.Attributes.Validation
             ValidationResult errorResponse = new(string.IsNullOrWhiteSpace(ErrorMessage) ? _defaultErrorMessage : ErrorMessage);
             if (value is string validStr)
             {
-                var isValidId =  this.ValidateLuhn(validStr) && Regex.Match(validStr, @"\d{13}").Success;
+                var isValidId = Regex.Match(validStr, "[^0]").Success && this.ValidateLuhn(validStr);
                 return isValidId ? ValidationResult.Success : errorResponse;
             }
             else
