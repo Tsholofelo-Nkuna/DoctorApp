@@ -1,4 +1,5 @@
-﻿using DoctorManagement.Shared.DataTransferObjects;
+﻿using DoctorManagement.Shared.Attributes.Validation;
+using DoctorManagement.Shared.DataTransferObjects;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,7 +19,7 @@ namespace DoctorManagement.Shared.DataTransferObjects
 
     public class GeneralInfo
     {
-        [Required, RegularExpression(@"\d{13}", ErrorMessage = "Invalid Id")]
+        [Required, SaIdentityNumber]
         public string IdentityNumber { get; set; } = string.Empty;
         public string MedicalAidNumber { get; set; } = string.Empty ;
     }
