@@ -87,6 +87,40 @@ namespace DoctorManagement.Api.Consumer.Base
             }
         }
 
+        public virtual async Task<ResponseDto<string>> GetUserId()
+        {
+
+            try
+            {
+                var apiResponse = await this.HttpClient.GetAsync($"api/{this.ControllerName}/GetUserId");
+                if (apiResponse is { IsSuccessStatusCode: true } && (await apiResponse.Content.ReadFromJsonAsync<ResponseDto<string>>()) is ResponseDto<string> responseContent)
+                {
+                    responseContent.StatusCode = HttpStatusCode.OK;
+                    return responseContent;
+                }
+                else if (apiResponse is { StatusCode: HttpStatusCode.Unauthorized })
+                {
+                    ResponseDto<string> results = new()
+                    {
+                        Data = string.Empty,
+                        Message = "Not authorized",
+                        StatusCode = HttpStatusCode.Unauthorized,
+                    };
+                    Unauthorized?.Invoke(this, new() { Data = false, Message = results.Message, StatusCode = results.StatusCode });
+                    return results;
+                }
+                else
+                {
+                    return new() { Data = string.Empty};
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return new();
+            }
+        }
+
         public virtual async Task<ResponseDto<IEnumerable<Guid>>?> Add(TDto dto)
         {
             try

@@ -73,6 +73,10 @@ namespace DoctorManagement.BusinessLogicLayer.Services
             {
                 query = query.Where(appointment => appointment.Patient.UserId == filters.CurrentUserId);
             }
+            if (!string.IsNullOrWhiteSpace(filters.DoctorId))
+            {
+                query = query.Where(appointment => appointment.Doctor.UserId == filters.DoctorId);
+            }
             return query
                 .Include(appointment => appointment.Patient)
                 .ThenInclude(patient => patient.Address)

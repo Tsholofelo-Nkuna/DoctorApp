@@ -1,5 +1,6 @@
 ﻿using DoctorManagement.Api.Consumer;
 using DoctorManagement.Api.Consumer.Interfaces;
+using DoctorManagement.Api.Consumer.Interfaces.Base;
 using DoctorManagement.Presentation.Components.Templates.Email;
 using DoctorManagement.Presentation.Services.Interfaces;
 using DoctorManagement.Shared.Constants;
@@ -26,16 +27,16 @@ namespace DoctorManagement.MAUI.Components.Pages.Patient
         public (bool Success, string Message ) AppointmentSubmissionResponse { get; set; } = (false, string.Empty);
        [Inject]
         public IMailTemplateMessageHandler MailTemplateMessageHandler { get; set; }
+        public List<IUnauthorizedApiCallHandler> ApiConsumers { get; set; } = [];
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            DataSourceApiConsumer.Unauthorized += this.OnUnauthorized;
-            DoctorApiConsumer.Unauthorized += this.OnUnauthorized;
-            AppointmentApiConsumer.Unauthorized += this.OnUnauthorized;
-            var accessToken = (await SecureStorage.Default.GetAsync(LocalStorageKeys.BearerToken)) ?? string.Empty;
-            DataSourceApiConsumer.AccessToken =  accessToken;
-            DoctorApiConsumer.AccessToken = accessToken;
-            AppointmentApiConsumer.AccessToken = accessToken;
+            ApiConsumers = [
+                DataSourceApiConsumer,
+                DoctorApiConsumer,
+                AppointmentApiConsumer
+             ];
+            await InitializeApiConsumers(ApiConsumers);
 
             var appointmentTypeOptions = await DataSourceApiConsumer
                 .Get(new() { GetAllPages = true, Filter = new() { TypeCode = DataSourceTypeCodeConstants.AppointmentType } });
@@ -83,12 +84,7 @@ namespace DoctorManagement.MAUI.Components.Pages.Patient
            
         }
         ~ ScheduleAppointment() { 
-           if(DataSourceApiConsumer is not null || true)
-            {
-                DataSourceApiConsumer.Unauthorized -= this.OnUnauthorized;
-                DoctorApiConsumer.Unauthorized -= this.OnUnauthorized;
-                AppointmentApiConsumer.Unauthorized -= this.OnUnauthorized;
-            }
+          ReleaseApiConsumers(ApiConsumers);
         }
     }
 }

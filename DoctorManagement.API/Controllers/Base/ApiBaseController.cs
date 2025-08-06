@@ -81,5 +81,15 @@ namespace DoctorManagement.API.Controllers.Base
                 throw;
             }
         }
+
+        [HttpGet("[action]")]
+        public virtual async Task<ResponseDto<string>> GetUserId()
+        {
+            var userId = (await userContextService.GetCurrentUserAsync())?.Id ?? string.Empty;
+            return new()
+            {
+                Data = userId,
+            };
+        }
     }
 }

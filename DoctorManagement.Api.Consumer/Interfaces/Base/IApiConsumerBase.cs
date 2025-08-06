@@ -16,6 +16,7 @@ namespace DoctorManagement.Api.Consumer.Interfaces.Base
         public Task<ResponseDto<bool>?> Delete(Guid guid);
         public Task<ResponseDto<IEnumerable<Guid>>?> Add(TDto dto);
         public Task<ResponseDto<IEnumerable<string>>?> GetUserRoles();
+        public Task<ResponseDto<string>> GetUserId();
 
     }
 }

@@ -9,6 +9,10 @@ namespace DoctorManagement.Shared.Models
 {
     public class AppointmentFilter: BaseFilter
     {
+        /// <summary>
+        /// PatientId
+        /// </summary>
         public string CurrentUserId { get; set; }  = string.Empty;
+        public string DoctorId { get; set; } = string.Empty ;
     }
 }

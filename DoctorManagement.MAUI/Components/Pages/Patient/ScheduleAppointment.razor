@@ -3,7 +3,7 @@
 @using DoctorManagement.Presentation.ViewModels.Base
 @using DoctorManagement.Shared.DataTransferObjects
 @attribute [Route(RouteConstants.ScheduleAppointment+"/{doctorId:guid}")]
-@inherits BaseComponent<AppointmentSchedularComponentViewModel, AppointmentDto>
+@inherits Base.BasePage<AppointmentSchedularComponentViewModel, AppointmentDto>
 @if (!string.IsNullOrEmpty(this.AppointmentSubmissionResponse.Message))
 {
     <div style="font-size:0.67rem;" class="fw-bold mt-1 alert alert-@(AppointmentSubmissionResponse.Success ? "success":"danger")">

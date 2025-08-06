@@ -19,6 +19,8 @@ namespace DoctorManagement.MAUI.Components.Layout
                 return _isConnectedToInternet;
             }
         }
+
+        public static bool RenderPatientLayout { get; set; } = true;
         public IEnumerable<string> NavBarPages 
         { 
            get

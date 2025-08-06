@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DoctorManagement.Shared.Constants
 {
-    public class RouteConstants
+    public static class RouteConstants
     {
         public const string Login = "/Login";
         public const string Signup = "/Signup";
@@ -14,5 +14,6 @@ namespace DoctorManagement.Shared.Constants
         public const string Doctors = "/";
         public const string ScheduleAppointment = "Schedule/Appointment/Patient";
         public const string PatientAppointments = "/Appointments/Patient";
+        public const string DoctorAppointments = "/Appointments/Doctor";
     }
 }

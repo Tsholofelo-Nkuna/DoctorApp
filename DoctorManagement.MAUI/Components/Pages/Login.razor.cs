@@ -1,5 +1,6 @@
 ﻿using DoctorManagement.Api.Consumer.Interfaces;
 using DoctorManagement.Api.Consumer.Interfaces.Base;
+using DoctorManagement.MAUI.Components.Layout;
 using DoctorManagement.Shared;
 using DoctorManagement.Shared.Constants;
 using DoctorManagement.Shared.DataTransferObjects;
@@ -34,11 +35,13 @@ namespace DoctorManagement.MAUI.Components.Pages
             {
                 if (validUserRoles.Contains(RoleConstants.Patient))
                 {
+                    MainLayout.RenderPatientLayout = true;
                     this.NavManager.NavigateTo(RouteConstants.Doctors);
                 }
                 else if (validUserRoles.Contains(RoleConstants.Doctor))
                 {
-                    //Navigate to doctors page
+                    MainLayout.RenderPatientLayout = false;
+                    this.NavManager.NavigateTo(RouteConstants.DoctorAppointments);
                 }
                 
             }
