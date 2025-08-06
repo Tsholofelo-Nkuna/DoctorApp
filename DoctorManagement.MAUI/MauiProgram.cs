@@ -27,7 +27,7 @@ namespace DoctorManagement.MAUI
                 config.DesiredAccuracy = GeolocationAccuracy.Medium;
             });
             builder.Services.AddSingleton<IAppLocationService, AppLocationService>();
-
+            builder.Services.AddHttpContextAccessor();
 
             var apiBaseAddress = "https://epichealth.growthlytix.co.za";
 #if DEBUG

@@ -3,6 +3,7 @@ using DoctorManagement.Shared.Models.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +15,7 @@ namespace DoctorManagement.Api.Consumer.Interfaces.Base
         public Task<PageResponse<TDto>?> Get(PageRequestDto<TFilter> pageRequest);
         public Task<ResponseDto<bool>?> Delete(Guid guid);
         public Task<ResponseDto<IEnumerable<Guid>>?> Add(TDto dto);
-      
+        public Task<ResponseDto<IEnumerable<string>>?> GetUserRoles();
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DoctorManagement.Api.Consumer.Interfaces;
+using DoctorManagement.Api.Consumer.Interfaces.Base;
 using DoctorManagement.MAUI.Services.Interfaces;
 
 using DoctorManagement.Shared.Constants;
@@ -36,18 +37,17 @@ namespace DoctorManagement.MAUI.Components.Pages.Patient
             }
         }
 
+        public List<IUnauthorizedApiCallHandler> ApiConsumers = [];
         protected async override Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            DoctorApiConsumer.Unauthorized += OnUnauthorized;
+            this.ApiConsumers = [
+                DoctorApiConsumer,
+                ];
+            await this.InitializeApiConsumers(this.ApiConsumers);
+         
             var location = await LocationService.GetAppCurrentLocation();
             AppLocation = location;
-            var token = await SecureStorage.Default.GetAsync(LocalStorageKeys.BearerToken);
-            if (token is not null)
-            {
-                // var tokenResponse = JsonSerializer.Deserialize<TokenResponseDto>(token);
-                DoctorApiConsumer.AccessToken = token;
-            }
             DoctorListPageResponse = await GetDoctorsList(DoctorListPageRequestDto);
 
         }
@@ -83,10 +83,7 @@ namespace DoctorManagement.MAUI.Components.Pages.Patient
         }
         ~Doctors()
         {
-            if (DoctorApiConsumer is not null)
-            {
-                DoctorApiConsumer.Unauthorized -= OnUnauthorized;
-            }
+            this.ReleaseApiConsumers(this.ApiConsumers);
 
         }
     }

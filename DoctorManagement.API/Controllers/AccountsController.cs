@@ -48,6 +48,7 @@ namespace DoctorManagement.API.Controllers
                 {
                     await _roleManager.CreateAsync(new() { Name = RoleConstants.Patient });
                 }
+                //move this logic to patient service
                 var userRoleCreated = await _userManager.AddToRoleAsync(newlyCreatedUser, RoleConstants.Patient);
                 if(userRoleCreated is { Succeeded : true })
                 {
@@ -112,6 +113,7 @@ namespace DoctorManagement.API.Controllers
                 {
                     await _roleManager.CreateAsync(new() { Name = RoleConstants.Doctor });
                 }
+                //move this to doctor service
                 var userRoleCreated = await _userManager.AddToRoleAsync(newlyCreatedUser, RoleConstants.Doctor);
                 if (userRoleCreated is { Succeeded: true })
                 {
@@ -127,7 +129,7 @@ namespace DoctorManagement.API.Controllers
                         LastName = doctorSignup.LastName,
                         TitleDatasourceId = doctorSignup.TitleDatasourceId,
                         TitleDescription = doctorSignup.TitleDescription,
-                        
+                        UserId = newlyCreatedUser.Id,
                     });
                   
                     if (apiResponse is { IsSuccessStatusCode: true }

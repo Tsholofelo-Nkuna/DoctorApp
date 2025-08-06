@@ -8,16 +8,22 @@ using DoctorManagement.Shared.DataTransferObjects;
 using DoctorManagement.Shared.DataTransferObjects.Base;
 using DoctorManagement.Shared.Models;
 using DoctorManagement.Shared.Models.Base;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 
 
 namespace DoctorManagement.MAUI.Components.Pages.Base
 {
+ 
     public class BasePage<TViewModel, TDto> : BaseComponent<TViewModel, TDto>, IBasePage<TViewModel, TDto> where TViewModel: IBaseViewModel<TDto>, new() where TDto: new()
     {
         public async Task InitializeApiConsumers(List<IUnauthorizedApiCallHandler> apiConsumers)
         {
             var token = await SecureStorage.Default.GetAsync(LocalStorageKeys.BearerToken);
+            SecureStorage.Remove(LocalStorageKeys.BearerToken);
             foreach (var apiConsumer in apiConsumers)
             {
               if(apiConsumer is not null)

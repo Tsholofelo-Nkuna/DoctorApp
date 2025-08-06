@@ -14,7 +14,8 @@ namespace DoctorManagement.BusinessLogicLayer.Services
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public UserContextService(UserManager<IdentityUser> userManager, IHttpContextAccessor httpContextAccessor) {
+        private readonly RoleManager<IdentityRole> _roleManager;
+        public UserContextService(UserManager<IdentityUser> userManager, IHttpContextAccessor httpContextAccessor, RoleManager<IdentityRole> roleManager) {
           this._userManager = userManager;
           this._httpContextAccessor = httpContextAccessor;
         }
@@ -27,6 +28,20 @@ namespace DoctorManagement.BusinessLogicLayer.Services
                 return  await _userManager.GetUserAsync(user);
             }
            return null;
+        }
+
+        public async Task<IEnumerable<string>> GetCurrentUserRoles()
+        {
+            var currentUser = await GetCurrentUserAsync();
+            if(currentUser is not null)
+            {
+                var results = await _userManager.GetRolesAsync(currentUser);
+                return results;
+            }
+            else
+            {
+                return [];
+            }
         }
     }
 }

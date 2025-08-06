@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http.Json;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -51,6 +52,39 @@ namespace DoctorManagement.Api.Consumer.Base
 #endif
             this.HttpClient.BaseAddress = new Uri(options.Value.BaseAddress);
             
+        }
+
+        public virtual async Task<ResponseDto<IEnumerable<string>>?> GetUserRoles()
+        {
+            try
+            {
+                var apiResponse = await this.HttpClient.GetAsync($"api/{this.ControllerName}/GetUserRoles");
+                if (apiResponse is { IsSuccessStatusCode: true } && (await apiResponse.Content.ReadFromJsonAsync<ResponseDto<IEnumerable<string>>>()) is ResponseDto<IEnumerable<string>> responseContent)
+                {
+                    responseContent.StatusCode = HttpStatusCode.OK;
+                    return responseContent;
+                }
+                else if (apiResponse is { StatusCode: HttpStatusCode.Unauthorized })
+                {
+                    ResponseDto<IEnumerable<string>> results = new()
+                    {
+                        Data = [],
+                        Message = "Not authorized",
+                        StatusCode = HttpStatusCode.Unauthorized,
+                    };
+                    Unauthorized?.Invoke(this, new() { Data = false, Message = results.Message, StatusCode = results.StatusCode });
+                    return results;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         public virtual async Task<ResponseDto<IEnumerable<Guid>>?> Add(TDto dto)

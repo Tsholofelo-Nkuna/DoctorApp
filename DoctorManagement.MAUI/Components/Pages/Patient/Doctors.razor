@@ -4,7 +4,7 @@
 @using DoctorManagement.Shared.DataTransferObjects
 @using Microsoft.AspNetCore.Authorization
 @attribute [Route(RouteConstants.Doctors)]
-@inherits BaseComponent<DoctorListViewModel,List<DoctorDto>>
+@inherits Base.BasePage<DoctorListViewModel,List<DoctorDto>>
  <DoctorListComponent
      CurrentAppLocation="(AppLocation?.Latitude ?? 0,AppLocation?.Longitude ?? 0)"
      DistanceCalculator="ComputeDistance"

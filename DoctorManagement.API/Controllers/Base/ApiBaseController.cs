@@ -8,6 +8,8 @@ using DoctorManagement.Shared.DataTransferObjects.Base;
 using DoctorManagement.Shared.Models.Base;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata.Ecma335;
+using System.Security.Claims;
 
 namespace DoctorManagement.API.Controllers.Base
 {
@@ -60,6 +62,24 @@ namespace DoctorManagement.API.Controllers.Base
                 Data = result,
                 Message = result ? "Record deleted successully": "Delete failed"
             };
+        }
+
+        [HttpGet("[action]")]
+        public virtual async Task<ResponseDto<IEnumerable<string>>> GetUserRoles()
+        {
+            try
+            {
+                var result =  await this.userContextService.GetCurrentUserRoles();
+                return new()
+                {
+                    Data = result
+                };
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
     }
 }

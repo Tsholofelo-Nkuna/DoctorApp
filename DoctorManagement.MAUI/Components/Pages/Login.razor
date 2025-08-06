@@ -1,2 +1,3 @@
 ﻿@attribute [Route(RouteConstants.Login)]
-<SignIn OnTokenReceived="OnTokenReceived"></SignIn>
+@inherits Base.BasePage<LoginViewModel, LoginCredentialsDto>
+<SignIn ViewModel="ViewModel" OnTokenReceived="OnTokenReceived"></SignIn>
