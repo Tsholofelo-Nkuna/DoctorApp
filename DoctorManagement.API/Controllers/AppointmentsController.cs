@@ -14,7 +14,7 @@ using Microsoft.Identity.Client;
 namespace DoctorManagement.API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController, Authorize(Roles = $"{RoleConstants.Patient}")]
+    [ApiController, Authorize(Roles = $"{RoleConstants.Patient}, {RoleConstants.Doctor}")]
     public class AppointmentsController : ApiBaseController<AppointmentDto, AppointmentEntity, AppointmentFilter>
     {
         private readonly IAppointmentService _appointmentsService;

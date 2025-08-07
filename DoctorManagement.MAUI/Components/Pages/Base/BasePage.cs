@@ -23,7 +23,7 @@ namespace DoctorManagement.MAUI.Components.Pages.Base
         public async Task InitializeApiConsumers(List<IUnauthorizedApiCallHandler> apiConsumers)
         {
             var token = await SecureStorage.Default.GetAsync(LocalStorageKeys.BearerToken);
-            SecureStorage.Remove(LocalStorageKeys.BearerToken);
+            //SecureStorage.Remove(LocalStorageKeys.BearerToken);
             foreach (var apiConsumer in apiConsumers)
             {
               if(apiConsumer is not null)

@@ -1,7 +1,13 @@
 ﻿@using DoctorManagement.Presentation.Components.Patients
 @inherits BaseComponent<DoctorAppointmentListViewModel, List<AppointmentDto>>
 
-@foreach (var appointment in ViewModel.Data)
+<h6 class="text-primary text-center mt-3">Appointments</h6>
+@if (!ViewModel.Data.Any())
+{
+    <div class="text-center">No Data</div>
+}
+<div class="container">
+    @foreach (var appointment in ViewModel.Data)
 {
     <ProfileItemComponent ViewModel="@(new(){
                         Title = $"Scheduled date: {appointment.ScheduledDate:dd-MMM-yyyy}" ?? "",
@@ -12,13 +18,17 @@
             <div class="d-flex my-1">
                 <div style="font-size:0.7rem;" class="badge @(AppointmentListComponent.BadgeColor(appointment))">@appointment?.AppointmentStatus?.Description</div>
             </div>
-            <div class="d-flex">
-                <ButtonComponent Type="success">
+            <div class="d-flex mb-2">
+                <ButtonComponent 
+                    Type="success btn-sm me-2"
+                    OnButtonClick="async () => { await OnAcceptAppointment(appointment?.Id ?? Guid.Empty); }">
                     <Content>
                         Accept
                     </Content>
                 </ButtonComponent>
-                <ButtonComponent Type="danger">
+                <ButtonComponent 
+                    Type="danger btn-sm"
+                    OnButtonClick="async () => { await OnRejectAppointment(appointment?.Id ?? Guid.Empty); }">
                     <Content>
                         Reject
                     </Content>
@@ -27,3 +37,4 @@
         </AdditionalContent>
     </ProfileItemComponent>
 }
+</div>

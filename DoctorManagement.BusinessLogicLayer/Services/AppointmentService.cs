@@ -7,15 +7,19 @@ using DoctorManagement.Shared;
 using DoctorManagement.Shared.Constants;
 using DoctorManagement.Shared.DataTransferObjects;
 using DoctorManagement.Shared.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 
 namespace DoctorManagement.BusinessLogicLayer.Services
 {
     public class AppointmentService : ServiceBase<AppointmentDto, AppointmentEntity, AppointmentFilter>, IAppointmentService
     {
-        public AppointmentService(WebDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
+        private readonly UserManager<IdentityUser> _userManager;
+        public AppointmentService(WebDbContext dbContext, IMapper mapper, UserManager<IdentityUser> userManager) : base(dbContext, mapper)
         {
+            _userManager = userManager;
         }
         public override IEnumerable<Guid> AddOrUpdate(List<AppointmentDto> inserted, string? currentUserId)
         {
@@ -69,14 +73,22 @@ namespace DoctorManagement.BusinessLogicLayer.Services
         protected override IQueryable<AppointmentEntity> GetQueryable(AppointmentFilter filters)
         {
             var query =  base.GetQueryable(filters);
+          
             if (!string.IsNullOrWhiteSpace(filters.CurrentUserId))
             {
-                query = query.Where(appointment => appointment.Patient.UserId == filters.CurrentUserId);
+                var currentUser = _userManager.Users.FirstOrDefault(u => u.Id == filters.CurrentUserId);
+                if(currentUser is IdentityUser validUser && _userManager.IsInRoleAsync(validUser, RoleConstants.Patient).Result)
+                {
+                 
+                    query = query.Where(appointment => appointment.Patient.UserId == filters.CurrentUserId);
+                }
+               
             }
             if (!string.IsNullOrWhiteSpace(filters.DoctorId))
             {
                 query = query.Where(appointment => appointment.Doctor.UserId == filters.DoctorId);
             }
+
             return query
                 .Include(appointment => appointment.Patient)
                 .ThenInclude(patient => patient.Address)

@@ -44,7 +44,7 @@ namespace DoctorManagement.MAUI.Components.Pages.Patient
             this.ApiConsumers = [
                 DoctorApiConsumer,
                 ];
-            await this.InitializeApiConsumers(this.ApiConsumers);
+            await this.InitializeApiConsumers(ApiConsumers);
          
             var location = await LocationService.GetAppCurrentLocation();
             AppLocation = location;
