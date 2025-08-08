@@ -15,5 +15,6 @@ namespace DoctorManagement.Shared.Constants
         public const string ScheduleAppointment = "Schedule/Appointment/Patient";
         public const string PatientAppointments = "/Appointments/Patient";
         public const string DoctorAppointments = "/Appointments/Doctor";
+        public const string DoctorSettings = "/Doctor/Settings";
     }
 }

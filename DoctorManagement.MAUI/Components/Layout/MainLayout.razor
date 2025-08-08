@@ -10,6 +10,14 @@
         }
     </nav>
 }
+else if (!MainLayout.RenderPatientLayout)
+{
+    <div class="d-flex flex-row-reverse m-3 position-sticky sticky-top">
+        <a href="@Shared.Constants.RouteConstants.DoctorSettings">
+            <i class="bi bi-gear text-primary"></i>
+        </a>
+    </div>
+}
 <div class="container">
     @if (!AppIsConnectedToInternet)
     {

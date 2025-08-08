@@ -1,5 +1,22 @@
-﻿<h3>FormComponent</h3>
+﻿@typeparam TDto where TDto: new()
+@inherits BaseComponent<FormViewModel<TDto>, TDto>
 
-@code {
-
-}
+<EditForm class="row" EditContext="ViewModel.EditContext">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    @foreach(var inputViewModel in ViewModel.InputViewModels)
+    {
+         inputViewModel.CssColClass = InputFielColClass;
+        inputViewModel.Data = ViewModel.Data;
+        <FormInputComponent ViewModel="inputViewModel"></FormInputComponent>
+    }
+    @if (ViewModel.ShowSubmitButtons)
+    {
+        <ValidationSummary></ValidationSummary>
+        <div class="col-12">
+            <div class="d-flex m-2">
+                <button @onclick=" async() => {  await OnValidSubmit(ViewModel.EditContext); }" class="btn btn-sm btn-primary me-2" type="button">Submit</button>
+                <button class="btn btn-sm btn-outline-secondary" type="reset">Reset</button>
+            </div>
+        </div>
+    }
+</EditForm>
