@@ -31,7 +31,7 @@ namespace DoctorManagement.Api.Consumer.Base
         protected HttpClient HttpClient { get; set; }
         private string _token;
        
-        public event EventHandler<ResponseDto<bool>> Unauthorized;
+        public Func<object?, ResponseDto<bool>, bool> Unauthorized { get; set; }
       
 
         public ApiConsumerBase(IOptions<ApiOptions> options, IHttpClientFactory httpClientFactory)

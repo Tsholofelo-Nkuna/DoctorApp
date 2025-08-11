@@ -12,5 +12,6 @@ namespace DoctorManagement.Api.Consumer.Interfaces
 {
     public interface IDoctorApiConsumer : IApiConsumerBase<DoctorDto, DoctorFilter>
     {
+        public Task<ResponseDto<DoctorSettingsDto>> UpdateDoctorSettingsForCurrentUser(DoctorSettingsDto settings);
     }
 }

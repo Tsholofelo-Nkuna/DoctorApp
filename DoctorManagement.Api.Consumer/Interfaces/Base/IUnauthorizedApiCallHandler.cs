@@ -9,7 +9,7 @@ namespace DoctorManagement.Api.Consumer.Interfaces.Base
 {
     public interface IUnauthorizedApiCallHandler
     {
-        public event EventHandler<ResponseDto<bool>> Unauthorized;
+        public Func<object?, ResponseDto<bool>, bool> Unauthorized { get; set; }
         public string AccessToken { get; set; }
     }
 }

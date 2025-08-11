@@ -30,6 +30,7 @@ namespace DoctorManagement.Shared.DataTransferObjects
         public DataSourceDto? Title { get; set; }
 
         public DataSourceDto? Specialty { get; set; }
+        public decimal ConsultationFee { get; set; }
 
         public string Initials
         {

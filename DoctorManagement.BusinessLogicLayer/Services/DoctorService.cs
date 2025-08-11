@@ -7,6 +7,7 @@ using DoctorManagement.Shared;
 using DoctorManagement.Shared.DataTransferObjects;
 using DoctorManagement.Shared.Models;
 using DoctorManagement.Shared.Models.Base;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,8 +19,10 @@ namespace DoctorManagement.BusinessLogicLayer.Services
 {
     public class DoctorService : ServiceBase<DoctorDto, DoctorEntity, DoctorFilter>, IDocterService
     {
-        public DoctorService(WebDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
+        private readonly IUserContextService _userContextService;
+        public DoctorService(WebDbContext dbContext, IMapper mapper, IUserContextService userContextService) : base(dbContext, mapper)
         {
+            _userContextService = userContextService;
         }
 
         protected override IQueryable<DoctorEntity> GetQueryable(DoctorFilter filters)
@@ -45,6 +48,11 @@ namespace DoctorManagement.BusinessLogicLayer.Services
             if (filters.SpecialtyValue > 0)
             {
                 query = query.Where(docRec => docRec.Specialty.Value == filters.SpecialtyValue);
+            }
+
+            if (!string.IsNullOrWhiteSpace(filters.DoctorUserId))
+            {
+                query = query.Where(doc => doc.UserId == filters.DoctorUserId);
             }
 
             return  query.Include(x => x.Contact)
@@ -86,5 +94,47 @@ namespace DoctorManagement.BusinessLogicLayer.Services
             return doctor;  
         }
 
+        public async Task<ResponseDto<DoctorSettingsDto>> UpdateDoctorSettingsForCurrentUser(DoctorSettingsDto settings)
+        {
+          
+           
+            var roles = await _userContextService.GetCurrentUserRoles();
+            var currrentUser = await _userContextService.GetCurrentUserAsync();
+            if((roles?.Contains(Shared.Constants.RoleConstants.Doctor) ?? false) && currrentUser is IdentityUser validCurrentUser)
+            {
+               var pageResponse = this.Get(new()
+                {
+                    Filter = new()
+                    {
+                        DoctorUserId = currrentUser?.Id ?? string.Empty
+                    },
+                    PageSize = 1
+                });
+                if((pageResponse?.Data?.Count() ?? 0) > 0 && pageResponse!.Data!.FirstOrDefault() is DoctorDto validDoctorDto)
+                {
+                   validDoctorDto.ConsultationFee = settings.ConsultationFee;
+                   var results = Update([validDoctorDto], validCurrentUser.Id);
+                   var updatedDoctorId = results.FirstOrDefault();
+                    var doctorRec =  Get(new() {
+                        Filter = new() { DoctorUserId = validCurrentUser.Id },
+                        PageSize = 1
+                    })?.Data?.FirstOrDefault();
+                    return new()
+                    {
+                        Data = new() { ConsultationFee = doctorRec?.ConsultationFee ?? 0 },
+                    };
+                   
+                }
+                else
+                {
+                    return new();
+                }
+                    
+            }
+            else
+            {
+                return new();
+            }
+        }
     }
 }

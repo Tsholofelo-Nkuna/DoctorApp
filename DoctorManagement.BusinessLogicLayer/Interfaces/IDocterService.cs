@@ -13,5 +13,6 @@ namespace DoctorManagement.BusinessLogicLayer.Interfaces
 {
     public interface IDocterService : IServiceBase<DoctorDto, DoctorEntity,DoctorFilter>
     {
+        public Task<ResponseDto<DoctorSettingsDto>> UpdateDoctorSettingsForCurrentUser(DoctorSettingsDto settings);
     }
 }

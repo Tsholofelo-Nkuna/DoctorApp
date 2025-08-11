@@ -23,12 +23,12 @@ namespace DoctorManagement.MAUI.Components.Pages.Base
         public async Task InitializeApiConsumers(List<IUnauthorizedApiCallHandler> apiConsumers)
         {
             var token = await SecureStorage.Default.GetAsync(LocalStorageKeys.BearerToken);
-            //SecureStorage.Remove(LocalStorageKeys.BearerToken);
+           // SecureStorage.Remove(LocalStorageKeys.BearerToken);
             foreach (var apiConsumer in apiConsumers)
             {
               if(apiConsumer is not null)
                 {
-                    apiConsumer.Unauthorized += this.OnUnauthorized;
+                    apiConsumer.Unauthorized = OnUnauthorized;
                     if (token is string tknString)
                     {
                         apiConsumer.AccessToken = tknString;
@@ -41,9 +41,9 @@ namespace DoctorManagement.MAUI.Components.Pages.Base
         {
             foreach (var apiConsumer in apiConsumers)
             {
-               if(apiConsumer is not null)
+               if(apiConsumer is { Unauthorized : Func<object?, ResponseDto<bool>, bool>})
                 {
-                    apiConsumer.Unauthorized -= this.OnUnauthorized;
+                    apiConsumer.Unauthorized -= OnUnauthorized;
                 }
             }
         }

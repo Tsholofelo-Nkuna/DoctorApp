@@ -19,7 +19,7 @@ namespace DoctorManagement.API.Controllers.Base
     {
         protected readonly IUserContextService userContextService;
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly IServiceBase<TDto, TEntity, TFilter> _principalService;
+        protected readonly IServiceBase<TDto, TEntity, TFilter> _principalService;
         protected readonly HttpClient AppApi;
 
         public ApiBaseController(

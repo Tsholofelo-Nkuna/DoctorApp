@@ -20,5 +20,6 @@ namespace DoctorManagement.DataAccessLayer.Entities
         public DataSourceEntity? Title { get; set; }
         public string UserId { get; set; }
         public DataSourceEntity? Specialty {  get; set; }
+        public decimal ConsultationFee { get; set; }
     }
 }

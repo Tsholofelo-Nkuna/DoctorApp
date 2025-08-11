@@ -26,6 +26,7 @@ namespace DoctorManagement.MAUI
                 config.Timeout = TimeSpan.FromSeconds(10);
                 config.DesiredAccuracy = GeolocationAccuracy.Medium;
             });
+           
             builder.Services.AddSingleton<IAppLocationService, AppLocationService>();
             builder.Services.AddHttpContextAccessor();
 

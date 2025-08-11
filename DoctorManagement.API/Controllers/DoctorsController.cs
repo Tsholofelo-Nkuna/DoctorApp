@@ -24,5 +24,13 @@ namespace DoctorManagement.API.Controllers
         {
             return base.Post(rec);
         }
+
+        [HttpPost("[action]")]
+        public async Task<ResponseDto<DoctorSettingsDto>> UpdateDoctorSettingsForCurrentUser(DoctorSettingsDto settings)
+        {
+            var doctorService = _principalService as IDocterService;
+            var serviceReponse = await doctorService!.UpdateDoctorSettingsForCurrentUser(settings);
+            return serviceReponse ?? new();
+        }
     }
 }
