@@ -14,7 +14,7 @@ namespace DoctorManagement.MAUI.Components.Pages.Doctor
     {
         [Inject]
         public IDoctorApiConsumer DoctorApiConsumer { get; set; }
-
+       
         public List<IUnauthorizedApiCallHandler> ApiConsumers { get; set; } = [];
         protected override async Task OnInitializedAsync()
         {
@@ -23,12 +23,32 @@ namespace DoctorManagement.MAUI.Components.Pages.Doctor
                     DoctorApiConsumer,
                 ];
             await InitializeApiConsumers(ApiConsumers);
-            
+            var currentUserId = (await DoctorApiConsumer.GetUserId())?.Data;
+            if(currentUserId is string validUserId)
+            {
+                var doctorCollectionResult = (await DoctorApiConsumer.Get(new()
+                {
+                    Filter = new()
+                    {
+                        DoctorUserId = validUserId
+                    },
+                    PageSize = 1
+                }))?.Data;
+
+                if(doctorCollectionResult?.FirstOrDefault() is DoctorDto validDoctorDto)
+                {
+                    ViewModel.DoctorSettingsFormViewModel.Data = new()
+                    {
+                        ConsultationFee = validDoctorDto.ConsultationFee,
+                    };
+                }
+            }
         }
 
         public async Task OnSettingsFormSubmitClicked(DoctorSettingsDto settings)
         {
-            await DoctorApiConsumer.UpdateDoctorSettingsForCurrentUser(settings);
+          var apiResponse =  await DoctorApiConsumer.UpdateDoctorSettingsForCurrentUser(settings);
+          ViewModel.Data = apiResponse?.Data ?? new();
         }
 
         ~DoctorSettingsPage()
