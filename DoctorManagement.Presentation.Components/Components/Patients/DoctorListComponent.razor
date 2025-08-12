@@ -30,7 +30,8 @@
                             Description = $"Specialty: {item.Specialty?.Description}",
                             EnableContextMenu = true})">
                 <AdditionalContent>
-                    <div class="text-primary">@($"{DistanceCalculator((item.PracticeSite?.Latitude ?? 0, item.PracticeSite?.Longitude ?? 0), (CurrentAppLocation.Latitude, CurrentAppLocation.Longitude)):F1} km away")</div>
+                     <div style="font-size:0.7rem;">Consultation Fee: @($"{item?.ConsultationFee:C2}")</div>
+                    <div class="text-primary">@($"{DistanceCalculator((item?.PracticeSite?.Latitude ?? 0, item?.PracticeSite?.Longitude ?? 0), (CurrentAppLocation.Latitude, CurrentAppLocation.Longitude)):F1} km away")</div>
                 </AdditionalContent>
                 <ContextMenu>
                     <div class="container">
@@ -39,7 +40,7 @@
                         </div>
                         <div class="d-flex justify-content-center py-2">
                             <div class="fw-bold">
-                                @($"{item.Title?.Description} {item.Initials} {item.LastName}({item.PracticeNumber})")
+                                @($"{item?.Title?.Description} {item?.Initials} {item?.LastName}({item?.PracticeNumber})")
                             </div>
                         </div>
                         <div class="d-flex flex-column align-items-center">

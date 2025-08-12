@@ -19,7 +19,7 @@ namespace DoctorManagement.MAUI
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 
                 });
-
+            
             builder.Services.AddMauiBlazorWebView();
             builder.Services.Configure<GeolocationRequest>(config =>
             {

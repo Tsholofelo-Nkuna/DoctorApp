@@ -1,6 +1,4 @@
-﻿@using DoctorManagement.Presentation.Components.Base
-@using DoctorManagement.Presentation.ViewModels
-@using DoctorManagement.Shared.DataTransferObjects
+﻿@using DoctorManagement.Shared.DataTransferObjects
 @inherits BaseComponent<AppointmentListComponentViewModel, List<AppointmentDto>>
 
 <div class="d-flex justify-content-center text-primary fw-bold my-1">
@@ -15,6 +13,7 @@
                         ProfileIcon = "bi bi-calendar3"
                     })">
        <AdditionalContent>
+            <div style="font-size:0.7rem;">Consultation Fee: @($"{appointment?.Doctor?.ConsultationFee:C2}")</div>
            <div class="d-flex my-1">
                <div style="font-size:0.7rem;" class="badge @(BadgeColor(appointment))">@appointment?.AppointmentStatus?.Description</div>
            </div>
