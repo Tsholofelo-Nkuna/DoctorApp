@@ -5,6 +5,7 @@ using DoctorManagement.DataAccessLayer;
 using DoctorManagement.Shared.Constants;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 
@@ -76,7 +77,10 @@ namespace DoctorManagement.API
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
-
+            app.UseRequestLocalization(op => {
+                op.AddSupportedCultures("en-za");
+                op.SetDefaultCulture("en-za");
+            });
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
