@@ -4,6 +4,7 @@ using DoctorManagement.MAUI.Services.Interfaces;
 using DoctorManagement.Presentation;
 using DoctorManagement.Shared.Constants;
 using Microsoft.Extensions.Logging;
+using System.Globalization;
 
 namespace DoctorManagement.MAUI
 {
@@ -19,7 +20,9 @@ namespace DoctorManagement.MAUI
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 
                 });
-            
+
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US"); // Example: Spanish (Spain)
+            CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-US"); // Example: Spanish (Spain)
             builder.Services.AddMauiBlazorWebView();
             builder.Services.Configure<GeolocationRequest>(config =>
             {
