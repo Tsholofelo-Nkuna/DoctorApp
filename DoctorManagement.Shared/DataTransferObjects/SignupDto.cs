@@ -22,5 +22,6 @@ namespace DoctorManagement.Shared.DataTransferObjects
         [Required, SaIdentityNumber]
         public string IdentityNumber { get; set; } = string.Empty;
         public string MedicalAidNumber { get; set; } = string.Empty ;
+        public string MedicalAidPlanName { get; set; } = string.Empty ;
     }
 }

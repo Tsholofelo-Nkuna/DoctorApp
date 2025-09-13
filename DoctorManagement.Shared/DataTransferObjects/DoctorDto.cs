@@ -32,6 +32,8 @@ namespace DoctorManagement.Shared.DataTransferObjects
         public DataSourceDto? Specialty { get; set; }
         public decimal ConsultationFee { get; set; }
 
+        public string ConsultationFeeDisaplay => $"R{(ConsultationFee*1.1m):F2}";
+
         public string Initials
         {
             get

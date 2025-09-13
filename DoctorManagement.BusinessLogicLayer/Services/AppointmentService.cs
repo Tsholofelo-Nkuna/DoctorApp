@@ -98,7 +98,8 @@ namespace DoctorManagement.BusinessLogicLayer.Services
                 .ThenInclude(doc => doc.Title)
                 .Include(doc => doc.Doctor.PracticeSite)
                 .Include(doc => doc.Doctor.Contact)
-                .Include(appointment => appointment.AppointmentStatus);
+                .Include(appointment => appointment.AppointmentStatus)
+                .Include(appointment => appointment.PaymentMethod);
               
         }
         public override AppointmentDto? Map(AppointmentEntity? source)
@@ -110,6 +111,12 @@ namespace DoctorManagement.BusinessLogicLayer.Services
                 {
                    validDto.AppointmentType = validAppointmentType.CopyTo(validDto.AppointmentType);
                    validDto.AppointmentTypeId = validDto.AppointmentType?.Value ?? default;
+                }
+
+                if(validSource.PaymentMethod is DataSourceEntity paymentMethod)
+                {
+                    validDto.PaymentMethod = paymentMethod.CopyTo(validDto.PaymentMethod);
+                    validDto.PaymentMethodId = validDto.PaymentMethod?.Value ?? default;
                 }
 
                 if(validSource.Doctor is DoctorEntity validDoctorSource)

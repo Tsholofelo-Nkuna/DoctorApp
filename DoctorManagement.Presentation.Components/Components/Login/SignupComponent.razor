@@ -24,7 +24,12 @@
         <ValidationMessage For="() => ViewModel.Data.GeneralInfo.IdentityNumber"></ValidationMessage>
          <label>Medical aid no.</label>
         <InputText @bind-Value="ViewModel.Data.GeneralInfo.MedicalAidNumber" class="form-control"></InputText>
-     </EditForm>
+        @if (ShowMedicalAidPlanNameField)
+        {
+            <label>Plan name</label>
+            <InputText @bind-Value="ViewModel.Data.GeneralInfo.MedicalAidPlanName" class="form-control"></InputText>
+        }
+    </EditForm>
     <hr />
     <EditForm EditContext ="ContactEditContext">
         <DataAnnotationsValidator></DataAnnotationsValidator>

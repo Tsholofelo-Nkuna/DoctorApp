@@ -30,7 +30,7 @@
                             Description = $"Specialty: {item.Specialty?.Description}",
                             EnableContextMenu = true})">
                 <AdditionalContent>
-                     <div style="font-size:0.7rem;">Consultation Fee: @($"{item?.ConsultationFee:C2}")</div>
+                     <div style="font-size:0.7rem;">Consultation Fee: @($"{item?.ConsultationFeeDisaplay}")</div>
                     <div class="text-primary">@($"{DistanceCalculator((item?.PracticeSite?.Latitude ?? 0, item?.PracticeSite?.Longitude ?? 0), (CurrentAppLocation.Latitude, CurrentAppLocation.Longitude)):F1} km away")</div>
                 </AdditionalContent>
                 <ContextMenu>

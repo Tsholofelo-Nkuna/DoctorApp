@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DoctorManagement.Shared.Constants
 {
-    public class AppointmentStatusConstants
+    public static class AppointmentStatusConstants
     {
         public const string Pending = "Pending";
         public const string Rejected = "Rejected";

@@ -14,7 +14,7 @@ using DoctorManagement.Shared.DataTransferObjects;
 
 namespace DoctorManagement.Presentation.Components.Login
 {
-    public partial class SignupComponent
+    public partial class SignupComponent : IDisposable
     {
         [Inject]
         private IIdentityApiConsumer? _identityApiConsumer { get; set; }
@@ -29,7 +29,7 @@ namespace DoctorManagement.Presentation.Components.Login
         private bool _submitLoading = false;
         [Parameter]
         public bool CurrentLocationButtonLoading { get; set; }
-      
+        public bool ShowMedicalAidPlanNameField { get; set; }
         public SignupComponent(): base(){
             this.ContactEditContext = new(ViewModel.Data.Contact);
             this.AddressEditContext = new(ViewModel.Data.Address);
@@ -38,6 +38,26 @@ namespace DoctorManagement.Presentation.Components.Login
             this.ModalViewModel.Data = ViewModel.Data;
         }
 
+        protected override Task OnInitializedAsync()
+        {
+            GeneralInfoEditContext.OnFieldChanged += OnGeneralInfoFieldChange;
+            return base.OnInitializedAsync();
+        }
+
+        public void OnGeneralInfoFieldChange(object? sender, FieldChangedEventArgs eventArgs)
+        {
+            if(eventArgs.FieldIdentifier.FieldName == nameof(GeneralInfo.MedicalAidNumber) && eventArgs.FieldIdentifier.Model is GeneralInfo gInfoModel)
+            {
+                if (!string.IsNullOrWhiteSpace(gInfoModel.MedicalAidNumber))
+                {
+                    ShowMedicalAidPlanNameField = true;
+                }
+                else
+                {
+                    ShowMedicalAidPlanNameField = false;
+                }
+            }
+        }
         public bool EditContextIsValid 
         {
             get
@@ -99,6 +119,11 @@ namespace DoctorManagement.Presentation.Components.Login
         {
             ModalViewModel.Show = false;
             return Task.CompletedTask;
+        }
+
+        public void Dispose()
+        {
+            GeneralInfoEditContext.OnFieldChanged -= OnGeneralInfoFieldChange;
         }
     }
 }
