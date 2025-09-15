@@ -18,9 +18,12 @@
             <div class="d-flex my-1">
                 <div style="font-size:0.7rem;" class="badge @(AppointmentListComponent.BadgeColor(appointment))">@appointment?.AppointmentStatus?.Description</div>
             </div>
-                @if (!string.IsNullOrWhiteSpace(appointment?.Patient?.MedicalAidNumber) && appointment.PaymentMethod is {Name : "MedicalAid"})
+                @if (appointment is {PaymentMethod.Name : "MedicalAid"})
                 {
                       <div class="my-1" style="font-size:0.7rem;">
+                            <div>
+                              <label class="me-2">Medical Aid Provider:</label><span>@appointment.Patient.MedicalAidProvider</span>
+                          </div>
                           <div>
                               <label class="me-2">Medical Aid No.:</label><span>@appointment.Patient.MedicalAidNumber</span>
                           </div>

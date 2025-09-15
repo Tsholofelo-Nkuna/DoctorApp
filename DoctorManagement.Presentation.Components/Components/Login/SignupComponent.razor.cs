@@ -46,9 +46,9 @@ namespace DoctorManagement.Presentation.Components.Login
 
         public void OnGeneralInfoFieldChange(object? sender, FieldChangedEventArgs eventArgs)
         {
-            if(eventArgs.FieldIdentifier.FieldName == nameof(GeneralInfo.MedicalAidNumber) && eventArgs.FieldIdentifier.Model is GeneralInfo gInfoModel)
+            if(eventArgs.FieldIdentifier.FieldName == nameof(GeneralInfo.MedicalAidProvider) && eventArgs.FieldIdentifier.Model is GeneralInfo gInfoModel)
             {
-                if (!string.IsNullOrWhiteSpace(gInfoModel.MedicalAidNumber))
+                if (!string.IsNullOrWhiteSpace(gInfoModel.MedicalAidProvider))
                 {
                     ShowMedicalAidPlanNameField = true;
                 }

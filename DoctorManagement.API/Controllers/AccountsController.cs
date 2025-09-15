@@ -58,8 +58,8 @@ namespace DoctorManagement.API.Controllers
                        UserId = newlyCreatedUser.Id,
                        IdentityNumber = patientSignUp.GeneralInfo.IdentityNumber,
                        MedicalAidNumber = patientSignUp.GeneralInfo.MedicalAidNumber,
-                       MedicalAidPlanName = patientSignUp.GeneralInfo.MedicalAidPlanName
-                       
+                       MedicalAidPlanName = patientSignUp.GeneralInfo.MedicalAidPlanName,
+                       MedicalAidProvider = patientSignUp.GeneralInfo.MedicalAidProvider,
                    });
                    if(apiResponse is { IsSuccessStatusCode : true } 
                    &&  (await apiResponse.Content.ReadFromJsonAsync<ResponseDto<IEnumerable<Guid>>>()) is ResponseDto<IEnumerable<Guid>> validResponseContent)

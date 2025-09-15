@@ -22,10 +22,14 @@
         <label>Id no.</label>
         <InputText @bind-Value="ViewModel.Data.GeneralInfo.IdentityNumber" class="form-control"></InputText>
         <ValidationMessage For="() => ViewModel.Data.GeneralInfo.IdentityNumber"></ValidationMessage>
-         <label>Medical aid no.</label>
-        <InputText @bind-Value="ViewModel.Data.GeneralInfo.MedicalAidNumber" class="form-control"></InputText>
+        <label>Medical aid provider</label>
+        <InputText @bind-Value="ViewModel.Data.GeneralInfo.MedicalAidProvider" class="form-control"></InputText>
+
+         
         @if (ShowMedicalAidPlanNameField)
         {
+            <label>Medical aid no.</label>
+            <InputText @bind-Value="ViewModel.Data.GeneralInfo.MedicalAidNumber" class="form-control"></InputText>
             <label>Plan name</label>
             <InputText @bind-Value="ViewModel.Data.GeneralInfo.MedicalAidPlanName" class="form-control"></InputText>
         }
