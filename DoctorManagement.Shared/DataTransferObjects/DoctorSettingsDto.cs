@@ -8,5 +8,7 @@ namespace DoctorManagement.Shared.DataTransferObjects
     {
         [Display(Name = "Consultation Fee")]
         public decimal ConsultationFee { get; set; }
+        [Display(Name = "Accept Home Visits")]
+        public bool AcceptHomeVisits { get; set; }
     }
 }

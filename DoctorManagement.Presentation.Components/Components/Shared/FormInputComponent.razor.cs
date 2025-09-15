@@ -59,8 +59,12 @@ namespace DoctorManagement.Presentation.Components.Shared
             {
                 propInfo?.SetValue(ViewModel.Data, Convert.ToDateTime(val, null));
             }
-
-            await ValueChanged.InvokeAsync(val);
+            else if(propType == typeof(bool))
+            {
+                 propInfo?.SetValue(ViewModel.Data, Convert.ToBoolean(val, null));
+            }
+            
+                await ValueChanged.InvokeAsync(val);
         }
     }
 }

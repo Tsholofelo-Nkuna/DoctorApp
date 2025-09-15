@@ -10,5 +10,6 @@ namespace DoctorManagement.Presentation.Enums
     {
         InputText,
         InputSelect,
+        InputCheckbox
     }
 }

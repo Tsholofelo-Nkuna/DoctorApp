@@ -5,8 +5,8 @@
 @inherits BaseComponent<LoginViewModel, LoginCredentialsDto>
 
 <div class="vh-100" style="display:grid; grid-template-columns:1fr; grid-template-rows: 1fr; align-items:center">
-    <CardComponent Context="cardContext"
-                   ViewModel="@(new CardComponentViewModel<LoginCredentialsDto>{ Title = "Find healthcare professional", Data = this.ViewModel.Data})">
+    <CardComponent TDto="LoginCredentialsDto" Context="cardContext"
+                   ViewModel="@(new CardComponentViewModel<LoginCredentialsDto>{ Title = "Book A Dr", Data = this.ViewModel.Data})">
         <Header>
             <h3 class="text-primary px-1 text-center fs-6">
                 @cardContext.Title

@@ -1,7 +1,7 @@
 ﻿@typeparam TDto where TDto: new()
 @inherits BaseComponent<FormInputViewModel<TDto>, TDto>
 
-<div class="@ViewModel.CssColClass">
+<div class="@ViewModel.CssColClass mb-2">
     <label class="form-label">@GetDisplayName()</label>
     @switch (ViewModel.InputType)
     {
@@ -12,7 +12,13 @@
                value="@GetValue()" 
                @onchange="OnInputChange" 
                @attributes ="AdditionalAttributes"
-               class="form-control"/>
+            class="form-control"/>
+            break;
+        case FormInputType.InputCheckbox:
+            <input type="checkbox" value="@GetValue()"
+                @oninput="OnInputChange"
+                @attributes="AdditionalAttributes"
+                class="form-check-input ms-2"/>
             break;
     }
 </div>

@@ -18,7 +18,11 @@ namespace DoctorManagement.Presentation.ViewModels
                  new(){
                      BoundPropertyName = nameof(DoctorSettingsDto.ConsultationFee),
                      InputTextType = Shared.Constants.FormInputTextTypes.Number,
-                 }
+                 },
+                new(){
+                    BoundPropertyName = nameof(DoctorSettingsDto.AcceptHomeVisits),
+                    InputType = Enums.FormInputType.InputCheckbox,
+                }
              ],
         };
     }
