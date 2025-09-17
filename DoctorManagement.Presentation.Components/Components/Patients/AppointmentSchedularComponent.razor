@@ -18,7 +18,17 @@
             class="form-select">
             <option selected value="-1">Please select</option>
             @foreach(var item in ViewModel.AppointmentTypeList){
-                <option value="@item.Value">@item.Description</option>
+                if (item is { Name : "DoctorInvitation"})
+                {
+                    if (ViewModel is { Data.Doctor.AcceptHomeVisits: true})
+                    {
+                        <option value="@item.Value">@item.Description</option>
+                    }
+                }
+                else
+                {
+                    <option value="@item.Value">@item.Description</option>
+                }
             }
         </InputSelect>
         <ValidationMessage For="() => ViewModel.Data.AppointmentTypeId"></ValidationMessage>
