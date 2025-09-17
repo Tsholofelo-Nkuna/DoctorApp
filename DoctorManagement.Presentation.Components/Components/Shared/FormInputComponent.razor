@@ -18,7 +18,8 @@
             <input type="checkbox" value="@GetValue()"
                 @oninput="OnInputChange"
                 @attributes="AdditionalAttributes"
-                class="form-check-input ms-2"/>
+                class="form-check-input ms-2"
+                checked="@(GetValue() == bool.TrueString)"/>
             break;
     }
 </div>
