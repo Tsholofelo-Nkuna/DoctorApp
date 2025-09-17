@@ -40,6 +40,7 @@ namespace DoctorManagement.MAUI.Components.Pages.Doctor
                     ViewModel.DoctorSettingsFormViewModel.Data = new()
                     {
                         ConsultationFee = validDoctorDto.ConsultationFee,
+                        AcceptHomeVisits = validDoctorDto.AcceptHomeVisits,
                     };
                 }
             }

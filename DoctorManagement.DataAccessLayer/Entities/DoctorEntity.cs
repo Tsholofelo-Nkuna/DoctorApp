@@ -21,5 +21,6 @@ namespace DoctorManagement.DataAccessLayer.Entities
         public string UserId { get; set; }
         public DataSourceEntity? Specialty {  get; set; }
         public decimal ConsultationFee { get; set; }
+        public bool AcceptHomeVisits { get; set; }
     }
 }

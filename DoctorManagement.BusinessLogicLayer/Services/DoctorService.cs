@@ -113,6 +113,7 @@ namespace DoctorManagement.BusinessLogicLayer.Services
                 if((pageResponse?.Data?.Count() ?? 0) > 0 && pageResponse!.Data!.FirstOrDefault() is DoctorDto validDoctorDto)
                 {
                    validDoctorDto.ConsultationFee = settings.ConsultationFee;
+                   validDoctorDto.AcceptHomeVisits = settings.AcceptHomeVisits;
                    var results = Update([validDoctorDto], validCurrentUser.Id);
                    var updatedDoctorId = results.FirstOrDefault();
                     var doctorRec =  Get(new() {
@@ -121,7 +122,11 @@ namespace DoctorManagement.BusinessLogicLayer.Services
                     })?.Data?.FirstOrDefault();
                     return new()
                     {
-                        Data = new() { ConsultationFee = doctorRec?.ConsultationFee ?? 0 },
+                        Data = new() { 
+                            ConsultationFee = doctorRec?.ConsultationFee ?? 0,
+                            AcceptHomeVisits = doctorRec?.AcceptHomeVisits ?? false,
+                            
+                        },
                     };
                    
                 }
