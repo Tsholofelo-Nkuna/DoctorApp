@@ -60,5 +60,26 @@ namespace DoctorManagement.Api.Consumer
                 return null;
             }
         }
+
+        public async Task<ResponseDto<IEnumerable<(string paymentContent, Guid appointmentId)>>?> AddAppointmentWithPayment(AppointmentDto rec)
+        {
+            try
+            {
+                var result = await this.HttpClient.PostAsJsonAsync($"api/{this.ControllerName}/{nameof(AddAppointmentWithPayment)}", rec);
+                if (result is { IsSuccessStatusCode: true } && await(result.Content.ReadFromJsonAsync<ResponseDto<IEnumerable<(string paymentContent, Guid appointmentId)>>?>()) is ResponseDto<IEnumerable<(string paymentContent, Guid appointmentId)>> validReasponseContent)
+                {
+                    return validReasponseContent;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return null;
+            }
+        }
     }
 }

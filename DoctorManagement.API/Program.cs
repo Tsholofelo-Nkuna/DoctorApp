@@ -1,5 +1,6 @@
 
 using DoctorManagement.Api.Consumer;
+using DoctorManagement.API.Logging;
 using DoctorManagement.BusinessLogicLayer;
 using DoctorManagement.DataAccessLayer;
 using DoctorManagement.Shared.Constants;
@@ -28,6 +29,7 @@ namespace DoctorManagement.API
                     
                 });
             });
+            builder.Logging.AddProvider(new FileLogProvider());
             builder.Services
                 .AddAuthentication(config =>
                 {
@@ -82,7 +84,7 @@ namespace DoctorManagement.API
                 op.SetDefaultCulture("en-za");
             });
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            if (true)
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();

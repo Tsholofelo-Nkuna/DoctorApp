@@ -39,6 +39,7 @@ namespace DoctorManagement.MAUI
 #endif
             builder.Services.AddPresentationServices(ServiceScope.Singleton, builder.Configuration);
             builder.Services.AddApiConsumers(apiBaseAddress, ServiceScope.Singleton);
+            
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
     		builder.Logging.AddDebug();

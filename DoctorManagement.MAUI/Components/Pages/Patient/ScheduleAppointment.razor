@@ -15,6 +15,16 @@
         }
     </div>
 }
-<AppointmentSchedularComponent ViewModel="ViewModel" OnValidSumit="OnSubmitAppointment">
+@if (NewAppointment is {Id : Guid, PaymentMethod.Name :"Card", Doctor.ConsultationFee : > 0} && NewAppointment.Id != Guid.Empty)
+{
+   <SimplePayment Appointment="NewAppointment">
 
-</AppointmentSchedularComponent>
+   </SimplePayment>
+}
+else
+{
+    <AppointmentSchedularComponent ViewModel="ViewModel" OnValidSumit="OnSubmitAppointment">
+
+    </AppointmentSchedularComponent>
+}
+

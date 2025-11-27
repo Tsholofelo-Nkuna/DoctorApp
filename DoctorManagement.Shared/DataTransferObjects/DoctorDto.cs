@@ -33,8 +33,8 @@ namespace DoctorManagement.Shared.DataTransferObjects
         public decimal ConsultationFee { get; set; }
         public bool AcceptHomeVisits { get; set; }
 
-        public string ConsultationFeeDisaplay => $"R{(ConsultationFee*1.1m):F2}";
-
+        public string ConsultationFeeDisplay => $"R{(ConsultationFee*1.1m):F2}";
+        public decimal NumericDisplayedConsultationFee => ConsultationFee * 1.1m;
         public string Initials
         {
             get

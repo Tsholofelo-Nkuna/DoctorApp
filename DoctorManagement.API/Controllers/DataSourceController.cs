@@ -15,9 +15,11 @@ namespace DoctorManagement.API.Controllers
     {
         private readonly IDataSourceService _dataSourceService;
         public DataSourceController(IUserContextService userContextService,
-            IHttpClientFactory httpClientFactory, IDataSourceService dataSourceService) : base(userContextService, httpClientFactory, dataSourceService)
+            IHttpClientFactory httpClientFactory, IDataSourceService dataSourceService, ILogger<DataSourceController> logger) : base(userContextService, httpClientFactory, dataSourceService)
         {
             _dataSourceService = dataSourceService;
+            logger.LogInformation($"DataSourceController initiated.");
+            
             
         }
 

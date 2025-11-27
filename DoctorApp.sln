@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorManagement.Api.Consum
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorManagement.Shared", "DoctorManagement.Shared\DoctorManagement.Shared.csproj", "{99C65935-DF55-400C-9198-0E785605324A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorManagement.Integrations", "DoctorManagement.Integrations\DoctorManagement.Integrations.csproj", "{206E4EC2-03A1-4F3D-B30B-9019A0566C67}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{99C65935-DF55-400C-9198-0E785605324A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99C65935-DF55-400C-9198-0E785605324A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99C65935-DF55-400C-9198-0E785605324A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{206E4EC2-03A1-4F3D-B30B-9019A0566C67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{206E4EC2-03A1-4F3D-B30B-9019A0566C67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{206E4EC2-03A1-4F3D-B30B-9019A0566C67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{206E4EC2-03A1-4F3D-B30B-9019A0566C67}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

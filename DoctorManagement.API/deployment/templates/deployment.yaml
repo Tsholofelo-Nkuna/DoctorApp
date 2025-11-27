@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Values.appName}}
+  labels:
+    app: {{.Values.appName}}
+spec:
+  replicas: {{.Values.replicaCount}}
+  selector:
+    matchLabels:
+      app: {{.Values.appName}}
+  template:
+    metadata:
+      labels:
+        app: {{.Values.appName}}
+    spec:
+      containers:
+      - name: "{{.Values.appName}}-container"
+        image: "{{.Values.image.repository}}:{{.Values.image.tag}}"
+        ports:
+        - containerPort: 8080
+        env:
+          - name: ConnectionStrings__Default
+            value: "Server=148.251.89.211;Initial Catalog=zlwtlaut_epichealth_debug;Persist Security Info=True;User ID=zlwtlaut_epichealth;Password=#4yb60H2d;Encrypt=True;Trust Server Certificate=True"
+          - name: WebApiUrls__Default 
+            value: "https://localhost:32769/"

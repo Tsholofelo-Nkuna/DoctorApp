@@ -28,6 +28,8 @@ namespace DoctorManagement.MAUI.Components.Pages.Patient
        [Inject]
         public IMailTemplateMessageHandler MailTemplateMessageHandler { get; set; }
         public List<IUnauthorizedApiCallHandler> ApiConsumers { get; set; } = [];
+       
+        public AppointmentDto? NewAppointment { get; set; }
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
@@ -62,9 +64,9 @@ namespace DoctorManagement.MAUI.Components.Pages.Patient
             });
             var message = results?.Data?.Any() ?? false ? "Appointment request created." : "Failed to create appointment request.";
             this.AppointmentSubmissionResponse  = (results?.Data?.Any() ?? false, message);
-            if (results?.Data?.FirstOrDefault() is Guid validGuid && validGuid != Guid.Empty)
+            if (results?.Data?.FirstOrDefault() is Guid validResponse && validResponse != Guid.Empty)
             {
-                var newlyCreatedAppointmentData = await this.AppointmentApiConsumer.Get(new() { Filter = new() { Id = validGuid } });
+                var newlyCreatedAppointmentData = await this.AppointmentApiConsumer.Get(new() { Filter = new() { Id = validResponse } });
                 if(newlyCreatedAppointmentData?.Data?.FirstOrDefault() is AppointmentDto newAppointment 
                     && newAppointment.Doctor is { Contact : ContactDto})
                 {
@@ -78,6 +80,7 @@ namespace DoctorManagement.MAUI.Components.Pages.Patient
                          } }
                         }
                       );
+                    NewAppointment = newAppointment;
                 }
             }
             ViewModel.AppointmentSubmissionInProgress = false;

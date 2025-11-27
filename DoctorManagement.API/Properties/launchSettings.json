@@ -5,7 +5,9 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ConnectionStrings__Default": "Server=148.251.89.211;Initial Catalog=zlwtlaut_epichealth_debug;Persist Security Info=True;User ID=zlwtlaut_epichealth;Password=#4yb60H2d;Encrypt=True;Trust Server Certificate=True",
+        "WebApiUrls__Default": "http://localhost:5158"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5158"
@@ -15,7 +17,9 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Release"
+        "ASPNETCORE_ENVIRONMENT": "Release",
+        "ConnectionStrings__Default": "Server=148.251.89.211;Initial Catalog=zlwtlaut_epichealth_debug;Persist Security Info=True;User ID=zlwtlaut_epichealth;Password=#4yb60H2d;Encrypt=True;Trust Server Certificate=True",
+        "WebApiUrls__Default": "https://epichealth.growthlytix.co.za"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://epichealth.growthlytix.co.za;"
@@ -34,7 +38,9 @@
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
       "environmentVariables": {
         "ASPNETCORE_HTTPS_PORTS": "8081",
-        "ASPNETCORE_HTTP_PORTS": "8080"
+        "ASPNETCORE_HTTP_PORTS": "8080",
+        "ConnectionStrings__Default": "Server=148.251.89.211;Initial Catalog=zlwtlaut_epichealth_debug;Persist Security Info=True;User ID=zlwtlaut_epichealth;Password=#4yb60H2d;Encrypt=True;Trust Server Certificate=True",
+        "WebApiUrls__Default": "https://epichealth.growthlytix.co.za"
       },
       "publishAllPorts": true,
       "useSSL": true

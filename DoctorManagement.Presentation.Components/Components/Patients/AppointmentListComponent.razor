@@ -13,10 +13,16 @@
                         ProfileIcon = "bi bi-calendar3"
                     })">
        <AdditionalContent>
-            <div style="font-size:0.7rem;">Consultation Fee: @($"{appointment?.Doctor?.ConsultationFeeDisaplay}")</div>
+            <div style="font-size:0.7rem;">Consultation Fee: @($"{appointment?.Doctor?.ConsultationFeeDisplay}")</div>
            <div class="d-flex my-1">
                <div style="font-size:0.7rem;" class="badge @(BadgeColor(appointment))">@appointment?.AppointmentStatus?.Description</div>
            </div>
-       </AdditionalContent>
+            @if (appointment is {PaymentMethod.Name : "Card", Doctor.ConsultationFee: > 0})
+            {
+                <DoctorManagement.Presentation.Components.Payfast.SimplePayment Appointment="appointment">
+
+                </DoctorManagement.Presentation.Components.Payfast.SimplePayment>
+            }
+        </AdditionalContent>
     </ProfileItemComponent>
 }

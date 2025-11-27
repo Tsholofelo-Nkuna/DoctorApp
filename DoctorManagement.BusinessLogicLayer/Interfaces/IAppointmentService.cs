@@ -15,5 +15,6 @@ namespace DoctorManagement.BusinessLogicLayer.Interfaces
     {
         public Task<AppointmentDto?> Accept(Guid appointmentId);
         public Task<AppointmentDto?> Reject(Guid appointmentId);
+        public IEnumerable<(string paymentContent, Guid appointmentId)> AddOrUpdateWithPayment(List<AppointmentDto> appointments, string? currentUserId);
     }
 }

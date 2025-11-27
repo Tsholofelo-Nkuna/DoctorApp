@@ -45,6 +45,17 @@ namespace DoctorManagement.API.Controllers
             };
         }
 
+        [HttpPost("[action]"), Obsolete]
+        public async Task<ResponseDto<IEnumerable<(string paymentContent, Guid appointmentId)>>> AddAppointmentWithPayment([FromBody] AppointmentDto rec)
+        {
+            var added = this._appointmentsService.AddOrUpdateWithPayment([rec], (await this.userContextService.GetCurrentUserAsync())?.Id);
+            return new()
+            {
+                Data = added,
+                Message = added.Any() ? "New record created" : "Failed to create new record"
+            };
+        }
+
         [HttpPost("[action]/{appointmentId}"), AllowAnonymous]
         public async Task<ResponseDto<AppointmentDto?>> Reject(Guid appointmentId)
         {

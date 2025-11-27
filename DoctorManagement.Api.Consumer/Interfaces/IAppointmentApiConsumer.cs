@@ -13,6 +13,7 @@ namespace DoctorManagement.Api.Consumer.Interfaces
     {
         public Task<ResponseDto<AppointmentDto?>?> Accept(Guid appointmentId);
         public Task<ResponseDto<AppointmentDto?>?> Reject(Guid appointmentId);
+        public Task<ResponseDto<IEnumerable<(string paymentContent, Guid appointmentId)>>?> AddAppointmentWithPayment(AppointmentDto rec);
 
     }
 }

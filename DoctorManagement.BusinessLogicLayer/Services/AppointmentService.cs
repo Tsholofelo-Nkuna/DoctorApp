@@ -3,10 +3,12 @@ using DoctorManagement.BusinessLogicLayer.Interfaces;
 using DoctorManagement.BusinessLogicLayer.Services.Base;
 using DoctorManagement.DataAccessLayer;
 using DoctorManagement.DataAccessLayer.Entities;
+using DoctorManagement.Integrations.PayFast.Commands;
 using DoctorManagement.Shared;
 using DoctorManagement.Shared.Constants;
 using DoctorManagement.Shared.DataTransferObjects;
 using DoctorManagement.Shared.Models;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -17,9 +19,11 @@ namespace DoctorManagement.BusinessLogicLayer.Services
     public class AppointmentService : ServiceBase<AppointmentDto, AppointmentEntity, AppointmentFilter>, IAppointmentService
     {
         private readonly UserManager<IdentityUser> _userManager;
-        public AppointmentService(WebDbContext dbContext, IMapper mapper, UserManager<IdentityUser> userManager) : base(dbContext, mapper)
+        private readonly IMediator _mediatr;
+        public AppointmentService(WebDbContext dbContext, IMapper mapper, UserManager<IdentityUser> userManager, IMediator mediatr) : base(dbContext, mapper)
         {
             _userManager = userManager;
+            _mediatr = mediatr;
         }
         public override IEnumerable<Guid> AddOrUpdate(List<AppointmentDto> inserted, string? currentUserId)
         {
@@ -68,7 +72,8 @@ namespace DoctorManagement.BusinessLogicLayer.Services
                     insert.PaymentMethod = paymentTypes.FirstOrDefault(x => x.Value == insert.PaymentMethodId);
                 }
             });
-            return base.AddOrUpdate(inserted, currentUserId);
+            var results = base.AddOrUpdate(inserted, currentUserId);
+            return results;
         }
         protected override IQueryable<AppointmentEntity> GetQueryable(AppointmentFilter filters)
         {
@@ -198,6 +203,18 @@ namespace DoctorManagement.BusinessLogicLayer.Services
             }
 
             return this.Get(new() { Filter = new() { Id = appointmentId } })?.Data?.FirstOrDefault();
+        }
+
+        public IEnumerable<(string paymentContent, Guid appointmentId)> AddOrUpdateWithPayment(List<AppointmentDto> appointments, string? currentUserId)
+        {
+            var updatedAppointmentIdentifiers = this.AddOrUpdate(appointments, currentUserId);
+            var updatedAppointments = updatedAppointmentIdentifiers
+                .Select(id => this.Get(new() { PageSize = 1, Filter = new() { Id = id } })?.Data?.FirstOrDefault())
+                .ToList();
+            var results = updatedAppointments?.Select(app => {
+                return (_mediatr.Send(new AppointmentPaymentCommand(app)).Result,app.Id);
+            });
+            return results ?? [];
         }
     }
 }
