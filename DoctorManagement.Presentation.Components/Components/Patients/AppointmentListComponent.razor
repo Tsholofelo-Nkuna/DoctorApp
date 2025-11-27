@@ -19,7 +19,7 @@
            </div>
             @if (appointment is {PaymentMethod.Name : "Card", Doctor.ConsultationFee: > 0})
             {
-                <DoctorManagement.Presentation.Components.Payfast.SimplePayment Appointment="appointment">
+                <DoctorManagement.Presentation.Components.Payfast.SimplePayment Appointment="appointment" ReturnUrl="@($"{ApiOptions.Value.BaseAddress}/Payfast/Success")">
 
                 </DoctorManagement.Presentation.Components.Payfast.SimplePayment>
             }

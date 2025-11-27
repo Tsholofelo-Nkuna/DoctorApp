@@ -17,7 +17,7 @@
 }
 @if (NewAppointment is {Id : Guid, PaymentMethod.Name :"Card", Doctor.ConsultationFee : > 0} && NewAppointment.Id != Guid.Empty)
 {
-   <SimplePayment Appointment="NewAppointment">
+   <SimplePayment Appointment="NewAppointment" ReturnUrl="@($"{ApiOptions.Value.BaseAddress}/Payfast/Success")">
 
    </SimplePayment>
 }

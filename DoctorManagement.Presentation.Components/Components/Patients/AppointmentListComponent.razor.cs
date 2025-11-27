@@ -1,5 +1,8 @@
-﻿using DoctorManagement.Shared.Constants;
+﻿using DoctorManagement.Api.Consumer;
+using DoctorManagement.Shared.Constants;
 using DoctorManagement.Shared.DataTransferObjects;
+using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +13,8 @@ namespace DoctorManagement.Presentation.Components.Patients
 {
     public partial class AppointmentListComponent
     {
+        [Inject]
+        public IOptions<ApiOptions>? ApiOptions { get; set; }
         public static string BadgeColor(AppointmentDto appointment) => appointment switch {
             { AppointmentStatus.Name : AppointmentStatusConstants.Pending } => "bg-warning-subtle text-warning",
             { AppointmentStatus.Name: AppointmentStatusConstants.Accepted } => "bg-success-subtle text-success",

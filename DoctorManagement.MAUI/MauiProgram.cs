@@ -29,7 +29,7 @@ namespace DoctorManagement.MAUI
                 config.Timeout = TimeSpan.FromSeconds(10);
                 config.DesiredAccuracy = GeolocationAccuracy.Medium;
             });
-           
+            
             builder.Services.AddSingleton<IAppLocationService, AppLocationService>();
             builder.Services.AddHttpContextAccessor();
 
@@ -39,7 +39,11 @@ namespace DoctorManagement.MAUI
 #endif
             builder.Services.AddPresentationServices(ServiceScope.Singleton, builder.Configuration);
             builder.Services.AddApiConsumers(apiBaseAddress, ServiceScope.Singleton);
-            
+            builder.Services.Configure<ApiOptions>(opt =>
+            {
+                opt.BaseAddress = apiBaseAddress;
+                opt.HttpClientName = "DefaultApi";
+            });
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
     		builder.Logging.AddDebug();

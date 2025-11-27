@@ -1,7 +1,7 @@
 ﻿<form action="https://www.payfast.co.za/eng/process" method="post" class="mb-1">
-    <input type="hidden" name="merchant_id" value="15517635">
-    <input type="hidden" name="merchant_key" value="4mhc1jef80pti">
-    <input type="hidden" name="amount" value="@($"{Appointment?.Doctor?.NumericDisplayedConsultationFee:F2}")">
-    <input type="hidden" name="item_name" value="@Appointment?.Id">
+    @foreach(var entry in FormData)
+    {
+        <input type="hidden" name="@entry.Key" value="@entry.Value" />
+    }
     <input class="btn btn-danger btn-sm" type="submit" value="Pay Now">
 </form>

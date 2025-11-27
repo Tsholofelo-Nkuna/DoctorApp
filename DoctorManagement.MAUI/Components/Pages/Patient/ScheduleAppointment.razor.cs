@@ -6,6 +6,7 @@ using DoctorManagement.Presentation.Services.Interfaces;
 using DoctorManagement.Shared.Constants;
 using DoctorManagement.Shared.DataTransferObjects;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,8 @@ namespace DoctorManagement.MAUI.Components.Pages.Patient
         public IDoctorApiConsumer DoctorApiConsumer { get; set; }
         [Inject]
         public IAppointmentApiConsumer AppointmentApiConsumer { get; set; }
+        [Inject]
+        public IOptions<ApiOptions>? ApiOptions { get; set; }
         [Parameter]
          public Guid DoctorId { get; set; } 
         public (bool Success, string Message ) AppointmentSubmissionResponse { get; set; } = (false, string.Empty);
