@@ -1,0 +1,25 @@
+﻿trigger:
+  - master
+  
+pool:
+  vmImage: 'windows-latest' 
+
+variables:
+  buildConfiguration: 'Release'
+  projectName: '/DoctorManagement.API/DoctorManagement.API.csproj'
+  drop: '$(Build.ArtifactStagingDirectory)/drop'
+
+stages: 
+  - stage: Build
+    displayName: 'Build Stage'
+    jobs:
+      - job: Build
+        displayName: 'Build Job'
+        steps:
+          - task: DotNetCoreCLI@2
+            displayName: 'Build'
+            inputs:
+              command: 'publish'
+              projects: '$(projectName)'
+              arguments: '--configuration $(buildConfiguration) --output $(drop)'
+         
