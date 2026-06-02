@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿using MapsterMapper;
 using DoctorManagement.BusinessLogicLayer.Interfaces;
 using DoctorManagement.BusinessLogicLayer.Services.Base;
 using DoctorManagement.DataAccessLayer;
@@ -8,6 +8,7 @@ using DoctorManagement.Shared;
 using DoctorManagement.Shared.Constants;
 using DoctorManagement.Shared.DataTransferObjects;
 using DoctorManagement.Shared.Models;
+using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -38,19 +39,19 @@ namespace DoctorManagement.BusinessLogicLayer.Services
                 .Include(p => p.Contact);
              
             var targetDoctors = targetDoctorEntities
-                .Select(doc => mapper.Map<DoctorDto>(doc));
-            var targetPatients = targetPatient.Select(patient => mapper.Map<PatientDto>(patient));
+                .Select(doc => doc.Adapt<DoctorDto>());
+            var targetPatients = targetPatient.Select(patient => patient.Adapt<PatientDto>());
             var appointmentTypes = (from appointmentType in dbContext.DataSource.AsNoTracking().Where(app =>
                                     app.TypeCode == DataSourceTypeCodeConstants.AppointmentType).ToList()
                                    join appointmentRec in inserted
                                    on appointmentType.Value equals appointmentRec.AppointmentTypeId
-                                   select appointmentType).Select(aTypeE => mapper.Map<DataSourceDto>(aTypeE));
+                                   select appointmentType).Select(aTypeE => aTypeE.Adapt<DataSourceDto>());
 
             var paymentTypes = (from paymentType in dbContext.DataSource.AsNoTracking().Where(app =>
                                     app.TypeCode == DataSourceTypeCodeConstants.PaymentMethod).ToList()
                                 join appointmentRec in inserted
                                 on paymentType.Value equals appointmentRec.PaymentMethodId
-                                select paymentType).Select(aTypeE => mapper.Map<DataSourceDto>(aTypeE));
+                                select paymentType).Select(aTypeE => aTypeE.Adapt<DataSourceDto>());
 
             inserted.ForEach(insert =>
             {
@@ -114,48 +115,48 @@ namespace DoctorManagement.BusinessLogicLayer.Services
             {
                 if(validSource.AppointmentType is DataSourceEntity validAppointmentType)
                 {
-                   validDto.AppointmentType = validAppointmentType.CopyTo(validDto.AppointmentType);
+                   validDto.AppointmentType = validAppointmentType.Adapt(validDto.AppointmentType);
                    validDto.AppointmentTypeId = validDto.AppointmentType?.Value ?? default;
                 }
 
                 if(validSource.PaymentMethod is DataSourceEntity paymentMethod)
                 {
-                    validDto.PaymentMethod = paymentMethod.CopyTo(validDto.PaymentMethod);
+                    validDto.PaymentMethod = paymentMethod.Adapt(validDto.PaymentMethod);
                     validDto.PaymentMethodId = validDto.PaymentMethod?.Value ?? default;
                 }
 
                 if(validSource.Doctor is DoctorEntity validDoctorSource)
                 {
-                    validDto.Doctor = validDoctorSource.CopyTo(validDto.Doctor);
+                    validDto.Doctor = validDoctorSource.Adapt(validDto.Doctor);
                     validDto.DoctorId = validDto.Doctor?.Id ?? default;
                     if (validDoctorSource.Title is DataSourceEntity validTitleSource && validDto.Doctor is DoctorDto validDoctorTarget)
                     {
-                        validDoctorTarget.Title = validTitleSource.CopyTo(validDoctorTarget.Title);
+                        validDoctorTarget.Title = validTitleSource.Adapt(validDoctorTarget.Title);
                     }
                     if(validDoctorSource.Contact is ContactEntity validContactEntity && validDto.Doctor is DoctorDto validTargetDoctot)
                     {
-                        validTargetDoctot.Contact = validContactEntity.CopyTo(validTargetDoctot.Contact);
+                        validTargetDoctot.Contact = validContactEntity.Adapt(validTargetDoctot.Contact);
                     }
 
                     if(validDoctorSource.PracticeSite is AddressEntity && validDto is { Doctor : DoctorDto })
                     {
-                        validDto.Doctor.PracticeSite = validDoctorSource.PracticeSite.CopyTo(validDto.Doctor.PracticeSite);
+                        validDto.Doctor.PracticeSite = validDoctorSource.PracticeSite.Adapt(validDto.Doctor.PracticeSite);
                     }
                 }
 
                 if(validSource.Patient is PatientEntity validPatientSource)
                 {
-                    validDto.Patient = validPatientSource.CopyTo(validDto.Patient);
+                    validDto.Patient = validPatientSource.Adapt(validDto.Patient);
                     validDto.PatientId = validDto?.Patient?.Id ?? default;
                     if(validPatientSource is { Address : AddressEntity } patientWithAddress && validDto is { Patient : PatientDto})
                     {
-                        validDto.Patient.Address = patientWithAddress.Address.CopyTo(validDto.Patient.Address);
+                        validDto.Patient.Address = patientWithAddress.Address.Adapt(validDto.Patient.Address);
                     }
                 }
 
                 if(validSource.AppointmentStatus is DataSourceEntity validAppointmentStatusSource)
                 {
-                    validDto.AppointmentStatus = validAppointmentStatusSource.CopyTo(validDto.AppointmentStatus);
+                    validDto.AppointmentStatus = validAppointmentStatusSource.Adapt(validDto.AppointmentStatus);
                 }
             }
 
@@ -167,7 +168,7 @@ namespace DoctorManagement.BusinessLogicLayer.Services
             ds.TypeCode == DataSourceTypeCodeConstants.AppointmentStatus
             && ds.Name == "Pending"
             );
-            inserted.ForEach(x => x.AppointmentStatus = pendingDs.CopyTo(new DataSourceDto()));
+            inserted.ForEach(x => x.AppointmentStatus = pendingDs.Adapt(new DataSourceDto()));
             return base.Add(inserted, currentUserId);
         }
 

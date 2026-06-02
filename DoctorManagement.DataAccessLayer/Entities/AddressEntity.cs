@@ -1,5 +1,4 @@
 ﻿using DoctorManagement.DataAccessLayer.Entities.Base;
-using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;

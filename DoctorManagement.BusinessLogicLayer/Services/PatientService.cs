@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿using MapsterMapper;
 using DoctorManagement.BusinessLogicLayer.Interfaces;
 using DoctorManagement.BusinessLogicLayer.Services.Base;
 using DoctorManagement.DataAccessLayer;
@@ -6,7 +6,6 @@ using DoctorManagement.DataAccessLayer.Entities;
 using DoctorManagement.Shared.DataTransferObjects;
 using DoctorManagement.Shared.Models.Base;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;

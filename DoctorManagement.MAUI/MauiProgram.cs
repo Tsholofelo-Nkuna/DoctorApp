@@ -33,7 +33,7 @@ namespace DoctorManagement.MAUI
             builder.Services.AddSingleton<IAppLocationService, AppLocationService>();
             builder.Services.AddHttpContextAccessor();
 
-            var apiBaseAddress = "https://epichealth.growthlytix.co.za";
+            var apiBaseAddress = "https://bakgatlasolutions.com";
 #if DEBUG
                 apiBaseAddress = "http://localhost:5158";
 #endif

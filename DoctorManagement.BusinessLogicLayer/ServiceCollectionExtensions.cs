@@ -3,9 +3,9 @@ using DoctorManagement.BusinessLogicLayer.Services;
 using DoctorManagement.Integrations;
 using DoctorManagement.Integrations.PayFast.Handlers;
 using DoctorManagement.Shared.Services;
+using Mapster;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-
 namespace DoctorManagement.BusinessLogicLayer
 {
     public static class ServiceCollectionExtensions
@@ -22,7 +22,7 @@ namespace DoctorManagement.BusinessLogicLayer
                {
                    c.BaseAddress = new Uri(apiBaseAddress);
                });
-            services.AddAutoMapper(typeof(MapperConfig));
+            services.AddMapster();
             services.AddScoped<IPatientService, PatientService>();
             services.AddScoped<IUserContextService, UserContextService>();
             services.AddScoped<IDocterService, DoctorService>();

@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿using MapsterMapper;
 using DoctorManagement.BusinessLogicLayer.Interfaces;
 using DoctorManagement.BusinessLogicLayer.Services.Base;
 using DoctorManagement.DataAccessLayer;

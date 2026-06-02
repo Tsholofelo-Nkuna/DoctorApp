@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿using Mapster;
 using DoctorManagement.BusinessLogicLayer.Interfaces.Base;
 using DoctorManagement.DataAccessLayer;
 using DoctorManagement.DataAccessLayer.Entities.Base;
@@ -14,6 +14,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using MapsterMapper;
 
 namespace DoctorManagement.BusinessLogicLayer.Services.Base
 {
@@ -21,7 +22,7 @@ namespace DoctorManagement.BusinessLogicLayer.Services.Base
     {
         protected readonly WebDbContext dbContext;
         private readonly DbSet<TEntity> _entitySet;
-        [Obsolete(@"Use this.Map and the object.CopyTo methods")]
+       // [Obsolete(@"Use this.Map and the object.Adapt methods")]
         protected readonly IMapper mapper;
         public ServiceBase(WebDbContext dbContext, IMapper mapper)
         {
@@ -44,7 +45,7 @@ namespace DoctorManagement.BusinessLogicLayer.Services.Base
         {
             try
             {
-                var insertedEntities = this.mapper.Map<List<TEntity>>(inserted);
+                var insertedEntities = inserted.Adapt<List<TEntity>>();
                 var currentDateTime = DateTime.Now;
                 inserted.ForEach(x =>
                 {
@@ -64,7 +65,7 @@ namespace DoctorManagement.BusinessLogicLayer.Services.Base
         {
             try
             {
-                var updates = this.mapper.Map<List<TEntity>>(updated);
+                var updates = updated.Adapt<List<TEntity>>();
                 var currentDateTime = DateTime.Now;
                 updates.ForEach(x =>
                 {

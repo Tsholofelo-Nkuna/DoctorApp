@@ -1,5 +1,6 @@
 ﻿using DoctorManagement.BusinessLogicLayer.Interfaces.Base;
 using DoctorManagement.Shared;
+using Mapster;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -19,7 +20,7 @@ namespace DoctorManagement.BusinessLogicLayer.Services.Base
             }
             else
             {
-                return source.CopyTo(new TDestination());
+                return source.Adapt(new TDestination());
             }
         }
 

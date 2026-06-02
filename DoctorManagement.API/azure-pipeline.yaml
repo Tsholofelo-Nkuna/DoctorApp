@@ -6,7 +6,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  projectName: '/DoctorManagement.API/DoctorManagement.API.csproj'
+  projectName: '**/DoctorManagement.API.csproj'
   drop: '$(Build.ArtifactStagingDirectory)/drop'
 
 stages: 
