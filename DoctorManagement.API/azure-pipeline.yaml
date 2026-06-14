@@ -1,8 +1,8 @@
-﻿trigger:
+trigger:
   - master
   
 pool:
-  vmImage: 'windows-latest' 
+  vmImage: 'windows-2022' 
 
 variables:
   buildConfiguration: 'Release'
@@ -19,7 +19,7 @@ stages:
           - task: DotNetCoreCLI@2
             displayName: 'Build'
             inputs:
-              command: 'publish'
+              command: 'build'
               projects: '$(projectName)'
               arguments: '--configuration $(buildConfiguration) --output $(drop)'
          
