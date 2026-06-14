@@ -15,7 +15,13 @@
                         ProfileIcon = "bi bi-calendar3"
                     })">
         <AdditionalContent>
-            <div class="d-flex my-1">
+                @if (appointment.Patient?.PhotoContents?.Any() ?? false)
+                {
+                    <div>
+                        <img style="width:5em;height:5em;background-image:url('@($"data:{appointment.Patient?.PhotoMimeType};base64,{Convert.ToBase64String(appointment.Patient.PhotoContents)}")');background-size:cover"/>
+                    </div>
+                }
+                <div class="d-flex my-1">
                 <div style="font-size:0.7rem;" class="badge @(AppointmentListComponent.BadgeColor(appointment))">@appointment?.AppointmentStatus?.Description</div>
             </div>
                 @if (appointment is {PaymentMethod.Name : "MedicalAid"})

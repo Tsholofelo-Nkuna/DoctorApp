@@ -20,7 +20,7 @@ namespace DoctorManagement.BusinessLogicLayer.Services.Base
             }
             else
             {
-                return source.Adapt(new TDestination());
+                return source.Adapt<TDestination>();
             }
         }
 
