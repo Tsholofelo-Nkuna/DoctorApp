@@ -27,6 +27,10 @@ namespace DoctorManagement.API.Logging
                 }
 
                 File.AppendAllLines(filePath, [$"At {DateTime.Now:dd-MMM-yyyy hh:mm tt} {categoryName} said: {logMessage}", $"{exception?.StackTrace}"]);
+                if (!string.IsNullOrWhiteSpace(exception?.StackTrace))
+                {
+                    File.AppendAllLines(filePath, [$"Stack trace: {exception.StackTrace}"]);
+                }
             }
         }
     }

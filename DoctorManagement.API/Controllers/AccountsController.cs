@@ -34,67 +34,83 @@ namespace DoctorManagement.API.Controllers
         [HttpPost("Signup/Patient")]
         public async Task<ResponseDto<IEnumerable<Guid>>> PatientSignup(SignupDto patientSignUp)
         {
-           var patientPhoto = Request.Form.Files.GetFile("Photo");
-            var userCreationResult = await _userManager.CreateAsync(new() { 
-               UserName = patientSignUp.Credentials.Username, 
-               Email = patientSignUp.Credentials.Username, 
-               PhoneNumber = patientSignUp.Contact.Phone}, 
-               patientSignUp.Credentials.Password
-               );
-           if(userCreationResult is { Succeeded: true } 
-           && (_userManager.Users.FirstOrDefault(x => x.UserName == patientSignUp.Credentials.Username)) is IdentityUser newlyCreatedUser)
+            try
             {
-                //ToDo: Verify email
-                if(!_roleManager.Roles.Any(x => x.Name == RoleConstants.Patient))
+                var patientPhoto = Request.Form.Files.GetFile("Photo");
+                var userCreationResult = await _userManager.CreateAsync(new()
                 {
-                    await _roleManager.CreateAsync(new() { Name = RoleConstants.Patient });
-                }
-                //move this logic to patient service
-                var userRoleCreated = await _userManager.AddToRoleAsync(newlyCreatedUser, RoleConstants.Patient);
-                if(userRoleCreated is { Succeeded : true })
+                    UserName = patientSignUp.Credentials.Username,
+                    Email = patientSignUp.Credentials.Username,
+                    PhoneNumber = patientSignUp.Contact.Phone
+                },
+                   patientSignUp.Credentials.Password
+                   );
+                if (userCreationResult is { Succeeded: true }
+                && (_userManager.Users.FirstOrDefault(x => x.UserName == patientSignUp.Credentials.Username)) is IdentityUser newlyCreatedUser)
                 {
-                   _logger.LogInformation($"Posting to patient endpoint. patient uploaded photo of size {patientSignUp.PhotoContents.Length} bytes");
-                   var apiResponse = await this.AppApi.PostAsJsonAsync("api/Patients", new PatientDto { 
-                       Address = patientSignUp.Address, 
-                       Contact = patientSignUp.Contact,
-                       UserId = newlyCreatedUser.Id,
-                       IdentityNumber = patientSignUp.GeneralInfo.IdentityNumber,
-                       MedicalAidNumber = patientSignUp.GeneralInfo.MedicalAidNumber,
-                       MedicalAidPlanName = patientSignUp.GeneralInfo.MedicalAidPlanName,
-                       MedicalAidProvider = patientSignUp.GeneralInfo.MedicalAidProvider,
-                       PhotoContents = patientSignUp.PhotoContents,
-                       PhotoFileName = patientSignUp.PhotoFileName
-                   });
-                   if(apiResponse is { IsSuccessStatusCode : true } 
-                   &&  (await apiResponse.Content.ReadFromJsonAsync<ResponseDto<IEnumerable<Guid>>>()) is ResponseDto<IEnumerable<Guid>> validResponseContent)
+                    //ToDo: Verify email
+                    if (!_roleManager.Roles.Any(x => x.Name == RoleConstants.Patient))
                     {
-                        return validResponseContent;
+                        await _roleManager.CreateAsync(new() { Name = RoleConstants.Patient });
+                    }
+                    //move this logic to patient service
+                    var userRoleCreated = await _userManager.AddToRoleAsync(newlyCreatedUser, RoleConstants.Patient);
+                    if (userRoleCreated is { Succeeded: true })
+                    {
+                        _logger.LogInformation($"Posting to patient endpoint. patient uploaded photo of size {patientSignUp.PhotoContents.Length} bytes");
+                        var apiResponse = await this.AppApi.PostAsJsonAsync("api/Patients", new PatientDto
+                        {
+                            Address = patientSignUp.Address,
+                            Contact = patientSignUp.Contact,
+                            UserId = newlyCreatedUser.Id,
+                            IdentityNumber = patientSignUp.GeneralInfo.IdentityNumber,
+                            MedicalAidNumber = patientSignUp.GeneralInfo.MedicalAidNumber,
+                            MedicalAidPlanName = patientSignUp.GeneralInfo.MedicalAidPlanName,
+                            MedicalAidProvider = patientSignUp.GeneralInfo.MedicalAidProvider,
+                            PhotoContents = patientSignUp.PhotoContents,
+                            PhotoFileName = patientSignUp.PhotoFileName
+                        });
+                        if (apiResponse is { IsSuccessStatusCode: true }
+                        && (await apiResponse.Content.ReadFromJsonAsync<ResponseDto<IEnumerable<Guid>>>()) is ResponseDto<IEnumerable<Guid>> validResponseContent)
+                        {
+                            return validResponseContent;
+                        }
+                        else
+                        {
+                            return new()
+                            {
+                                Data = [],
+                                Message = "Failed to create patient record!"
+                            };
+                        }
+
                     }
                     else
                     {
                         return new()
                         {
                             Data = [],
-                            Message = "Failed to create patient record!"
+                            Message = userRoleCreated?.Errors?.FirstOrDefault()?.Description ?? string.Empty,
                         };
                     }
-                    
                 }
                 else
                 {
                     return new()
                     {
                         Data = [],
-                        Message = userRoleCreated?.Errors?.FirstOrDefault()?.Description ?? string.Empty,
+                        Message = userCreationResult?.Errors?.FirstOrDefault()?.Description ?? string.Empty,
+
                     };
                 }
             }
-            else
+            catch (Exception ex)
             {
+                _logger.LogError(ex, ex.Message);
                 return new()
                 {
                     Data = [],
-                    Message = userCreationResult?.Errors?.FirstOrDefault()?.Description ?? string.Empty,
+                    Message = ex.Message,
 
                 };
             }
