@@ -96,7 +96,7 @@ namespace DoctorManagement.Presentation.Components.Login
         public async Task OnSubmitClick(ButtonComponent sender)
         {
             _submitLoading = true;
-            if (this.EditContextIsValid && this._identityApiConsumer is not null) {
+            if (this.EditContextIsValid && this._identityApiConsumer is not null && ViewModel.Data.PhotoContents.Any()) {
 
                 var result = await this._identityApiConsumer.PatientSignup(new()
                 {
