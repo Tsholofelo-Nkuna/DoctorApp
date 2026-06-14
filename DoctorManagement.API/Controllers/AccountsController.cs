@@ -16,19 +16,19 @@ namespace DoctorManagement.API.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IDataSourceService _dataSourceService;
         private readonly HttpClient AppApi;
-       
-        public AccountsController(IUserContextService userContextService, 
+        private readonly ILogger _logger;
+        public AccountsController(IUserContextService userContextService,
             IHttpClientFactory httpClientFactory,
             RoleManager<IdentityRole> roleManager,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            IDataSourceService dataSourceService)
+            IDataSourceService dataSourceService, ILogger logger)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             _dataSourceService = dataSourceService;
             this.AppApi = httpClientFactory.CreateClient(WebApiNameConstants.AppApi);
-          
+            _logger = logger;
         }
 
         [HttpPost("Signup/Patient")]
@@ -53,6 +53,7 @@ namespace DoctorManagement.API.Controllers
                 var userRoleCreated = await _userManager.AddToRoleAsync(newlyCreatedUser, RoleConstants.Patient);
                 if(userRoleCreated is { Succeeded : true })
                 {
+                   _logger.LogInformation($"Posting to patient endpoint. patient uploaded photo of size {patientSignUp.PhotoContents.Length} bytes");
                    var apiResponse = await this.AppApi.PostAsJsonAsync("api/Patients", new PatientDto { 
                        Address = patientSignUp.Address, 
                        Contact = patientSignUp.Contact,
