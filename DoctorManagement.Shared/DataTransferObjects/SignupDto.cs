@@ -15,6 +15,8 @@ namespace DoctorManagement.Shared.DataTransferObjects
         public ContactDto Contact { get; set; } = new();
         public AddressDto Address { get; set; } = new();
         public GeneralInfo GeneralInfo { get; set; } = new();
+        public byte[] PhotoContents { get; set; } = [];
+        public string PhotoFileName { get; set; } = string.Empty;   
     }
 
     public class GeneralInfo

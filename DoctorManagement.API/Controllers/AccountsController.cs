@@ -10,7 +10,7 @@ namespace DoctorManagement.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountsController 
+    public class AccountsController: ControllerBase
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -34,7 +34,8 @@ namespace DoctorManagement.API.Controllers
         [HttpPost("Signup/Patient")]
         public async Task<ResponseDto<IEnumerable<Guid>>> PatientSignup(SignupDto patientSignUp)
         {
-           var userCreationResult = await _userManager.CreateAsync(new() { 
+           var patientPhoto = Request.Form.Files.GetFile("Photo");
+            var userCreationResult = await _userManager.CreateAsync(new() { 
                UserName = patientSignUp.Credentials.Username, 
                Email = patientSignUp.Credentials.Username, 
                PhoneNumber = patientSignUp.Contact.Phone}, 
@@ -60,6 +61,8 @@ namespace DoctorManagement.API.Controllers
                        MedicalAidNumber = patientSignUp.GeneralInfo.MedicalAidNumber,
                        MedicalAidPlanName = patientSignUp.GeneralInfo.MedicalAidPlanName,
                        MedicalAidProvider = patientSignUp.GeneralInfo.MedicalAidProvider,
+                       PhotoContents = patientSignUp.PhotoContents,
+                       PhotoFileName = patientSignUp.PhotoFileName
                    });
                    if(apiResponse is { IsSuccessStatusCode : true } 
                    &&  (await apiResponse.Content.ReadFromJsonAsync<ResponseDto<IEnumerable<Guid>>>()) is ResponseDto<IEnumerable<Guid>> validResponseContent)

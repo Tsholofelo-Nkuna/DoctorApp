@@ -11,6 +11,7 @@ using System.Diagnostics;
 using DoctorManagement.Presentation.Components.Shared;
 using DoctorManagement.Presentation.ViewModels;
 using DoctorManagement.Shared.DataTransferObjects;
+using Org.BouncyCastle.Asn1.X509;
 
 namespace DoctorManagement.Presentation.Components.Login
 {
@@ -26,6 +27,8 @@ namespace DoctorManagement.Presentation.Components.Login
         public ResponseDto<IEnumerable<Guid>>? ServerMessage { get; set; } = new();
         [Parameter]
         public EventCallback CurrentLocationButtonClick { get; set; }
+        [Parameter]
+        public EventCallback TakePhotoClick { get; set; }
         private bool _submitLoading = false;
         [Parameter]
         public bool CurrentLocationButtonLoading { get; set; }
@@ -85,6 +88,11 @@ namespace DoctorManagement.Presentation.Components.Login
         {
             base.OnInitialized();
         }
+
+        public async Task OnTakePhotoClick() {
+            
+            await TakePhotoClick.InvokeAsync();
+        }
         public async Task OnSubmitClick(ButtonComponent sender)
         {
             _submitLoading = true;
@@ -96,6 +104,8 @@ namespace DoctorManagement.Presentation.Components.Login
                     Contact = ViewModel.Data.Contact,
                     Credentials = ViewModel.Data.Credentials,
                     GeneralInfo = ViewModel.Data.GeneralInfo,
+                    PhotoContents = ViewModel.Data.PhotoContents,
+                    PhotoFileName = ViewModel.Data.PhotoFileName
                 });
                 if(result is not null)
                 {

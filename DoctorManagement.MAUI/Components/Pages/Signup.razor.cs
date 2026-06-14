@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DoctorManagement.Presentation.Components;
+using Microsoft.JSInterop;
 namespace DoctorManagement.MAUI.Components.Pages
 {
     public partial class Signup
@@ -15,6 +16,8 @@ namespace DoctorManagement.MAUI.Components.Pages
         public IAppLocationService AppLocationService { get; set; }
         public SignupComponent SComp { get; set; }
         private bool _currentLocationButtonLoading {  get; set; }
+        [Inject]
+        public IJSRuntime JsRuntime {  get; set; }
         public async Task OnCurrentLocationButtonClicked()
         {
             _currentLocationButtonLoading = true;
@@ -35,6 +38,30 @@ namespace DoctorManagement.MAUI.Components.Pages
                 }
             }
             _currentLocationButtonLoading = false;
+        }
+
+        public async Task OnTakePhotoClicked()
+        {
+            if (MediaPicker.Default.IsCaptureSupported)
+            {
+                // Launches the native OS camera UI
+                FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
+
+                if (photo != null)
+                {
+                    // Save or process the local file path
+                    string localFilePath = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
+                    using Stream sourceStream = await photo.OpenReadAsync();
+                    var photoBytes = new byte[sourceStream.Length];
+                    sourceStream.Read(photoBytes, 0, photoBytes.Length);
+                    SComp.ViewModel.Data.PhotoContents = photoBytes;
+                    SComp.ViewModel.Data.PhotoFileName = photo.FileName;
+                    using FileStream localFileStream = File.OpenWrite(localFilePath);
+                    await sourceStream.CopyToAsync(localFileStream);
+                   
+                }
+            }
+
         }
     }
 }
