@@ -16,13 +16,13 @@ namespace DoctorManagement.API.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IDataSourceService _dataSourceService;
         private readonly HttpClient AppApi;
-        private readonly ILogger _logger;
+        private readonly ILogger<AccountsController> _logger;
         public AccountsController(IUserContextService userContextService,
             IHttpClientFactory httpClientFactory,
             RoleManager<IdentityRole> roleManager,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            IDataSourceService dataSourceService, ILogger logger)
+            IDataSourceService dataSourceService, ILogger<AccountsController> logger)
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -36,7 +36,7 @@ namespace DoctorManagement.API.Controllers
         {
             try
             {
-                var patientPhoto = Request.Form.Files.GetFile("Photo");
+                
                 var userCreationResult = await _userManager.CreateAsync(new()
                 {
                     UserName = patientSignUp.Credentials.Username,
@@ -68,7 +68,8 @@ namespace DoctorManagement.API.Controllers
                             MedicalAidPlanName = patientSignUp.GeneralInfo.MedicalAidPlanName,
                             MedicalAidProvider = patientSignUp.GeneralInfo.MedicalAidProvider,
                             PhotoContents = patientSignUp.PhotoContents,
-                            PhotoFileName = patientSignUp.PhotoFileName
+                            PhotoFileName = patientSignUp.PhotoFileName,
+                            PhotoMimeType = patientSignUp.PhotoMimeType
                         });
                         if (apiResponse is { IsSuccessStatusCode: true }
                         && (await apiResponse.Content.ReadFromJsonAsync<ResponseDto<IEnumerable<Guid>>>()) is ResponseDto<IEnumerable<Guid>> validResponseContent)

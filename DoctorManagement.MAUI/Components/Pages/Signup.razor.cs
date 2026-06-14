@@ -56,6 +56,7 @@ namespace DoctorManagement.MAUI.Components.Pages
                     sourceStream.Read(photoBytes, 0, photoBytes.Length);
                     SComp.ViewModel.Data.PhotoContents = photoBytes;
                     SComp.ViewModel.Data.PhotoFileName = photo.FileName;
+                    SComp.ViewModel.Data.PhotoMimeType = photo.ContentType;
                     using FileStream localFileStream = File.OpenWrite(localFilePath);
                     await sourceStream.CopyToAsync(localFileStream);
                    

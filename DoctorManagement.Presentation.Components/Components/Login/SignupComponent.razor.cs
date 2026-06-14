@@ -105,7 +105,8 @@ namespace DoctorManagement.Presentation.Components.Login
                     Credentials = ViewModel.Data.Credentials,
                     GeneralInfo = ViewModel.Data.GeneralInfo,
                     PhotoContents = ViewModel.Data.PhotoContents,
-                    PhotoFileName = ViewModel.Data.PhotoFileName
+                    PhotoFileName = ViewModel.Data.PhotoFileName,
+                    PhotoMimeType = ViewModel.Data.PhotoMimeType,
                 });
                 if(result is not null)
                 {
