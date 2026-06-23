@@ -31,6 +31,8 @@ namespace DoctorManagement.Presentation.Components.Login
         [Parameter]
         public bool UseCurrentLocationButtonLoading { get; set; }
         private bool _submitButtonLoading = false;
+        [Parameter]
+        public EventCallback TakePhotoClick { get; set; }
         public bool FormEditContextIsValid
         {
             get
@@ -42,6 +44,11 @@ namespace DoctorManagement.Presentation.Components.Login
             }
         }
 
+        public async Task OnTakePhotoClick()
+        {
+
+            await TakePhotoClick.InvokeAsync();
+        }
         public IEnumerable<string> ValidationMessages
         {
             get

@@ -10,6 +10,9 @@ namespace DoctorManagement.Shared.DataTransferObjects
     public class SignupDoctorDto : DoctorDto
     {
         public LoginCredentialsDto Credentials { get; set; } = new();
-       
+        public string PhotoMimeType { get; set; } = string.Empty;
+        public string PhotoFileName { get; set; } = string.Empty;
+        public byte[] PhotoContents { get; set; } = [];
+
     }
 }

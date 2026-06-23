@@ -6,39 +6,33 @@ namespace DoctorManagement.MAUI.Helpers
 {
     public static class MediaHelper
     {
-        public static void TakePhoto(out string photoFileName, out string photoMimeType, out byte[] photoContents)
-        {
+        public static async Task<(string photoFileName,string photoMimeType,byte[] photoContents)> TakePhoto()
+        { 
             if (MediaPicker.Default.IsCaptureSupported)
             {
                 // Launches the native OS camera UI
-                FileResult photo =  MediaPicker.Default.CapturePhotoAsync().Result;
+                FileResult photo =  await MediaPicker.Default.CapturePhotoAsync();
 
                 if (photo != null)
                 {
                     // Save or process the local file path
                     string localFilePath = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
-                    using Stream sourceStream =  photo.OpenReadAsync().Result;
+                    using Stream sourceStream =  await photo.OpenReadAsync();
                     var photoBytes = new byte[sourceStream.Length];
-                    sourceStream.Read(photoBytes, 0, photoBytes.Length);
-                    photoContents = photoBytes;
-                    photoFileName = photo.FileName;
-                    photoMimeType = photo.ContentType;
+                    await sourceStream.ReadAsync(photoBytes, 0, photoBytes.Length);
+                 
                     using FileStream localFileStream = File.OpenWrite(localFilePath);
-                    sourceStream.CopyToAsync(localFileStream).Wait();
-
+                    await sourceStream.CopyToAsync(localFileStream);
+                    return (photo.FileName, photo.ContentType, photoBytes);
                 }
                 else
                 {
-                    photoFileName = string.Empty;
-                    photoMimeType = string.Empty;
-                    photoContents = [];
+                   return (string.Empty, string.Empty, []);
                 }
             }
             else
             {
-                photoFileName = string.Empty;
-                photoMimeType = string.Empty;
-                photoContents = [];
+                return (string.Empty, string.Empty, []);
             }
 
         }

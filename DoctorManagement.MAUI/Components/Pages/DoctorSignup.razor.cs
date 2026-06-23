@@ -1,4 +1,5 @@
-﻿using DoctorManagement.MAUI.Services.Interfaces;
+﻿using DoctorManagement.MAUI.Helpers;
+using DoctorManagement.MAUI.Services.Interfaces;
 using DoctorManagement.Presentation.Components.Login;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -38,5 +39,15 @@ namespace DoctorManagement.MAUI.Components.Pages
             _currentLocationButtonLoading = false;
            
         }
+
+        public async Task OnTakePhotoClicked() { 
+          (string photoFileName, string photoMimeType, byte[] photoContents) = await  MediaHelper.TakePhoto();
+          DocSignupComponent.ViewModel.Data.PhotoFileName = photoFileName;
+          DocSignupComponent.ViewModel.Data.PhotoMimeType = photoMimeType;
+          DocSignupComponent.ViewModel.Data.PhotoContents = photoContents;
+          
+        }
+
+
     }
 }
