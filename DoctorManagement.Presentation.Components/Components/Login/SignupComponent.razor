@@ -2,7 +2,7 @@
 @using DoctorManagement.Shared.DataTransferObjects
 @using DoctorManagement.Presentation.ViewModels
 @inherits CardComponent<SignupDto>
-<div class="container py-2">
+<div class="container py-2 overflow-y-auto" style="height:95vh">
     <EditForm EditContext="CredentialsEditContext">
          
         <DataAnnotationsValidator></DataAnnotationsValidator>
