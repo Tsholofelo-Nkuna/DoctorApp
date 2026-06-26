@@ -22,5 +22,8 @@ namespace DoctorManagement.DataAccessLayer.Entities
         public DataSourceEntity? Specialty {  get; set; }
         public decimal ConsultationFee { get; set; }
         public bool AcceptHomeVisits { get; set; }
+        public string PhotoFileName { get; set; } = string.Empty;
+        public string PhotoMimeType { get; set; } = string.Empty;
+        public byte[] PhotoContents { get; set; } = [];
     }
 }

@@ -153,6 +153,9 @@ namespace DoctorManagement.API.Controllers
                         TitleDatasourceId = doctorSignup.TitleDatasourceId,
                         TitleDescription = doctorSignup.TitleDescription,
                         UserId = newlyCreatedUser.Id,
+                        PhotoContents = doctorSignup.PhotoContents,
+                        PhotoFileName = doctorSignup.PhotoFileName,
+                        PhotoMimeType = doctorSignup.PhotoMimeType
                     });
                   
                     if (apiResponse is { IsSuccessStatusCode: true }

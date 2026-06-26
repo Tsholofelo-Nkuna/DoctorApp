@@ -43,5 +43,9 @@ namespace DoctorManagement.Shared.DataTransferObjects
             }
         }
         public string DisplayName => $"{Title?.Description} {this.Initials} {this.LastName}";
+        public string PhotoFileName { get; set; } = string.Empty;
+        public string PhotoMimeType { get; set; } = string.Empty;
+        public byte[] PhotoContents { get; set; } = [];
+        public string PhotoUrl => $"data:{PhotoMimeType};base64,{Convert.ToBase64String(PhotoContents)}";
     }
 }
