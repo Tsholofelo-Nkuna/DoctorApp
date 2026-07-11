@@ -20,8 +20,6 @@ stages:
            inputs:
              targetType: 'inline'
              script: |
-              cd ../DoctorManagement.Maui
-              dotnet workload restore
-              cd ../DoctorManagement.Api
+              dotnet workload restore **/DoctorManagement.MAUI.csproj
               dotnet publish --configuration $(buildConfiguration) --output $(drop)
                       
