@@ -33,7 +33,7 @@ namespace DoctorManagement.MAUI
             builder.Services.AddSingleton<IAppLocationService, AppLocationService>();
             builder.Services.AddHttpContextAccessor();
 
-            var apiBaseAddress = "https://bakgatlasolutions.com";
+            var apiBaseAddress = "https://epichealth.bakgatlasolutions.com/";
 #if DEBUG
                 apiBaseAddress = "http://localhost:5158";
 #endif
@@ -45,8 +45,8 @@ namespace DoctorManagement.MAUI
                 opt.HttpClientName = "DefaultApi";
             });
 #if DEBUG
-            builder.Services.AddBlazorWebViewDeveloperTools();
-    		builder.Logging.AddDebug();
+           // builder.Services.AddBlazorWebViewDeveloperTools();
+    		//builder.Logging.AddDebug();
 #endif
 
             return builder.Build();

@@ -37,7 +37,7 @@ namespace DoctorManagement.BusinessLogicLayer.Services.Base
            var updatedRecords = records.Where(x => x.Id != Guid.Empty).ToList();
            var updated = this.Update(updatedRecords, currentUserId);
            var inserted = this.Add(newRecords, currentUserId);
-           var affectedRecords = updatedRecords.Select(rec => rec.Id).Concat(newRecords.Select(x => x.Id));
+          // var affectedRecords = updated.Concat(inserted);
            return (updated ?? []).Concat(inserted ?? []);
         }
 
