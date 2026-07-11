@@ -29,3 +29,7 @@ stages:
               zipAfterPublish: false
               modifyOutputPath: false
               projects: $(projectName)
+         - task: PublishBuildArtifacts@1
+           inputs:
+             PathtoPublish: '$(drop)'
+             ArtifactName: 'drop'
