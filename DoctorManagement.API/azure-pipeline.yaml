@@ -19,9 +19,9 @@ stages:
          - task: Bash@3
            inputs:
              targetType: 'inline'
-             packageType: 'sdk'
-             version: '10.0.x'
              script: |
+              cd ../DoctorManagement.Maui
               dotnet workload restore
+              cd ../DoctorManagement.Api
               dotnet publish --configuration $(buildConfiguration) --output $(drop)
                       
