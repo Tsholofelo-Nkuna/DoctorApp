@@ -16,15 +16,7 @@ stages:
       - job: Build
         displayName: 'Build Job'
         steps:
-          - task: DotNetCoreCLI@2
-            inputs:
-              command: 'restore'
-              projects: './DoctorManagement/API'
-              feedsToUse: 'select'
-          - task: DotNetCoreCLI@2
-            displayName: 'Build'
-            inputs:
-              command: 'build'
-              projects: '$(projectName)'
-              arguments: '--configuration $(buildConfiguration) --output $(drop)'
-         
+         - task: Bash@3
+           inputs:
+             targetType: 'inline'
+             script: 'dotnet publish --configuration $(buildConfiguration) --output $(drop)'
