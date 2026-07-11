@@ -25,6 +25,6 @@ stages:
            inputs:
               command: 'publish'
               publishWebProjects: false
-              arguments: '--configuration $(buildConfiguration) --output $(drop)'
+              arguments: '$(projectName) --configuration $(buildConfiguration) --output $(drop)'
               zipAfterPublish: false
               modifyOutputPath: false
