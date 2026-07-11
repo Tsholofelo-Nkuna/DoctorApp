@@ -21,5 +21,10 @@ stages:
              targetType: 'inline'
              script: |
               dotnet workload restore **/DoctorManagement.MAUI.csproj
-              dotnet publish --configuration $(buildConfiguration) --output $(drop)
-                      
+         - task: DotNetCoreCLI@2
+           inputs:
+              command: 'publish'
+              publishWebProjects: false
+              arguments: '--configuration $(buildConfiguration) --output $(drop)'
+              zipAfterPublish: false
+              modifyOutputPath: false
