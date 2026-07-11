@@ -28,3 +28,4 @@ stages:
               arguments: '$(projectName) --configuration $(buildConfiguration) --output $(drop)'
               zipAfterPublish: false
               modifyOutputPath: false
+              projects: $(projectName)
