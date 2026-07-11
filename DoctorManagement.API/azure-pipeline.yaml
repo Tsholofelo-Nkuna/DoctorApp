@@ -19,6 +19,8 @@ stages:
          - task: Bash@3
            inputs:
              targetType: 'inline'
+             packageType: 'sdk'
+             version: '10.0.x'
              script: |
               dotnet workload restore
               dotnet publish --configuration $(buildConfiguration) --output $(drop)
